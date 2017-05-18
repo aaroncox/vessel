@@ -1,0 +1,16 @@
+{
+  "name": "vessel",
+  "productName": "vessel",
+  "version": "0.0.3",
+  "description": "A simple wallet for managing your Steem accounts.",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "Aaron Cox",
+    "email": "aaron@greymass.com",
+    "url": "https://github.com/aaroncox"
+  },
+  "scripts": {
+    "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source"
+  },
+  "license": "MIT"
+}
