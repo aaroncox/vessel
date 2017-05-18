@@ -28,7 +28,7 @@
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
     "package-all": "npm run build && build -mwl",
-    "release": "npm run build -p onTag --draft && build -mwl"
+    "release": "build -mwl"
   },
   "browserslist": "electron 1.6",
   "build": {
@@ -80,7 +80,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aaroncox/steem-wallet.git"
+    "url": "git+https://github.com/aaroncox/vessel.git"
   },
   "author": {
     "name": "Aaron Cox",
@@ -89,14 +89,14 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aaroncox/steem-wallet/issues"
+    "url": "https://github.com/aaroncox/vessel/issues"
   },
   "keywords": [
     "steem",
     "blockchain",
     "wallet"
   ],
-  "homepage": "https://github.com/aaroncox/steem-wallet",
+  "homepage": "https://github.com/aaroncox/vessel",
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
