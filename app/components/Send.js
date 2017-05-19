@@ -61,6 +61,7 @@ export default class Send extends Component {
   }
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.processing.account_transfer_resolved) {
+      nextProps.actions.transferCompleted();
       this.resetState();
     }
   }

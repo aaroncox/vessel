@@ -10,6 +10,7 @@ import {
   ACCOUNT_TRANSFER_STARTED,
   ACCOUNT_TRANSFER_FAILED,
   ACCOUNT_TRANSFER_RESOLVED,
+  ACCOUNT_TRANSFER_COMPLETED,
   ACCOUNT_DELEGATE_VESTING_SHARES_STARTED,
   ACCOUNT_DELEGATE_VESTING_SHARES_RESOLVED,
   ACCOUNT_DELEGATE_VESTING_SHARES_FAILED,
@@ -57,6 +58,12 @@ export default function processing(state: any = defaultState, action: actionType
       return Object.assign({}, state, {
         account_transfer_error: false,
         account_transfer_resolved: true,
+        account_transfer_pending: false
+      });
+    case ACCOUNT_TRANSFER_COMPLETED:
+      return Object.assign({}, state, {
+        account_transfer_error: false,
+        account_transfer_resolved: false,
         account_transfer_pending: false
       });
     case ACCOUNT_DELEGATE_VESTING_SHARES_STARTED:

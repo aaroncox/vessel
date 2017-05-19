@@ -30,6 +30,7 @@ export const ACCOUNT_VESTING_WITHDRAW_RESOLVED = 'ACCOUNT_VESTING_WITHDRAW_RESOL
 export const ACCOUNT_TRANSFER_STARTED = 'ACCOUNT_TRANSFER_STARTED';
 export const ACCOUNT_TRANSFER_FAILED = 'ACCOUNT_TRANSFER_FAILED';
 export const ACCOUNT_TRANSFER_RESOLVED = 'ACCOUNT_TRANSFER_RESOLVED';
+export const ACCOUNT_TRANSFER_COMPLETED = 'ACCOUNT_TRANSFER_COMPLETED';
 
 export function claimRewardBalance(wif: string, params: object) {
   return (dispatch: () => void) => {
@@ -166,6 +167,12 @@ export function transfer(wif, params) {
   };
 }
 
+export function transferCompleted() {
+  return {
+    type: ACCOUNT_TRANSFER_COMPLETED,
+  }
+}
+
 // export function setDelegateVestingShares(wif, params) {
 //   return (dispatch: () => void) => {
 //     const { account, target, vestingShares } = params;
@@ -227,7 +234,6 @@ export function setWithdrawVestingRouteCompleted() {
     type: ACCOUNT_SET_WITHDRAW_VESTING_ROUTE_COMPLETED,
   }
 }
-
 
 export function setVotingProxy(wif, params) {
   return (dispatch: () => void) => {
