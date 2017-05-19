@@ -1,3 +1,8 @@
+![version](https://img.shields.io/github/release/aaroncox/vessel/all.svg)
+![issues](https://img.shields.io/github/issues/aaroncox/vessel.svg)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/aaroncox/vessel/master/LICENSE)
+![downloads](https://img.shields.io/github/downloads/aaroncox/vessel/total.svg)
+
 # Vessel - Steem Desktop Wallet
 
 Vessel is a lite wallet for the Steem blockchain that you can run on your desktop computer.
