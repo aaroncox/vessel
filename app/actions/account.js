@@ -147,7 +147,8 @@ export function refreshAccountData(accounts: Array) {
 
 export function transfer(wif, params) {
   return (dispatch: () => void) => {
-    const { from, to, amount, memo } = params;
+    const { from, to, memo } = params;
+    const amount = parseFloat(params.amount).toFixed(3);
     dispatch({
       type: ACCOUNT_TRANSFER_STARTED
     });
