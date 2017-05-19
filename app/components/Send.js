@@ -159,7 +159,8 @@ export default class Send extends Component {
   }
 
   handleConfirm = (e: SyntheticEvent) => {
-    const { from, to, amount, symbol, memo } = this.state;
+    const { from, to, symbol, memo } = this.state;
+    const amount = parseFloat(this.state.amount).toFixed(3);
     const amountFormat = [amount, symbol].join(' ');
     this.props.actions.useKey('transfer', { from, to, amount: amountFormat, memo }, this.props.keys.permissions[from]);
     this.setState({
