@@ -1,8 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 
-import { Button, Checkbox, Divider, Form, Grid, Header, Icon, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
-
 const { shell } = require('electron');
 
 export default class AccountName extends Component {

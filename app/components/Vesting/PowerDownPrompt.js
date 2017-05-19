@@ -1,22 +1,17 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import InputRange from 'react-input-range';
-import Settings from '../../components/Settings';
-import ContentBar from '../../components/ContentBar';
-import { Button, Checkbox, Divider, Grid, Header, Label, List, Message, Modal, Radio, Segment, Select, TextArea } from 'semantic-ui-react';
-import { Form, Input } from 'formsy-semantic-ui-react'
-import NumericLabel from '../../utils/NumericLabel'
+import { Divider, Grid, Header, Message, Modal, Segment } from 'semantic-ui-react';
+import { Form } from 'formsy-semantic-ui-react';
+import NumericLabel from '../../utils/NumericLabel';
 
-import * as PreferencesActions from '../../actions/preferences';
 import * as KeysActions from '../../actions/keys';
 
 const defaultState = {
   vests: 1
-}
+};
 
 class PowerDownPrompt extends Component {
 
@@ -30,17 +25,11 @@ class PowerDownPrompt extends Component {
     const sp = totalVestsSteem * vests / totalVests;
     const perWeek = Math.round(sp / 13 * 1000) / 1000;
     this.state = {
-      vests,
       maximum: vests,
+      perWeek,
       sp,
-      perWeek
+      vests,
      };
-  };
-
-  handleKeyUp = (e) => {
-    if(this.state.decrypted && e.key == 'Enter') {
-      this.handleSubmit(e);
-    }
   }
 
   handleSubmit = (e: SyntheticEvent) => {
@@ -80,96 +69,95 @@ class PowerDownPrompt extends Component {
 
   render() {
     const numberFormat = {
-            shortFormat: true,
-            shortFormatMinValue: 1000
-          };
+      shortFormat: true,
+      shortFormatMinValue: 1000
+    };
     const {
       account_vesting_withdraw_error,
       account_vesting_withdraw_pending,
       account_vesting_withdraw_resolved
     } = this.props.processing;
     let prompt = false;
-    if(this.state.sp) {
+    if (this.state.sp) {
       prompt = (
-          <Modal
-            size="small"
-            open={true}
-            header="Power Down Account"
-            content={
-              <Form
-                error={account_vesting_withdraw_error}
-                loading={account_vesting_withdraw_pending}
+        <Modal
+          size="small"
+          open
+          header="Power Down Account"
+          content={
+            <Form
+              error={account_vesting_withdraw_error}
+              loading={account_vesting_withdraw_pending}
+            >
+              <Segment
+                padded
+                basic
               >
-                <Segment
-                  padded
-                  basic
-                >
-                  <Grid>
-                    <Grid.Row columns={3}>
-                      <Grid.Column>
-                        <Header textAlign="center" size="large">
-                          <Header.Subheader>Account to Power Down</Header.Subheader>
-                          {this.props.targetAccount}
-                          <Header.Subheader>over 13 weeks</Header.Subheader>
-                        </Header>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Header textAlign="center" size="large">
-                          <Header.Subheader>Amount to Power Down</Header.Subheader>
-                          <NumericLabel params={numberFormat}>{this.state.sp}</NumericLabel>
-                          (<NumericLabel params={numberFormat}>{this.state.vests}</NumericLabel>)
-                          <Header.Subheader>SP (VESTS)</Header.Subheader>
-                        </Header>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <Header textAlign="center" size="large">
-                          <Header.Subheader>Per Week</Header.Subheader>
-                          {this.state.perWeek}
-                          <Header.Subheader>STEEM</Header.Subheader>
-                        </Header>
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
-                  <Divider />
-                  <Segment padded="very" basic>
-                    <InputRange
-                      maxValue={this.state.maximum}
-                      minValue={1}
-                      value={this.state.vests}
-                      onChange={this.handleOnChange}
-                      onChangeComplete={this.handleOnChangeComplete}
-                    />
-                  </Segment>
-                  <Message
-                    error
-                    header='Operation Error'
-                    content={account_vesting_withdraw_error}
+                <Grid>
+                  <Grid.Row columns={3}>
+                    <Grid.Column>
+                      <Header textAlign="center" size="large">
+                        <Header.Subheader>Account to Power Down</Header.Subheader>
+                        {this.props.targetAccount}
+                        <Header.Subheader>over 13 weeks</Header.Subheader>
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Header textAlign="center" size="large">
+                        <Header.Subheader>Amount to Power Down</Header.Subheader>
+                        <NumericLabel params={numberFormat}>{this.state.sp}</NumericLabel>
+                        (<NumericLabel params={numberFormat}>{this.state.vests}</NumericLabel>)
+                        <Header.Subheader>SP (VESTS)</Header.Subheader>
+                      </Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                      <Header textAlign="center" size="large">
+                        <Header.Subheader>Per Week</Header.Subheader>
+                        {this.state.perWeek}
+                        <Header.Subheader>STEEM</Header.Subheader>
+                      </Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+                <Divider />
+                <Segment padded="very" basic>
+                  <InputRange
+                    maxValue={this.state.maximum}
+                    minValue={1}
+                    value={this.state.vests}
+                    onChange={this.handleOnChange}
+                    onChangeComplete={this.handleOnChangeComplete}
                   />
                 </Segment>
-              </Form>
+                <Message
+                  error
+                  header='Operation Error'
+                  content={account_vesting_withdraw_error}
+                />
+              </Segment>
+            </Form>
+          }
+          actions={[
+            {
+              key: 'no',
+              content: 'Cancel',
+              floated: 'left',
+              color: 'red',
+              onClick: this.props.handleCancel,
+              disabled: account_vesting_withdraw_pending
+            },
+            {
+              key: 'yes',
+              type: 'submit',
+              content: 'Begin Power Down',
+              color: 'blue',
+              onClick: this.handleSubmit,
+              disabled: account_vesting_withdraw_pending
             }
-            actions={[
-              {
-                key: 'no',
-                content: 'Cancel',
-                floated: 'left',
-                color: 'red',
-                onClick: this.props.handleCancel,
-                disabled: account_vesting_withdraw_pending
-              },
-              {
-                key: 'yes',
-                type: 'submit',
-                content: 'Begin Power Down',
-                color: 'blue',
-                onClick: this.handleSubmit,
-                disabled: account_vesting_withdraw_pending
-              }
-            ]}
-          />
+          ]}
+        />
       );
     }
-
     return prompt;
   }
 }

@@ -1,11 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Checkbox, Divider, Grid, Header, Label, List, Message, Modal, Radio, Segment, Select, Table, TextArea } from 'semantic-ui-react';
-import { Form, Input } from 'formsy-semantic-ui-react'
+import { Button, Grid, Label, Message, Modal, Radio, Segment, Select, Table } from 'semantic-ui-react';
+import { Form, Input } from 'formsy-semantic-ui-react';
 
 const { shell } = require('electron');
-var CryptoJS = require("crypto-js");
 
 const exchangeOptions = [
   {
@@ -52,17 +50,20 @@ const defaultState = {
   destination: 'account',
   // destination: 'exchange',
   modalPreview: false,
-}
+};
 
 export default class Send extends Component {
-
   constructor(props) {
     super(props);
     this.state = Object.assign({}, defaultState, {
       from: props.keys.names[0]
     });
-  };
-
+  }
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.processing.account_transfer_resolved) {
+      this.resetState();
+    }
+  }
   resetState() {
     const props = this.props;
     const resetState = Object.assign({}, defaultState, {
@@ -70,13 +71,6 @@ export default class Send extends Component {
     });
     this.setState(resetState);
   }
-
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.processing.account_transfer_resolved) {
-      this.resetState();
-    }
-  }
-
   handleDestinationChange = (e: SyntheticEvent, { value }: { value: any }) => {
     this.setState({
       to: '',
@@ -84,7 +78,6 @@ export default class Send extends Component {
       destination: value
     });
   }
-
   handleSymbolChange = (e: SyntheticEvent, { value }: { value: any }) => {
     const detectMemo = this.detectMemo(this.state.to, value);
     const newState = {
@@ -99,7 +92,7 @@ export default class Send extends Component {
   detectMemo = (to: string, symbol: string) => {
     const { preferences } = this.props;
     const preferenceKey = [to, symbol].join("_").toLowerCase();
-    if(
+    if (
       preferences.hasOwnProperty(preferenceKey)
       && preferences[preferenceKey].trim !== ''
     ) {
@@ -151,12 +144,7 @@ export default class Send extends Component {
 
   handlePreview = (e: SyntheticEvent) => {
     if(this.isFormValid()) {
-      const { from } = this.state;
-      this.setState({
-        modalPreview: true
-      });
-    } else {
-
+      this.setState({ modalPreview: true });
     }
     e.preventDefault();
   }
@@ -171,7 +159,7 @@ export default class Send extends Component {
 
   handleConfirm = (e: SyntheticEvent) => {
     const { from, to, amount, symbol, memo } = this.state;
-    const amountFormat = [amount, symbol].join(" ");
+    const amountFormat = [amount, symbol].join(' ');
     this.props.actions.useKey('transfer', { from, to, amount: amountFormat, memo }, this.props.keys.permissions[from]);
     this.setState({
       modalPreview: false
@@ -209,12 +197,12 @@ export default class Send extends Component {
         // validationErrors={{
           // accountName: 'Invalid account name'
         // }}
-        errorLabel={ errorLabel }
+        errorLabel={errorLabel}
       />
     );
     if (this.state.destination === 'exchange') {
       let externalLink = false;
-      if(this.state.to) {
+      if (this.state.to) {
         externalLink = (
           <p style={{ marginLeft: '1em' }}>
             <a
@@ -242,18 +230,22 @@ export default class Send extends Component {
         </div>
       );
     }
-    if(this.state.modalPreview) {
+    if (this.state.modalPreview) {
       modal = (
         <Modal
-          open={true}
+          open
           header="Please confirm the details of this transaction"
           content={
             <Segment basic padded>
-              <p>Ensure that all of the data below looks correct before continuing. If you mistakenly send to the wrong accout (or with the wrong memo) you may lose funds.</p>
+              <p>
+                Ensure that all of the data below looks correct before continuing.
+                If you mistakenly send to the wrong accout (or with the wrong memo)
+                you may lose funds.
+              </p>
               <Table
                 definition
                 collapsing
-                style={{minWidth: '300px', margin: '0 auto'}}
+                style={{ minWidth: '300px', margin: '0 auto' }}
               >
                 <Table.Header>
                   <Table.Row>
@@ -302,36 +294,36 @@ export default class Send extends Component {
           }
           actions={[
             {
-              key: "no",
-              icon: "cancel",
-              content: "Cancel",
-              color: "red",
-              floated: "left",
+              key: 'no',
+              icon: 'cancel',
+              content: 'Cancel',
+              color: 'red',
+              floated: 'left',
               onClick: this.handleCancel,
               disabled: this.props.processing.account_transfer_pending
             },
             {
-              key: "yes",
-              icon: "checkmark",
-              content: "Confirmed - this is correct",
-              color: "green",
+              key: 'yes',
+              icon: 'checkmark',
+              content: 'Confirmed - this is correct',
+              color: 'green',
               onClick: this.handleConfirm,
               disabled: this.props.processing.account_transfer_pending
             }
           ]}
         />
-      )
+      );
     }
     return (
       <Form
         error={!!this.props.processing.account_transfer_error}
         loading={this.props.processing.account_transfer_pending}
-        >
+      >
         {modal}
         <Grid divided centered>
           <Grid.Row>
             <Grid.Column width={4}>
-              <div className='field'>
+              <div className="field">
                 <label htmlFor="from">Send from...</label>
               </div>
             </Grid.Column>
@@ -349,7 +341,7 @@ export default class Send extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={4}>
-              <div className='field'>
+              <div className="field">
                 <label htmlFor="destination">Send to a...</label>
               </div>
               <Form.Field
@@ -375,7 +367,7 @@ export default class Send extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={4}>
-              <div className='field'>
+              <div className="field">
                 <label htmlFor="symbol">Select Currency Type</label>
               </div>
               <Form.Field
@@ -396,7 +388,7 @@ export default class Send extends Component {
               />
             </Grid.Column>
             <Grid.Column width={12}>
-              <div className='field'>
+              <div className="field">
                 <label htmlFor="amount">Total {this.state.symbol} to Send</label>
               </div>
               <Form.Field
@@ -408,7 +400,7 @@ export default class Send extends Component {
                 validationErrors={{
                   isNumeric: 'The amount must be a number'
                 }}
-                errorLabel={ errorLabel }
+                errorLabel={errorLabel}
               />
               <p>
                 <a
@@ -432,7 +424,7 @@ export default class Send extends Component {
               <Form.Field
                 control={Input}
                 name="memo"
-                label={this.state.memoDetected ? 'Memo automatically set via preferences.' : 'Optional memo to include' }
+                label={this.state.memoDetected ? 'Memo automatically set via preferences.' : 'Optional memo to include'}
                 placeholder="Enter a memo to include with the transaction"
                 value={this.state.memo}
                 onChange={this.handleMemoChange}
@@ -444,7 +436,7 @@ export default class Send extends Component {
             <Grid.Column width={16} textAlign="center">
               <Message
                 error
-                header='Operation Error'
+                header="Operation Error"
                 content={this.props.processing.account_transfer_error}
               />
               <Form.Field
@@ -452,7 +444,7 @@ export default class Send extends Component {
                 color="purple"
                 content="Preview Transaction"
                 onClick={this.handlePreview}
-              / >
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>

@@ -94,16 +94,16 @@ export default class PendingReward extends Component {
           <Table celled unstackable attached color='blue'>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell textAlign="center">
+                <Table.HeaderCell textAlign="right">
                   Account
                 </Table.HeaderCell>
-                <Table.HeaderCell colSpan={2} textAlign="center">
+                <Table.HeaderCell colSpan={2} textAlign="right">
                   Available to Spend
                 </Table.HeaderCell>
-                <Table.HeaderCell colSpan={2} textAlign="center">
+                <Table.HeaderCell colSpan={2} textAlign="right">
                   Savings Account
                 </Table.HeaderCell>
-                <Table.HeaderCell colSpan={2} textAlign="center">
+                <Table.HeaderCell colSpan={2} textAlign="right">
                   Locked
                 </Table.HeaderCell>
               </Table.Row>
@@ -111,22 +111,22 @@ export default class PendingReward extends Component {
                 <Table.HeaderCell>
                   Name
                 </Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">
+                <Table.HeaderCell textAlign="right">
                   SBD
                 </Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">
+                <Table.HeaderCell textAlign="right">
                   STEEM
                 </Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">
+                <Table.HeaderCell textAlign="right">
                   SBD
                 </Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">
+                <Table.HeaderCell textAlign="right">
                   STEEM
                 </Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">
+                <Table.HeaderCell textAlign="right">
                   SP
                 </Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">
+                <Table.HeaderCell textAlign="right">
                   VESTS
                 </Table.HeaderCell>
               </Table.Row>
@@ -137,22 +137,22 @@ export default class PendingReward extends Component {
                     <Table.Cell>
                       <AccountName name={account} />
                     </Table.Cell>
-                    <Table.Cell textAlign="center">
+                    <Table.Cell textAlign="right">
                       <NumericLabel params={numberFormat}>{balances[i].SBD}</NumericLabel>
                     </Table.Cell>
-                    <Table.Cell textAlign="center">
+                    <Table.Cell textAlign="right">
                       <NumericLabel params={numberFormat}>{balances[i].STEEM}</NumericLabel>
                     </Table.Cell>
-                    <Table.Cell textAlign="center">
+                    <Table.Cell textAlign="right">
                       <NumericLabel params={numberFormat}>{balances[i].SBD_SAVINGS}</NumericLabel>
                     </Table.Cell>
-                    <Table.Cell textAlign="center">
+                    <Table.Cell textAlign="right">
                       <NumericLabel params={numberFormat}>{balances[i].STEEM_SAVINGS}</NumericLabel>
                     </Table.Cell>
-                    <Table.Cell textAlign="center">
+                    <Table.Cell textAlign="right">
                       <NumericLabel params={numberFormat}>{balances[i].SP}</NumericLabel>
                     </Table.Cell>
-                    <Table.Cell textAlign="center">
+                    <Table.Cell textAlign="right">
                       <NumericLabel params={numberFormat}>{balances[i].VESTS}</NumericLabel>
                     </Table.Cell>
                   </Table.Row>

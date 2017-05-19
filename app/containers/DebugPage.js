@@ -1,13 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import Settings from '../components/Settings';
+import { Button, Table } from 'semantic-ui-react';
+
 import MenuBar from './MenuBar';
 import ContentBar from '../components/ContentBar';
-import { Button, Checkbox, Divider, Form, Header, Icon, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
 
 import * as PreferencesActions from '../actions/preferences';
 import * as KeysActions from '../actions/keys';

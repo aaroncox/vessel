@@ -4,17 +4,16 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Welcome from '../components/Welcome';
 import * as KeyActions from '../actions/keys';
-import MenuBar from './MenuBar';
 
 class WelcomePage extends Component {
 
   render() {
     return (
-    <div>
-      <Welcome
-        {... this.props}
-      />
-    </div>
+      <div>
+        <Welcome
+          {... this.props}
+        />
+      </div>
     );
   }
 }

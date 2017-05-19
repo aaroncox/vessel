@@ -1,35 +1,29 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import InputRange from 'react-input-range';
-import Settings from '../../components/Settings';
-import ContentBar from '../../components/ContentBar';
-import { Button, Checkbox, Divider, Grid, Header, Label, List, Message, Modal, Radio, Segment, Select, TextArea } from 'semantic-ui-react';
+import { Checkbox, Divider, Message, Modal, Segment } from 'semantic-ui-react';
 import { Form, Input } from 'formsy-semantic-ui-react'
-import NumericLabel from '../../utils/NumericLabel'
 
-import * as PreferencesActions from '../../actions/preferences';
 import * as KeysActions from '../../actions/keys';
 
 const defaultState = {
-	target: '',
-	percent: 100,
-	autoVest: false
-}
+  target: '',
+  percent: 100,
+  autoVest: false,
+};
 
 class PowerDownDestinationPrompt extends Component {
 
-	state = {
-		target: '',
-		percent: 100,
-		autoVest: false
-	}
+  state = {
+    target: '',
+    percent: 100,
+    autoVest: false
+  }
 
   handleKeyUp = (e) => {
-    if(this.state.decrypted && e.key == 'Enter') {
+    if (this.state.decrypted && e.key === 'Enter') {
       this.handleSubmit(e);
     }
   }
@@ -42,26 +36,25 @@ class PowerDownDestinationPrompt extends Component {
     e.preventDefault();
   }
 
-  handleCancel = (e: SyntheticEvent) => {
+  handleCancel = () => {
     this.state = defaultState;
   }
 
   handleChange = (e, props) => {
-		const newState = {};
-		newState[props.name] = props.checked || props.value;
-		console.log(props);
+    const newState = {};
+    newState[props.name] = props.checked || props.value;
     this.setState(newState);
   }
 
-	handleCheckboxChange = (e, props) => {
-		const newState = {};
-		newState[props.name] = (props.checked);
+  handleCheckboxChange = (e, props) => {
+    const newState = {};
+    newState[props.name] = (props.checked);
     this.setState(newState);
   }
 
-	handleSliderChange = (value) => {
+  handleSliderChange = (value) => {
     this.setState({ percent: value });
-	}
+  }
 
   render() {
     const {
@@ -69,11 +62,10 @@ class PowerDownDestinationPrompt extends Component {
       account_set_withdraw_vesting_route_pending,
       account_set_withdraw_vesting_route_resolved
     } = this.props.processing;
-		console.log(this.state);
-    let prompt = (
+    return (
       <Modal
         size="small"
-        open={true}
+        open
         header="Power Down - Destination Account"
         content={
           <Form
@@ -84,38 +76,38 @@ class PowerDownDestinationPrompt extends Component {
               padded
               basic
             >
-							<Segment basic padded clearing attached="top">
-								<Input
-									label="Destination Account"
+              <Segment basic padded clearing attached="top">
+                <Input
+                  label="Destination Account"
                   name="target"
                   autoFocus
-									value={this.state.target}
+                  value={this.state.target}
                   onChange={this.handleChange}
                 />
-							</Segment>
-							<Segment basic padded clearing attached>
-								<p>Percentage of Power Down to this account.</p>
-								<InputRange
-									label=""
-									maxValue={100}
-									minValue={0}
-									name="percent"
-									value={this.state.percent}
-									onChange={this.handleSliderChange}
-								/>
-								<Divider hidden />
-							</Segment>
-							<Segment basic padded clearing attached="bottom">
-								<Checkbox
-									defaultChecked={false}
-									name="autoVest"
-									onChange={this.handleCheckboxChange}
-									label='Should it automatically power up the target account?'
-								/>
-							</Segment>
+              </Segment>
+              <Segment basic padded clearing attached>
+                <p>Percentage of Power Down to this account.</p>
+                <InputRange
+                  label=""
+                  maxValue={100}
+                  minValue={0}
+                  name="percent"
+                  value={this.state.percent}
+                  onChange={this.handleSliderChange}
+                />
+                <Divider hidden />
+              </Segment>
+              <Segment basic padded clearing attached="bottom">
+                <Checkbox
+                  defaultChecked={false}
+                  name="autoVest"
+                  onChange={this.handleCheckboxChange}
+                  label="Should it automatically power up the target account?"
+                />
+              </Segment>
               <Message
                 error
-                header='Operation Error'
+                header="Operation Error"
                 content={account_set_withdraw_vesting_route_error}
               />
             </Segment>
@@ -141,7 +133,6 @@ class PowerDownDestinationPrompt extends Component {
         ]}
       />
     );
-    return prompt;
   }
 }
 

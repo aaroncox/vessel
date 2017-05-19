@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Icon, Header, Menu } from 'semantic-ui-react';
+import { Icon, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import * as AccountActions from '../actions/account';
 import * as SteemActions from '../actions/steem';
+
 const src = require('../img/steem.png');
 
 class MenuBar extends Component {
@@ -76,10 +76,13 @@ class MenuBar extends Component {
           <Icon name="settings" />
           Settings
         </Link>
-        <Menu.Item className="link" style={{
-          position: 'absolute',
-          bottom: 0
-        }}>
+        <Menu.Item
+          className="link"
+          style={{
+            position: 'absolute',
+            bottom: 0
+          }}
+        >
           <p>
             Height
           </p>

@@ -1,20 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import steem from 'steem';
-import { Button, Checkbox, Divider, Form, Grid, Header, Icon, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
-import { Redirect } from 'react-router';
+import { Button, Checkbox, Divider, Form, Grid, Header, Message } from 'semantic-ui-react';
 import KeysConfirm from './Confirm';
 
-var CryptoJS = require("crypto-js");
-
 export default class KeysImport extends Component {
-
-  static propTypes = {
-    account: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+  constructor(props) {
+    super(props);
+    this.state.errors = this.validate(this.state);
   }
-
   state = {
     account: '',
     wif: '',
@@ -28,12 +22,6 @@ export default class KeysImport extends Component {
       wif_error_invalid: false,
     }
   }
-
-  constructor(props) {
-    super(props);
-    this.state.errors = this.validate(this.state);
-  }
-
   handleConfirmAction = (
     e: SyntheticEvent,
     data: object
@@ -43,10 +31,9 @@ export default class KeysImport extends Component {
     if (confirmed) {
       const { account, wif, encryptWallet, lock1, lock2 } = this.state;
       const { addKeyConfirmed } = this.props.actions;
-      const { posting, active, owner } = this.props.keys.confirm;
+      const { active, owner } = this.props.keys.confirm;
       const type = owner ? 'owner' : active ? 'active' : 'posting';
       addKeyConfirmed(account, wif, type, encryptWallet, lock1);
-      // console.log(account, wif, type, encryptWallet, lock1);
     } else {
       this.props.actions.addKeyCancel();
     }
@@ -92,7 +79,7 @@ export default class KeysImport extends Component {
     this.setState(newState);
   }
 
-  handleSubmit = ( e: SyntheticEvent ) => {
+  handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const { addKey } = this.props.actions;
     const { account, wif } = this.state;
@@ -110,7 +97,6 @@ export default class KeysImport extends Component {
       password_error_no_match: 'The passwords you have entered do not match.',
       wif_error_invalid: 'They WIF Private Key you have entered is invalid.',
     };
-    let confirm = false;
     let passwordInput = false;
     let passwordWarning = false;
     let message = false;
@@ -137,7 +123,7 @@ export default class KeysImport extends Component {
           icon="warning"
           content={message}
         />
-      )
+      );
     }
     if (encryptWallet) {
       passwordInput = (
@@ -148,13 +134,13 @@ export default class KeysImport extends Component {
       );
       passwordWarning = (
         <Message
-          icon='warning'
-          header='Notice about Encryption'
-          content='If you lose your password, you will be unable to recover your keys from this application. Please make sure you have backed up your keys and remember your password.'
+          icon="warning"
+          header="Notice about Encryption"
+          content="If you lose your password, you will be unable to recover your keys from this application. Please make sure you have backed up your keys and remember your password."
         />
       );
     }
-    let input = (
+    const input = (
       <div>
         <Header>
           Getting Started
@@ -164,7 +150,9 @@ export default class KeysImport extends Component {
         </Header>
         <Header>
           <Header.Subheader>
-            Enter an account name and a WIF private key for the account you would like to add. Different permissions will be granted to this wallet based on the type of key used.
+            Enter an account name and a WIF private key for the account
+            you would like to add. Different permissions will be granted
+            to this wallet based on the type of key used.
           </Header.Subheader>
         </Header>
         <Divider hidden />
@@ -191,7 +179,7 @@ export default class KeysImport extends Component {
                 <Divider hidden />
                 <Checkbox
                   toggle
-                  name='encryptWallet'
+                  name="encryptWallet"
                   label="Encrypt this Wallet for better security"
                   checked={encryptWallet}
                   value={encryptWallet ? 'off' : 'on'}
@@ -203,11 +191,11 @@ export default class KeysImport extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Divider hidden/>
+          <Divider hidden />
           <Divider />
           {passwordWarning}
           {warning}
-          <Button disabled={hasErrors} fluid size='large' color='green' onClick={this.handleSubmit}>
+          <Button disabled={hasErrors} fluid size="large" color="green" onClick={this.handleSubmit}>
             Add to Wallet
           </Button>
         </Form>
@@ -219,7 +207,7 @@ export default class KeysImport extends Component {
         <KeysConfirm
           handleConfirmAction={this.handleConfirmAction}
           encryptWallet={this.state.encryptWallet}
-          { ...this.props }
+          {...this.props}
         />
       );
     }

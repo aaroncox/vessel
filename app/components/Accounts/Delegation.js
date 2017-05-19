@@ -1,18 +1,17 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Checkbox, Divider, Form, Header, Icon, Input, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
-import NumericLabel from '../../utils/NumericLabel'
+import { Button, Form, Header, Icon, Input, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import NumericLabel from '../../utils/NumericLabel';
 import AccountName from '../global/AccountName';
 
 export default class AccountsProxy extends Component {
-  state = {
-    editDelegationFor: false
-  }
   constructor(props) {
     super(props);
     this.state = {};
     this.props.actions.resetState = this.resetState.bind(this);
+  }
+  state = {
+    editDelegationFor: false
   }
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.processing.account_delegate_vesting_shares_resolved) {
@@ -21,7 +20,6 @@ export default class AccountsProxy extends Component {
     }
   }
   resetState() {
-    const props = this.props;
     this.setState({
       editDelegationFor: false
     });
@@ -54,7 +52,6 @@ export default class AccountsProxy extends Component {
   }
   render() {
     const t = this;
-    let content = false;
     let editProxy = false;
     const {
       account_delegate_vesting_shares_error,
@@ -65,7 +62,7 @@ export default class AccountsProxy extends Component {
       editProxy = (
         <Modal
           size="small"
-          open={true}
+          open
           header="Delegate Steem Power"
           content={
             <Form
@@ -76,7 +73,10 @@ export default class AccountsProxy extends Component {
                 padded
                 basic
               >
-                <p>Please enter the name of the account you wish to delegate a portion of this accounts vested weight to.</p>
+                <p>
+                  Please enter the name of the account you wish to delegate
+                  a portion of this accounts vested weight to.
+                </p>
                 <Input
                   name="proxy"
                   autoFocus
@@ -110,8 +110,7 @@ export default class AccountsProxy extends Component {
             }
           ]}
         />
-
-      )
+      );
     }
     const names = this.props.keys.names;
     const numberFormat = {
@@ -119,18 +118,9 @@ export default class AccountsProxy extends Component {
       shortFormatMinValue: 1000
     };
     const accounts = names.map((name) => {
-      let permissions = [];
       const proxy = this.props.account.accounts[name].proxy;
       const hasProxy = (proxy && proxy !== "");
       const shares = this.props.account.accounts[name].vesting_shares.split(" ")[0];
-      permissions = ['posting', 'active', 'owner'].map((permission) => (
-        <Table.Cell key={permission} textAlign="center">
-          {(t.props.keys.permissions[name].type === permission)
-            ? <Icon size='large' color='green' name='checkmark' />
-            : <Icon size='large' color='red' name='cancel' />
-          }
-        </Table.Cell>
-      ));
       return (
         <Table.Row key={name}>
           <Table.Cell>
@@ -173,7 +163,7 @@ export default class AccountsProxy extends Component {
         {editProxy}
         <Header>
           <Header.Subheader>
-            Each account may proxy it's vested weight to a designated account for witness voting.
+            Each account may proxy it's own vested weight to a designated account for witness voting.
           </Header.Subheader>
         </Header>
         <Table celled>

@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Divider, Form, Header, Segment, Select } from 'semantic-ui-react';
+import { Form, Header, Segment } from 'semantic-ui-react';
 
 const defaultNodeOptions = [
   {
@@ -16,7 +15,7 @@ export default class Settings extends Component {
   constructor(props) {
     super(props);
     const nodeOptions = defaultNodeOptions;
-    if(props.preferences && props.preferences.steemd_node) {
+    if (props.preferences && props.preferences.steemd_node) {
       nodeOptions.push({
         key: props.preferences.steemd_node,
         text: props.preferences.steemd_node,
@@ -71,7 +70,8 @@ export default class Settings extends Component {
           <Header>
             Exchange Configuration
             <Header.Subheader>
-              Configure the required <strong>memo</strong> for each individual currency and exchange.
+              Configure the required <strong>memo</strong> for each
+              individual currency and exchange.
             </Header.Subheader>
           </Header>
 
@@ -79,20 +79,20 @@ export default class Settings extends Component {
             <Header size="small">
               Bittrex
             </Header>
-            <Form.Group widths='equal'>
+            <Form.Group widths="equal">
               <Form.Input
-                label='SBD Memo'
-                name='bittrex_sbd'
+                label="SBD Memo"
+                name="bittrex_sbd"
                 value={this.props.preferences.bittrex_sbd}
                 onChange={this.handleChange}
-                placeholder='Enter your SBD Memo key for Bittrex'
+                placeholder="Enter your SBD Memo key for Bittrex"
               />
               <Form.Input
-                label='STEEM Memo'
-                name='bittrex_steem'
+                label="STEEM Memo"
+                name="bittrex_steem"
                 value={this.props.preferences.bittrex_steem}
                 onChange={this.handleChange}
-                placeholder='Enter your SBD Memo key for Bittrex'
+                placeholder="Enter your SBD Memo key for Bittrex"
               />
             </Form.Group>
           </Segment>
@@ -100,20 +100,20 @@ export default class Settings extends Component {
             <Header size="small">
               Poloniex
             </Header>
-            <Form.Group widths='equal'>
+            <Form.Group widths="equal">
               <Form.Input
-                label='SBD Memo'
-                name='poloniex_sbd'
+                label="SBD Memo"
+                name="poloniex_sbd"
                 value={this.props.preferences.poloniex_sbd}
                 onChange={this.handleChange}
-                placeholder='Enter your SBD Memo key for Poloniex'
+                placeholder="Enter your SBD Memo key for Poloniex"
               />
               <Form.Input
-                label='STEEM Memo'
-                name='poloniex_steem'
+                label="STEEM Memo"
+                name="poloniex_steem"
                 value={this.props.preferences.poloniex_steem}
                 onChange={this.handleChange}
-                placeholder='Enter your SBD Memo key for Poloniex'
+                placeholder="Enter your SBD Memo key for Poloniex"
               />
             </Form.Group>
           </Segment>

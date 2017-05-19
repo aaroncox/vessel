@@ -5,7 +5,6 @@ import { Button, Divider, Grid, Header, Segment, Statistic, Table } from 'semant
 
 export default class RecentTransactions extends Component {
   render() {
-    const data = this.props.account;
     const transactions = this.props.transactions;
     const header = (
       <Table.Row>
@@ -14,7 +13,7 @@ export default class RecentTransactions extends Component {
         </Table.Header>
       </Table.Row>
     );
-    let items = [];
+    const items = [];
     transactions.forEach((tx) => {
       items.push(
         <Table.Row>

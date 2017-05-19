@@ -1,14 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import Settings from '../components/Settings';
 import MenuBar from './MenuBar';
 import ContentBar from '../components/ContentBar';
 import VestingAccounts from '../components/VestingAccounts';
-import { Header, Icon, Segment } from 'semantic-ui-react';
+import { Header, Segment } from 'semantic-ui-react';
 import * as AccountActions from '../actions/account';
 import * as KeysActions from '../actions/keys';
 

@@ -1,27 +1,26 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import Transactions from '../components/Transactions';
+import { Dimmer, Header, Loader, Segment } from 'semantic-ui-react';
+
+import MenuBar from './MenuBar';
+import Balances from '../components/Transactions/Balances';
+import PendingRewards from '../components/Transactions/PendingRewards';
+import ContentBar from '../components/ContentBar';
+
 import * as AccountActions from '../actions/account';
 import * as ProcessingActions from '../actions/processing';
 import * as KeysActions from '../actions/keys';
 import * as SteemActions from '../actions/steem';
-import MenuBar from './MenuBar';
-import { Dimmer, Header, Loader, Segment } from 'semantic-ui-react';
-import Balances from '../components/Transactions/Balances';
-import PendingRewards from '../components/Transactions/PendingRewards';
-import RecentTransactions from '../components/Transactions/RecentTransactions';
-import ContentBar from '../components/ContentBar';
 
 class TransactionsPage extends Component {
 
   render() {
     let account_data = (
       <Dimmer inverted active style={{minHeight: '100px', display: 'block'}}>
-        <Loader size='large' content='Loading'/>
+        <Loader size="large" content="Loading"/>
       </Dimmer>
     )
     if (!this.props.keys.isUser) {
@@ -32,7 +31,7 @@ class TransactionsPage extends Component {
           <PendingRewards {...this.props} />
           <Balances {...this.props} />
         </Segment>
-      )
+      );
     }
     return (
       <ContentBar>

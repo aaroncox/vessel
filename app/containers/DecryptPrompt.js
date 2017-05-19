@@ -1,16 +1,10 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import Settings from '../components/Settings';
-import MenuBar from './MenuBar';
-import ContentBar from '../components/ContentBar';
-import { Button, Checkbox, Divider, Grid, Header, Label, List, Modal, Radio, Segment, Select, TextArea } from 'semantic-ui-react';
+import { Modal, Segment } from 'semantic-ui-react';
 import { Form, Input } from 'formsy-semantic-ui-react'
 
-import * as PreferencesActions from '../actions/preferences';
 import * as KeysActions from '../actions/keys';
 
 var CryptoJS = require("crypto-js");
@@ -18,17 +12,17 @@ var CryptoJS = require("crypto-js");
 const defaultState = {
   password: '',
   decrypted: false,
-}
+};
 
 class DecryptPrompt extends Component {
 
   constructor(props) {
     super(props);
     this.state = defaultState;
-  };
+  }
 
   handleKeyUp = (e) => {
-    if(this.state.decrypted && e.key == 'Enter') {
+    if (this.state.decrypted && e.key == 'Enter') {
       this.handleSubmit(e);
     }
   }
@@ -75,7 +69,6 @@ class DecryptPrompt extends Component {
     return false;
   }
 
-
   render() {
     let prompt = false;
     const decrypt = this.props.keys.decrypt;
@@ -83,13 +76,15 @@ class DecryptPrompt extends Component {
       prompt = (
         <Modal
           size="small"
-          open={true}
+          open
           header="Decrypt Wallet to Broadcast Transaction"
           onOpen={this.focusInput}
           content={
             <Segment padded basic>
               <p>
-                The wallet requested is encrypted locally. Please confirm the operations below and type your wallet password to broadcast the operation.
+                The wallet requested is encrypted locally. Please confirm
+                the operations below and type your wallet password to broadcast
+                the operation.
               </p>
               <Form>
                 <Input
@@ -123,7 +118,7 @@ class DecryptPrompt extends Component {
             }
           ]}
         />
-      )
+      );
     }
     return prompt;
   }

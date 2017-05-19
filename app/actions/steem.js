@@ -9,10 +9,10 @@ export function refreshGlobalProps() {
   return (dispatch: () => void) => {
     steem.api.getDynamicGlobalProperties((err, results) => {
       if (err) {
-        dispatch({
-          type: ACCOUNT_DATA_UPDATE_FAILED,
-          payload: err
-        });
+        // dispatch({
+        //   type: ACCOUNT_DATA_UPDATE_FAILED,
+        //   payload: err
+        // });
       } else {
         dispatch({
           type: STEEM_GLOBALPROPS_UPDATE_RESOLVED,

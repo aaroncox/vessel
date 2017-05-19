@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Checkbox, Divider, Form, Header, Icon, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import { Button, Header, Icon, Segment, Table } from 'semantic-ui-react';
 import AccountName from './global/AccountName';
 
 export default class Accounts extends Component {
@@ -10,15 +9,14 @@ export default class Accounts extends Component {
   }
   render() {
     const t = this;
-    let content = false;
     const names = this.props.keys.names;
     const accounts = names.map((name) => {
       let permissions = [];
       permissions = ['posting', 'active', 'owner'].map((permission) => (
         <Table.Cell key={permission} textAlign="center">
           {(t.props.keys.permissions[name].type === permission)
-            ? <Icon size='large' color='green' name='checkmark' />
-            : <Icon size='large' color='red' name='cancel' />
+            ? <Icon size="large" color="green" name="checkmark" />
+            : <Icon size="large" color="red" name="cancel" />
           }
         </Table.Cell>
       ));
@@ -51,7 +49,8 @@ export default class Accounts extends Component {
       <Segment basic padded>
         <Header>
           <Header.Subheader>
-            Each account within the wallet can have a different set of permissions and a different password encryption.
+            Each account within the wallet can have a different
+            set of permissions and a different password encryption.
           </Header.Subheader>
         </Header>
         <Table celled>
@@ -66,9 +65,7 @@ export default class Accounts extends Component {
               <Table.HeaderCell colSpan={3} textAlign="center">
                 Key Types
               </Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>
-
-              </Table.HeaderCell>
+              <Table.HeaderCell colSpan={1} />
             </Table.Row>
             <Table.Row>
               <Table.HeaderCell textAlign="center">

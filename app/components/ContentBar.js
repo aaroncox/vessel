@@ -12,7 +12,7 @@ export default class ContentBar extends Component {
         style={{
           marginLeft: '92px'
         }}
-        >
+      >
         {this.props.children}
       </div>
     );

@@ -72,7 +72,7 @@ export function addKey(account: string, wif: string) {
           }
         }
       });
-    }
+    };
   }
   return {
     type: KEY_ADD_FAILED_WIF_INVALID
@@ -88,7 +88,7 @@ export function addKeyConfirmed(
   ) {
   return (dispatch: () => void) => {
     let key = wif;
-    let payload = {}
+    const payload = {};
     if (encrypted) {
       key = CryptoJS.AES.encrypt(wif, password).toString();
     }
@@ -100,7 +100,7 @@ export function addKeyConfirmed(
     };
     dispatch({
       type: KEY_ADD_CONFIRMED,
-      payload: payload
+      payload
     });
   };
 }
@@ -108,7 +108,7 @@ export function addKeyConfirmed(
 export function addKeyCancel() {
   return {
     type: KEY_ADD_CANCEL
-  }
+  };
 }
 
 export function addKeyPrompt() {
@@ -124,13 +124,13 @@ export function useKeyRequestDecrypt(operation, params, auth) {
   return {
     type: KEY_USE_DECRYPT_PROMPT,
     payload: { operation, params, auth }
-  }
+  };
 }
 
 export function useKeyRequestDecryptClose() {
   return {
     type: KEY_USE_DECRYPT_PROMPT_CLOSE
-  }
+  };
 }
 
 export function useKey(operation, params, auth) {

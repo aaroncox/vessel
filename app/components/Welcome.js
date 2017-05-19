@@ -1,12 +1,11 @@
 // @flow
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import PropTypes from 'prop-types';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 
-import { Button, Checkbox, Divider, Form, Grid, Header, Icon, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import KeysImport from './Keys/Import';
 
 const logo = require('../img/steem.png');
-import KeysImport from './Keys/Import'
 const { shell } = require('electron');
 
 export default class Welcome extends Component {
@@ -25,6 +24,7 @@ export default class Welcome extends Component {
           <Grid.Column width={4} stretched>
             <Segment basic textAlign="center">
               <img
+                alt="logo"
                 className="ui tiny image"
                 src={logo}
                 style={{

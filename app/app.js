@@ -16,15 +16,15 @@ export default class AppProvider extends React.Component {
   componentWillMount() {
     const config = {
       whitelist: ['account', 'keys', 'preferences', 'steem']
-    }
+    };
     persistStore(store, config, () => {
       this.setState({ rehydrated: true })
-    })
+    });
   }
 
   render() {
-    if(!this.state.rehydrated){
-      return <div>Loading...</div>
+    if (!this.state.rehydrated) {
+      return <div>Loading...</div>;
     }
     if (module.hot) {
       module.hot.accept('./containers/Root', () => {
@@ -40,6 +40,6 @@ export default class AppProvider extends React.Component {
       <AppContainer>
         <Root store={store} history={history} />
       </AppContainer>
-    )
+    );
   }
 }

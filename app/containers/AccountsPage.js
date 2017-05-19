@@ -1,19 +1,18 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+import { Button, Header, Icon, Menu, Modal, Segment } from 'semantic-ui-react';
+
 import Accounts from '../components/Accounts';
 import AccountsDelegation from '../components/Accounts/Delegation';
 import AccountsProxy from '../components/Accounts/Proxy';
 import * as AccountActions from '../actions/account';
 import * as KeyActions from '../actions/keys';
 import MenuBar from './MenuBar';
-import TitleBar from '../components/global/TitleBar';
 import ContentBar from '../components/ContentBar';
-import KeysImport from '../components/Keys/Import'
-import { Button, Header, Icon, Menu, Modal, Segment } from 'semantic-ui-react';
+import KeysImport from '../components/Keys/Import';
 
 class AccountsPage extends Component {
 
@@ -49,7 +48,7 @@ class AccountsPage extends Component {
     if (this.props.keys.addPrompt) {
       modal = (
         <Modal
-          open={true}
+          open
           content={
             <Segment basic>
               <KeysImport {...this.props} />
@@ -57,7 +56,7 @@ class AccountsPage extends Component {
           }
           onClose={this.handleAddAccountCancel}
         />
-      )
+      );
     }
     let activeTab = <Accounts {...this.props} />;
     switch (activeItem) {
@@ -78,11 +77,15 @@ class AccountsPage extends Component {
     if (this.props.keys.remove) {
       modal = (
         <Modal
-          open={true}
+          open
           header="Remove this account?"
           content={
             <Segment padded basic>
-              <p>Are you sure you want to remove this account? All keys associated to this account will be removed from the wallet. If you do not have backups, your account may be lost.</p>
+              <p>
+                Are you sure you want to remove this account? All keys associated
+                to this account will be removed from the wallet. If you do not have
+                backups, your account may be lost.
+              </p>
               <Header>
                 Account:
                 {' '}
@@ -92,20 +95,20 @@ class AccountsPage extends Component {
           }
           actions={[
             {
-              key: "no",
-              content: "No",
-              color: "red",
+              key: 'no',
+              content: 'No',
+              color: 'red',
               onClick: this.handleRemoveKeyCancel
             },
             {
-              key: "yes",
-              content: "Yes",
-              color: "green",
+              key: 'yes',
+              content: 'Yes',
+              color: 'green',
               onClick: this.handleRemoveKeyConfirmed
             }
           ]}
         />
-      )
+      );
     }
     return (
       <ContentBar>
@@ -113,7 +116,7 @@ class AccountsPage extends Component {
         <Segment basic padded attached secondary>
           <Header>
             <Button
-              color='green'
+              color="green"
               onClick={this.handleAddAccount}
               icon="plus"
               floated="right"
@@ -130,13 +133,13 @@ class AccountsPage extends Component {
         </Segment>
         <Menu tabular attached>
           <Menu.Item
-            name='keys'
+            name="keys"
             content="Account Keys"
             active={activeItem === 'keys'}
             onClick={this.handleItemClick}
           />
           <Menu.Item
-            name='proxy'
+            name="proxy"
             content="Witness Proxy"
             active={activeItem === 'proxy'}
             onClick={this.handleItemClick}

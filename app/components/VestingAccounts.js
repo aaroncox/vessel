@@ -1,10 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Checkbox, Divider, Form, Header, Icon, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import { Button, Header, Icon, Segment, Table } from 'semantic-ui-react';
 import { FormattedDate, FormattedTime } from 'react-intl';
 
-import NumericLabel from '../utils/NumericLabel'
+import NumericLabel from '../utils/NumericLabel';
 import CancelPowerDownPrompt from './Vesting/CancelPowerDownPrompt';
 import PowerDownPrompt from './Vesting/PowerDownPrompt';
 import PowerDownDestinationPrompt from './Vesting/PowerDownDestinationPrompt';
@@ -27,7 +26,6 @@ export default class VestingAccounts extends Component {
     }
   }
   resetState() {
-    const props = this.props;
     this.setState({
       powerDown: false,
       powerDownDestination: false,
@@ -63,8 +61,6 @@ export default class VestingAccounts extends Component {
     })
   }
   render() {
-    const t = this;
-    let content = false;
     let powerDownPrompt = false;
     const names = this.props.keys.names;
     if (this.state && this.state.powerDownDestination) {
@@ -95,9 +91,9 @@ export default class VestingAccounts extends Component {
       );
     }
     const numberFormat = {
-            shortFormat: true,
-            shortFormatMinValue: 1000
-          };
+      shortFormat: true,
+      shortFormatMinValue: 1000
+    };
     const {
       account_set_withdraw_vesting_route_error,
       account_set_withdraw_vesting_route_pending,
@@ -120,8 +116,8 @@ export default class VestingAccounts extends Component {
           value={name}
           onClick={this.handlePowerDownDestinationPrompt}
         />
-      )
-      if(account.withdraw_routes > 0 && withdrawRoutes) {
+      );
+      if (account.withdraw_routes > 0 && withdrawRoutes) {
         let total = 0;
         withdrawRoutesDisplay = (
           <Table size="small">
@@ -134,7 +130,7 @@ export default class VestingAccounts extends Component {
                       <AccountName name={route.to_account} />
                     </Table.Cell>
                     <Table.Cell>
-                      {route.percent/100}%
+                      {route.percent / 100}%
                     </Table.Cell>
                     <Table.Cell>
                       {(route.auto_vest) ? 'VEST' : 'STEEM'}
@@ -144,12 +140,12 @@ export default class VestingAccounts extends Component {
                         color="orange"
                         size="small"
                         icon="trash"
-                        value={{name, route}}
+                        value={{ name, route }}
                         onClick={this.handlePowerDownDestinationRemove}
                       />
                     </Table.Cell>
                   </Table.Row>
-                )
+                );
               })}
             </Table.Body>
           </Table>
@@ -193,16 +189,18 @@ export default class VestingAccounts extends Component {
               &ndash;<NumericLabel params={numberFormat}>{vests}</NumericLabel> VESTS
               {' @ '}
               <FormattedTime
-                value={nextPowerDown} />
+                value={nextPowerDown}
+              />
               {' - '}
               <FormattedDate
                 value={nextPowerDown}
                 day="numeric"
                 month="short"
-                year="numeric" />
+                year="numeric"
+              />
             </Header.Subheader>
           </Header>
-        )
+        );
       }
       return (
         <Table.Row key={name}>
@@ -212,8 +210,8 @@ export default class VestingAccounts extends Component {
           <Table.Cell textAlign="center">
             {(isPoweringDown)
               ? (
-                <Icon.Group size='large'>
-                  <Icon color="green" size='big' name='thin circle' />
+                <Icon.Group size="large">
+                  <Icon color="green" size="big" name="thin circle" />
                   <Icon color="green" name="lightning" />
                 </Icon.Group>
               )

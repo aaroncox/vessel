@@ -6,13 +6,13 @@ import NumericLabel from '../../utils/NumericLabel'
 import AccountName from '../global/AccountName';
 
 export default class AccountsProxy extends Component {
-  state = {
-    editProxyFor: false
-  }
   constructor(props) {
     super(props);
     this.state = {};
     this.props.actions.resetState = this.resetState.bind(this);
+  }
+  state = {
+    editProxyFor: false
   }
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.processing.account_set_voting_proxy_resolved) {
@@ -21,7 +21,6 @@ export default class AccountsProxy extends Component {
     }
   }
   resetState() {
-    const props = this.props;
     this.setState({
       editProxyFor: false
     });
@@ -37,7 +36,7 @@ export default class AccountsProxy extends Component {
   handleEditProxy = (e, props) => {
     this.setState({
       editProxyFor: props.value
-    })
+    });
   }
   handleEditProxyConfirm = (e, props) => {
     const account = props.value;
@@ -54,7 +53,6 @@ export default class AccountsProxy extends Component {
   }
   render() {
     const t = this;
-    let content = false;
     let editProxy = false;
     const {
       account_set_voting_proxy_error,
@@ -65,7 +63,7 @@ export default class AccountsProxy extends Component {
       editProxy = (
         <Modal
           size="small"
-          open={true}
+          open
           header="Set Account Proxy - Witness Voting"
           content={
             <Form
@@ -76,7 +74,10 @@ export default class AccountsProxy extends Component {
                 padded
                 basic
               >
-                <p>Please enter the name of the account you wish to delegate witness voting power to.</p>
+                <p>
+                  Please enter the name of the account you wish
+                  to delegate witness voting power to.
+                </p>
                 <Input
                   name="proxy"
                   autoFocus
@@ -84,7 +85,7 @@ export default class AccountsProxy extends Component {
                 />
                 <Message
                   error
-                  header='Operation Error'
+                  header="Operation Error"
                   content={account_set_voting_proxy_error}
                 />
               </Segment>
@@ -110,8 +111,7 @@ export default class AccountsProxy extends Component {
             }
           ]}
         />
-
-      )
+      );
     }
     const names = this.props.keys.names;
     const numberFormat = {
@@ -119,18 +119,9 @@ export default class AccountsProxy extends Component {
       shortFormatMinValue: 1000
     };
     const accounts = names.map((name) => {
-      let permissions = [];
       const proxy = this.props.account.accounts[name].proxy;
       const hasProxy = (proxy && proxy !== "");
       const shares = this.props.account.accounts[name].vesting_shares.split(" ")[0];
-      permissions = ['posting', 'active', 'owner'].map((permission) => (
-        <Table.Cell key={permission} textAlign="center">
-          {(t.props.keys.permissions[name].type === permission)
-            ? <Icon size='large' color='green' name='checkmark' />
-            : <Icon size='large' color='red' name='cancel' />
-          }
-        </Table.Cell>
-      ));
       return (
         <Table.Row key={name}>
           <Table.Cell>

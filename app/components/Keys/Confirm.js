@@ -1,13 +1,8 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import steem from 'steem';
-import { Button, Checkbox, Divider, Form, Grid, Header, Icon, List, Message, Modal, Segment, Table } from 'semantic-ui-react';
-import { Redirect } from 'react-router';
-var CryptoJS = require("crypto-js");
+import { Button, Divider, Header, Icon, List, Segment, Table } from 'semantic-ui-react';
 
 export default class KeysConfirm extends Component {
-
   render() {
     const confirmAccount = this.props.keys.confirm;
     const encryptWallet = this.props.encryptWallet;
@@ -16,7 +11,10 @@ export default class KeysConfirm extends Component {
       <Segment basic padded>
         <Header>
           Confirm Account Information
-          <Header.Subheader>The key entered corresponds to the following account and permissions to perform the following actions:</Header.Subheader>
+          <Header.Subheader>
+            The key entered corresponds to the following account and permissions
+            to perform the following actions:
+          </Header.Subheader>
         </Header>
         <Table unstackable definition>
           <Table.Body>
@@ -34,8 +32,8 @@ export default class KeysConfirm extends Component {
               </Table.Cell>
               <Table.Cell>
                 <Icon
-                  name={encryptWallet ? "checkmark" : "remove"}
-                  color={encryptWallet ? "green" : "red"}
+                  name={encryptWallet ? 'checkmark' : 'remove'}
+                  color={encryptWallet ? 'green' : 'red'}
                   size="large"
                 />
               </Table.Cell>
@@ -56,8 +54,8 @@ export default class KeysConfirm extends Component {
               </Table.Cell>
               <Table.Cell>
                 <Icon
-                  name={(confirmAccount.posting || confirmAccount.active || confirmAccount.owner) ? "checkmark" : "remove"}
-                  color={(confirmAccount.posting || confirmAccount.active || confirmAccount.owner) ? "green" : "red"}
+                  name={(confirmAccount.posting || confirmAccount.active || confirmAccount.owner) ? 'checkmark' : 'remove'}
+                  color={(confirmAccount.posting || confirmAccount.active || confirmAccount.owner) ? 'green' : 'red'}
                   size="large"
                 />
               </Table.Cell>
@@ -75,8 +73,8 @@ export default class KeysConfirm extends Component {
               </Table.Cell>
               <Table.Cell>
                 <Icon
-                  name={(confirmAccount.active || confirmAccount.owner) ? "checkmark" : "remove"}
-                  color={(confirmAccount.active || confirmAccount.owner) ? "green" : "red"}
+                  name={(confirmAccount.active || confirmAccount.owner) ? 'checkmark' : 'remove'}
+                  color={(confirmAccount.active || confirmAccount.owner) ? 'green' : 'red'}
                   size="large"
                 />
               </Table.Cell>
@@ -94,8 +92,8 @@ export default class KeysConfirm extends Component {
               </Table.Cell>
               <Table.Cell>
                 <Icon
-                  name={confirmAccount.owner ? "checkmark" : "remove"}
-                  color={confirmAccount.owner ? "green" : "red"}
+                  name={confirmAccount.owner ? 'checkmark' : 'remove'}
+                  color={confirmAccount.owner ? 'green' : 'red'}
                   size="large"
                 />
               </Table.Cell>
@@ -103,7 +101,10 @@ export default class KeysConfirm extends Component {
           </Table.Body>
         </Table>
         <Divider hidden />
-        <p>Please confirm you would like to save this account with these permissions to this wallet.</p>
+        <p>
+          Please confirm you would like to save this account
+          with these permissions to this wallet.
+        </p>
         <Segment basic>
           <Button
             content="Cancel"
@@ -121,22 +122,6 @@ export default class KeysConfirm extends Component {
         </Segment>
       </Segment>
     );
-    // actions={[
-    //   {
-    //     key: 'no',
-    //     content: 'Cancel',
-    //     color: 'red',
-    //     onClick: this.handleModalAction,
-    //     floated: 'left',
-    //     value: false
-    //   },
-    //   {
-    //     key: 'yes',
-    //     content: 'Confirm Save',
-    //     color: 'green',
-    //     onClick: this.handleModalAction,
-    //     value: true
-    //   },
-    // ]}
+
   }
 }
