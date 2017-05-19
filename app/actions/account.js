@@ -166,6 +166,38 @@ export function transfer(wif, params) {
   };
 }
 
+// export function setDelegateVestingShares(wif, params) {
+//   return (dispatch: () => void) => {
+//     const { account, target, vestingShares } = params;
+//     dispatch({
+//       type: ACCOUNT_DELEGATE_VESTING_SHARES_STARTED
+//     });
+//     // console.log(account, target, vestingShares)
+//     // dispatch(refreshAccountData([account]));
+//     // dispatch({
+//     //   type: ACCOUNT_DELEGATE_VESTING_SHARES_RESOLVED
+//     // });
+//     // steem.broadcast.accountWitnessProxy(wif, account, vestingShares, (err, result) => {
+//     //   if (err) {
+//     //     dispatch({
+//     //       type: ACCOUNT_DELEGATE_VESTING_SHARES_FAILED,
+//     //       payload: err
+//     //     });
+//     //   } else {
+//     //     dispatch(refreshAccountData([account]));
+//     //     dispatch({
+//     //       type: ACCOUNT_DELEGATE_VESTING_SHARES_RESOLVED
+//     //     });
+//     //   }
+//     // });
+//   };
+// }
+//
+// export function setDelegateVestingSharesCompleted() {
+//   return {
+//     type: ACCOUNT_DELEGATE_VESTING_SHARES_COMPLETED,
+//   }
+// }
 
 export function setWithdrawVestingRoute(wif, params) {
   return (dispatch: () => void) => {
