@@ -50,11 +50,9 @@ class AccountsPage extends Component {
         <Modal
           open
           closeIcon="close"
+          style="large"
           content={
             <Segment basic>
-              <Header>
-                Choose a Method...
-              </Header>
               <KeysAdd {...this.props} />
             </Segment>
           }
