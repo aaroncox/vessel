@@ -1,17 +1,36 @@
 // @flow
 import React, { Component } from 'react';
 import steem from 'steem';
-import { Button, Checkbox, Divider, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import { Button, Checkbox, Divider, Form, Grid, Header, Message, Segment, Select } from 'semantic-ui-react';
 import KeysConfirm from './Confirm';
 
-export default class KeysImport extends Component {
+const permissionOptions = [
+  {
+    key: 'owner',
+    text: 'Owner',
+    value: 'owner',
+  },
+  {
+    key: 'active',
+    text: 'Active',
+    value: 'active',
+  },
+  {
+    key: 'posting',
+    text: 'Posting',
+    value: 'posting',
+  },
+];
+
+export default class KeysLogin extends Component {
   constructor(props) {
     super(props);
     this.state.errors = this.validate(this.state);
   }
   state = {
     account: '',
-    wif: '',
+    password: '',
+    permission: 'active',
     encryptWallet: true,
     lock1: '',
     lock2: '',
@@ -29,11 +48,11 @@ export default class KeysImport extends Component {
     const confirmed = data.value;
     e.preventDefault();
     if (confirmed) {
-      const { account, wif, encryptWallet, lock1, lock2 } = this.state;
+      const { account, password, permission, encryptWallet, lock1, lock2 } = this.state;
       const { addKeyConfirmed } = this.props.actions;
-      const { active, owner } = this.props.keys.confirm;
-      const type = owner ? 'owner' : active ? 'active' : 'posting';
-      addKeyConfirmed(account, wif, type, encryptWallet, lock1);
+      const keys = steem.auth.getPrivateKeys(account, password, [permission]);
+      const wif = keys[permission];
+      addKeyConfirmed(account, wif, permission, encryptWallet, lock1);
     } else {
       this.props.actions.addKeyCancel();
     }
@@ -49,8 +68,13 @@ export default class KeysImport extends Component {
     this.setState(newState);
   }
 
-  handleMethodReset = () => {
-    console.log(this.props);
+  handleSelectChange = (e, data) => {
+    const { name, value } = data;
+    const newState = Object.assign({}, this.state, {
+      [name]: value
+    });
+    newState.errors = this.validate(newState);
+    this.setState(newState);
   }
 
   validate = (newState) => {
@@ -64,7 +88,6 @@ export default class KeysImport extends Component {
       errors.password_error_no_match = (lock1 !== lock2);
     }
     errors.account_name_required = !newState.account || newState.account === '';
-    errors.wif_error_invalid = !steem.auth.isWif(newState.wif);
     return errors;
   }
 
@@ -86,12 +109,14 @@ export default class KeysImport extends Component {
   handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const { addKey } = this.props.actions;
-    const { account, wif } = this.state;
+    const { account, password, permission } = this.state;
+    const keys = steem.auth.getPrivateKeys(account, password, [permission]);
+    const wif = keys[permission];
     addKey(account, wif);
   }
 
   render() {
-    const { account, wif, encryptWallet, lock1, lock2 } = this.state;
+    const { account, password, permission, encryptWallet, lock1, lock2 } = this.state;
     const confirmAccount = this.props.keys.confirm;
     const errors = this.state.errors;
     const hasErrors = this.hasErrors();
@@ -163,61 +188,60 @@ export default class KeysImport extends Component {
       );
     }
     let display = (
-      <div>
-        <Header>
-          <Header.Subheader>
-            Enter an account name and a WIF private key for the account
-            you would like to add. Different permissions will be granted
-            to this wallet based on the type of key used.
-          </Header.Subheader>
-        </Header>
+      <Form
+        error={hasErrors || this.props.keys.lastError}
+        loading={this.props.processing.account_loading}
+      >
+        <Grid divided>
+          <Grid.Row>
+            <Grid.Column width={8}>
+              <Form.Input
+                label="Steemit.com Account Name"
+                name="account"
+                value={account}
+                onChange={this.handleChange}
+              />
+              <Form.Input
+                label="Steemit.com Password"
+                type="password"
+                name="password"
+                value={password}
+                onChange={this.handleChange}
+              />
+              <Form.Field
+                control={Select}
+                name="permission"
+                value={permission}
+                label="Permissions for Wallet"
+                options={permissionOptions}
+                onChange={this.handleSelectChange}
+                placeholder="Specify permission for this wallet..."
+              />
+              <Divider hidden />
+              <Checkbox
+                toggle
+                name="encryptWallet"
+                label="Encrypt this Wallet for better security"
+                checked={encryptWallet}
+                value={encryptWallet ? 'off' : 'on'}
+                onChange={this.handleToggle}
+              />
+            </Grid.Column>
+            <Grid.Column width={8}>
+              {passwordInput}
+              {encryptionWarning}
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         <Divider hidden />
-        <Form
-          error={hasErrors || this.props.keys.lastError}
-          loading={this.props.processing.account_loading}
-        >
-          <Grid divided>
-            <Grid.Row>
-              <Grid.Column width={8}>
-                <Form.Input
-                  label="Account Name"
-                  name="account"
-                  value={account}
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  label="WIF Private Key (posting, active or owner)"
-                  type="password"
-                  name="wif"
-                  value={wif}
-                  onChange={this.handleChange}
-                />
-                <Divider hidden />
-                <Checkbox
-                  toggle
-                  name="encryptWallet"
-                  label="Encrypt this Wallet for better security"
-                  checked={encryptWallet}
-                  value={encryptWallet ? 'off' : 'on'}
-                  onChange={this.handleToggle}
-                />
-              </Grid.Column>
-              <Grid.Column width={8}>
-                {passwordInput}
-                {encryptionWarning}
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-          <Divider hidden />
-          <Divider />
-          {passwordWarning}
-          {warning}
-          <Button disabled={hasErrors} fluid size="large" color="green" onClick={this.handleSubmit}>
-            Add to Wallet
-          </Button>
-          {handleMethodReset}
-        </Form>
-      </div>
+        <Divider />
+        {passwordWarning}
+        {warning}
+        <Button disabled={hasErrors} fluid size="large" color="green" onClick={this.handleSubmit}>
+          Add to Wallet
+        </Button>
+        {handleMethodReset}
+      </Form>
     );
     if (confirmAccount) {
       display = (

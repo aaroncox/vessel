@@ -12,7 +12,7 @@ import * as AccountActions from '../actions/account';
 import * as KeyActions from '../actions/keys';
 import MenuBar from './MenuBar';
 import ContentBar from '../components/ContentBar';
-import KeysImport from '../components/Keys/Import';
+import KeysAdd from '../components/Keys/Add';
 
 class AccountsPage extends Component {
 
@@ -49,9 +49,13 @@ class AccountsPage extends Component {
       modal = (
         <Modal
           open
+          closeIcon="close"
           content={
             <Segment basic>
-              <KeysImport {...this.props} />
+              <Header>
+                Choose a Method...
+              </Header>
+              <KeysAdd {...this.props} />
             </Segment>
           }
           onClose={this.handleAddAccountCancel}

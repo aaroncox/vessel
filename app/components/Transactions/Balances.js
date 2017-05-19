@@ -1,9 +1,8 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Divider, Grid, Header, Icon, Segment, Statistic, Table } from 'semantic-ui-react';
-import NumericLabel from '../../utils/NumericLabel'
+import { Divider, Header, Icon, Segment, Statistic, Table } from 'semantic-ui-react';
 import _ from 'lodash';
+import NumericLabel from '../../utils/NumericLabel';
 import AccountName from '../global/AccountName';
 
 export default class PendingReward extends Component {

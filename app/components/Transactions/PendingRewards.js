@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Divider, Table, Header, Segment, Statistic } from 'semantic-ui-react';
+import { Button, Table, Header, Segment } from 'semantic-ui-react';
 import AccountName from '../global/AccountName';
 
 export default class PendingReward extends Component {
@@ -10,9 +9,9 @@ export default class PendingReward extends Component {
     const accounts = this.props.account.accounts;
     const account = props.value;
     const permissions = this.props.keys.permissions;
-    const reward_sbd = accounts[account].reward_sbd_balance
-    const reward_steem = accounts[account].reward_steem_balance
-    const reward_vests = accounts[account].reward_vesting_balance
+    const reward_sbd = accounts[account].reward_sbd_balance;
+    const reward_steem = accounts[account].reward_steem_balance;
+    const reward_vests = accounts[account].reward_vesting_balance;
     this.props.actions.useKey('claimRewardBalance', { account, reward_sbd, reward_steem, reward_vests }, permissions[account])
   }
   render() {
@@ -53,28 +52,28 @@ export default class PendingReward extends Component {
             </Table.Header>
             <Table.Body>
               {pendingAccounts.map((account) => (
-                  <Table.Row key={account}>
-                    <Table.Cell>
-                      <Button
-                        primary
-                        onClick={this.claimRewardBalance}
-                        value={account}
-                      >
-                        Claim Pending Balances
-                      </Button>
-                    </Table.Cell>
-                    <Table.Cell>
-                      <AccountName name={account} />
-                    </Table.Cell>
-                    <Table.Cell>{this.props.account.accounts[account].reward_sbd_balance.split(" ")[0]}</Table.Cell>
-                    <Table.Cell>{this.props.account.accounts[account].reward_steem_balance.split(" ")[0]}</Table.Cell>
-                    <Table.Cell>{this.props.account.accounts[account].reward_vesting_balance.split(" ")[0]}</Table.Cell>
-                  </Table.Row>
+                <Table.Row key={account}>
+                  <Table.Cell>
+                    <Button
+                      primary
+                      onClick={this.claimRewardBalance}
+                      value={account}
+                    >
+                      Claim Pending Balances
+                    </Button>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <AccountName name={account} />
+                  </Table.Cell>
+                  <Table.Cell>{this.props.account.accounts[account].reward_sbd_balance.split(" ")[0]}</Table.Cell>
+                  <Table.Cell>{this.props.account.accounts[account].reward_steem_balance.split(" ")[0]}</Table.Cell>
+                  <Table.Cell>{this.props.account.accounts[account].reward_vesting_balance.split(" ")[0]}</Table.Cell>
+                </Table.Row>
               ))}
             </Table.Body>
           </Table>
         </Segment>
-      )
+      );
     }
     return display;
   }

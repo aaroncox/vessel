@@ -1,14 +1,21 @@
 // @flow
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import { Grid, Header, Segment } from 'semantic-ui-react';
+import { Button, Divider, Grid, Header, Segment } from 'semantic-ui-react';
 
+import KeysAdd from './Keys/Add';
+import KeysGenerate from './Keys/Generate';
 import KeysImport from './Keys/Import';
+import KeysLogin from './Keys/Login';
 
 const logo = require('../img/steem.png');
 const { shell } = require('electron');
 
 export default class Welcome extends Component {
+
+  state = {
+    importMethod: false
+  }
 
   handleAuthorLink = () => {
     shell.openExternal('https://steemit.com/@jesta');
@@ -51,7 +58,13 @@ export default class Welcome extends Component {
           <Grid.Column width={12}>
             <Segment basic padded>
               <Segment piled padded>
-                <KeysImport {...this.props} />
+                <Header>
+                  Getting Started
+                  <Header.Subheader>
+                    To get started with Vessel, an account must be added to the wallet.
+                  </Header.Subheader>
+                </Header>
+                <KeysAdd {...this.props} />
               </Segment>
             </Segment>
           </Grid.Column>
