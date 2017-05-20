@@ -9,6 +9,18 @@ Vessel is a lite wallet for the Steem blockchain that you can run on your deskto
 
 **This is experimental and messy software at the moment, please use with caution.**
 
+## Updates
+
+- [2017/05/20 - This app was announced on steemit.com](https://steemit.com/steem-project/@jesta/vessel-pre-release-looking-for-feedback)
+
+
+## Support this App
+
+This project has no monetization features and is supported by donations from the community. If you'd like to donate, feel free to use one of the following methods:
+
+- STEEM/SBD: [@vessel](https://steemit.com/@vessel)
+- Bitcoin: [3NvAcXGpAsmFJRkQ2LUTecvHjkw5XREReU](https://blockchain.info/address/3NvAcXGpAsmFJRkQ2LUTecvHjkw5XREReU)
+
 ## No Support & No Warranty
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
