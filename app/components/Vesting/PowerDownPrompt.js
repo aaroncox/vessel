@@ -106,8 +106,11 @@ class PowerDownPrompt extends Component {
                       <Header textAlign="center" size="large">
                         <Header.Subheader>Amount to Power Down</Header.Subheader>
                         <NumericLabel params={numberFormat}>{this.state.sp}</NumericLabel>
-                        (<NumericLabel params={numberFormat}>{this.state.vests}</NumericLabel>)
-                        <Header.Subheader>SP (VESTS)</Header.Subheader>
+                        {' SP'}
+                        <Header.Subheader>
+                          <NumericLabel params={numberFormat}>{this.state.vests}</NumericLabel>
+                          {' VESTS'}
+                        </Header.Subheader>
                       </Header>
                     </Grid.Column>
                     <Grid.Column>
