@@ -27,7 +27,6 @@ export default class Welcome extends Component {
             </Header.Subheader>
           </Header>
           <Button
-
             color="green"
             size="large"
             onClick={this.handleMethodChange}
@@ -45,7 +44,6 @@ export default class Welcome extends Component {
             </Header.Subheader>
           </Header>
           <Button
-
             color="green"
             size="large"
             onClick={this.handleMethodChange}
@@ -65,7 +63,6 @@ export default class Welcome extends Component {
             </Header.Subheader>
           </Header>
           <Button
-
             color="black"
             size="large"
             onClick={this.handleMethodChange}
