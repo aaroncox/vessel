@@ -49,10 +49,6 @@ export default class KeysImport extends Component {
     this.setState(newState);
   }
 
-  handleMethodReset = () => {
-    console.log(this.props);
-  }
-
   validate = (newState) => {
     const errors = {};
     if (newState.encryptWallet) {
