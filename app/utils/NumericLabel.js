@@ -115,7 +115,7 @@ const NumericLabel = (props) => {
       option = {};
     }
 
-    var shortenNumber = number;
+    var shortenNumber = parseFloat(number);
     var numberLetter = '';
 
     if(props.params && props.params.shortFormat) {
@@ -128,11 +128,7 @@ const NumericLabel = (props) => {
       }
     }
 
-    var theFormattedNumber = shortenNumber;
-
-    if(typeof shortenNumber === 'number'){
-      theFormattedNumber = Intl.NumberFormat(locales,option).format(+shortenNumber);
-    }
+    var theFormattedNumber = shortenNumber.toFixed(3);
 
     if(numberLetter){
       if( props.params && props.params.percentage ) {
@@ -164,7 +160,7 @@ const NumericLabel = (props) => {
           className={css}
           style={mystyle}
           trigger={<span>{theFormattedNumber}</span>}
-          content={<span>{number}</span>}
+          content={<span>{number.toFixed(3)}</span>}
           position="right center"
         />
       )
