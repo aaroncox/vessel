@@ -136,12 +136,14 @@ class AccountsPage extends Component {
         <Menu tabular attached>
           <Menu.Item
             name="keys"
+            icon="lock"
             content="Account Keys"
             active={activeItem === 'keys'}
             onClick={this.handleItemClick}
           />
           <Menu.Item
             name="proxy"
+            icon="sitemap"
             content="Witness Proxy"
             active={activeItem === 'proxy'}
             onClick={this.handleItemClick}
