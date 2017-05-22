@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Form, Header, Segment } from 'semantic-ui-react';
+import { Form, Header, Segment, Select } from 'semantic-ui-react';
 
 const defaultNodeOptions = [
   {
@@ -8,6 +8,15 @@ const defaultNodeOptions = [
     text: 'wss://steemd.steemit.com',
     value: 'wss://steemd.steemit.com',
   },
+];
+
+const localeOptions = [
+  {
+    key: 'en',
+    value: 'en',
+    flag: 'us',
+    text: 'English'
+  }
 ];
 
 export default class Settings extends Component {
@@ -41,6 +50,15 @@ export default class Settings extends Component {
     setPreference(name, value);
   }
 
+  handleLocaleChange = (
+    e: SyntheticEvent, { name, value }: { name: string, value: string }
+  ) => {
+    const { setPreference } = this.props.actions;
+    setPreference(name, value);
+
+    console.log("set", value);
+  }
+
   render() {
     return (
       <Segment basic padded>
@@ -66,6 +84,27 @@ export default class Settings extends Component {
               placeholder="Select a default node..."
             />
           </Segment> */}
+
+          <Header>
+            Language/Locale
+            <Header.Subheader>
+              Specify the language to use with Vessel.
+            </Header.Subheader>
+          </Header>
+
+          <Segment attached>
+            <Form.Field
+              control={Select}
+              search
+              allowAdditions
+              name="locale"
+              value={this.props.preferences.locale}
+              label="Select a language..."
+              options={localeOptions}
+              onChange={this.handleLocaleChange}
+              placeholder="Select a language..."
+            />
+          </Segment>
 
           <Header>
             Exchange Configuration

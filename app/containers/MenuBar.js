@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Icon, Menu } from 'semantic-ui-react';
@@ -30,7 +31,6 @@ class MenuBar extends Component {
   interval = 0;
 
   timer = () => {
-    // console.log('tick');
     this.props.actions.refreshAccountData(this.props.keys.names);
     this.props.actions.refreshGlobalProps();
     // this.props.actions.getTransactions(this.props.account.names);
@@ -42,7 +42,13 @@ class MenuBar extends Component {
       height = this.props.steem.props.head_block_number;
     }
     return (
-      <Menu vertical fixed="left" color="blue" inverted icon="labeled">
+      <Menu
+        style={{ maxWidth: '92px', overflow: 'hidden'}}
+        vertical
+        fixed="left"
+        color="blue"
+        inverted
+        icon="labeled">
         <Menu.Item header>
           <img
             alt="Vessel"
@@ -54,27 +60,27 @@ class MenuBar extends Component {
               margin: '0 auto 1em',
             }}
           />
-          Vessel
+          <FormattedMessage id="vessel.name" defaultMessage="Vessel" />
         </Menu.Item>
         <Link className="link item" to="/transactions">
           <Icon name="dashboard" />
-          Overview
+          <FormattedMessage id="vessel.menu.overview" defaultMessage="Overview" />
         </Link>
         <Link className="link item" to="/send">
           <Icon name="send" />
-          Send
+          <FormattedMessage id="vessel.menu.send" defaultMessage="Send" />
         </Link>
         <Link className="link item" to="/vesting">
           <Icon name="lightning" />
-          Vesting
+          <FormattedMessage id="vessel.menu.vesting" defaultMessage="Vesting" />
         </Link>
         <Link className="link item" to="/accounts">
           <Icon name="users" />
-          Accounts
+          <FormattedMessage id="vessel.menu.accounts" defaultMessage="Accounts" />
         </Link>
         <Link className="link item" to="/settings">
           <Icon name="settings" />
-          Settings
+          <FormattedMessage id="vessel.menu.settings" defaultMessage="Settings" />
         </Link>
         <Menu.Item
           className="link"
@@ -84,7 +90,7 @@ class MenuBar extends Component {
           }}
         >
           <p>
-            Height
+            <FormattedMessage id="vessel.general.height" defaultMessage="Height" />
           </p>
           {height}
         </Menu.Item>
@@ -109,4 +115,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuBar);
+export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(MenuBar));

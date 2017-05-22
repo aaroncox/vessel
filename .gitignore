@@ -56,3 +56,4 @@ npm-debug.log.*
 appveyor.yml
 .travis
 /test
+build/messages

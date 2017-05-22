@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { persistStore, autoRehydrate } from 'redux-persist'
+import { persistStore } from 'redux-persist';
+import { updateIntl } from 'react-intl-redux';
 
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
@@ -19,6 +19,13 @@ export default class AppProvider extends React.Component {
       whitelist: ['account', 'keys', 'preferences', 'steem']
     };
     persistStore(store, config, () => {
+      const { locale } = store.getState().preferences;
+      if (locale !== 'en') {
+        store.dispatch(updateIntl({
+          locale: locale,
+          messages: require('./locales/' + locale + '.json'),
+        }));
+      }
       this.setState({ rehydrated: true })
     });
   }

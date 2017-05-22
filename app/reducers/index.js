@@ -9,7 +9,6 @@ import preferences from './preferences';
 import processing from './processing';
 import steem from './steem';
 
-
 const rootReducer = combineReducers({
   account,
   keys,
