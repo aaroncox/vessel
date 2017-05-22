@@ -60,27 +60,51 @@ class MenuBar extends Component {
               margin: '0 auto 1em',
             }}
           />
-          <FormattedMessage id="vessel.name" defaultMessage="Vessel" />
+          <FormattedMessage
+            id="global.name"
+            defaultMessage="Vessel"
+            description="The name of the app (vessel)"
+          />
         </Menu.Item>
         <Link className="link item" to="/transactions">
           <Icon name="dashboard" />
-          <FormattedMessage id="vessel.menu.overview" defaultMessage="Overview" />
+          <FormattedMessage
+            id="menu.overview"
+            defaultMessage="Overview"
+            description="The menu item for the section for the Wallet Overview"
+          />
         </Link>
         <Link className="link item" to="/send">
           <Icon name="send" />
-          <FormattedMessage id="vessel.menu.send" defaultMessage="Send" />
+          <FormattedMessage
+            id="menu.send"
+            defaultMessage="Send"
+            description="The menu item for the section for Sending or Transfering funds"
+          />
         </Link>
         <Link className="link item" to="/vesting">
           <Icon name="lightning" />
-          <FormattedMessage id="vessel.menu.vesting" defaultMessage="Vesting" />
+          <FormattedMessage
+            id="menu.vesting"
+            defaultMessage="Vesting"
+            description="The menu item for the section for managing Vesting Funds, powering up or powering down."
+          />
         </Link>
         <Link className="link item" to="/accounts">
           <Icon name="users" />
-          <FormattedMessage id="vessel.menu.accounts" defaultMessage="Accounts" />
+          <FormattedMessage
+            id="menu.accounts"
+            defaultMessage="Accounts"
+            description="The menu item for the section for managing accounts and keys."
+          />
         </Link>
         <Link className="link item" to="/settings">
           <Icon name="settings" />
-          <FormattedMessage id="vessel.menu.settings" defaultMessage="Settings" />
+          <FormattedMessage
+            id="menu.settings"
+            defaultMessage="Settings"
+            description="The menu item for the section for wallet settings"
+          />
         </Link>
         <Menu.Item
           className="link"
@@ -90,7 +114,11 @@ class MenuBar extends Component {
           }}
         >
           <p>
-            <FormattedMessage id="vessel.general.height" defaultMessage="Height" />
+            <FormattedMessage
+              id="global.height"
+              defaultMessage="Height"
+              description="A label for the current height of the blockchain"
+            />
           </p>
           {height}
         </Menu.Item>
