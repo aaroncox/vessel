@@ -6,6 +6,7 @@ import InputRange from 'react-input-range';
 import { Divider, Grid, Header, Message, Modal, Segment } from 'semantic-ui-react';
 import { Form } from 'formsy-semantic-ui-react';
 import NumericLabel from '../../utils/NumericLabel';
+import AccountName from '../global/AccountName';
 
 import * as KeysActions from '../../actions/keys';
 
@@ -97,26 +98,26 @@ class PowerDownPrompt extends Component {
                   <Grid.Row columns={3}>
                     <Grid.Column>
                       <Header textAlign="center" size="large">
-                        <Header.Subheader>Account to Power Down</Header.Subheader>
-                        {this.props.targetAccount}
+                        <Header.Subheader>Power Down Target</Header.Subheader>
+                        <AccountName name={this.props.targetAccount} />
                         <Header.Subheader>over 13 weeks</Header.Subheader>
                       </Header>
                     </Grid.Column>
                     <Grid.Column>
-                      <Header textAlign="center" size="large">
-                        <Header.Subheader>Amount to Power Down</Header.Subheader>
-                        <NumericLabel params={numberFormat}>{this.state.sp}</NumericLabel>
+                      <Header textAlign="center" color="red" size="large">
+                        <Header.Subheader>Power Down Amount</Header.Subheader>
+                        -<NumericLabel params={numberFormat}>{this.state.sp}</NumericLabel>
                         {' SP'}
                         <Header.Subheader>
-                          <NumericLabel params={numberFormat}>{this.state.vests}</NumericLabel>
+                          -<NumericLabel params={numberFormat}>{this.state.vests}</NumericLabel>
                           {' VESTS'}
                         </Header.Subheader>
                       </Header>
                     </Grid.Column>
                     <Grid.Column>
-                      <Header textAlign="center" size="large">
-                        <Header.Subheader>Per Week</Header.Subheader>
-                        {this.state.perWeek}
+                      <Header textAlign="center" color="green" size="large">
+                        <Header.Subheader>Estimated Weekly</Header.Subheader>
+                          +{this.state.perWeek}
                         <Header.Subheader>STEEM</Header.Subheader>
                       </Header>
                     </Grid.Column>
@@ -126,12 +127,15 @@ class PowerDownPrompt extends Component {
                 <Segment padded="very" basic>
                   <InputRange
                     maxValue={this.state.maximum}
-                    minValue={1}
+                    minValue={0.000001}
                     value={this.state.vests}
                     onChange={this.handleOnChange}
                     onChangeComplete={this.handleOnChangeComplete}
                   />
                 </Segment>
+                <Message
+                  content="Drag the slider to adjust the amount of SP/VESTS to convert to STEEM over the next 13 weeks."
+                />
                 <Message
                   error
                   header='Operation Error'
