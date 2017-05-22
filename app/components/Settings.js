@@ -98,6 +98,27 @@ export default class Settings extends Component {
           </Segment>
           <Segment attached>
             <Header size="small">
+              OpenLedger
+            </Header>
+            <Form.Group widths="equal">
+              <Form.Input
+                label="SBD Memo"
+                name="openledger_sbd"
+                value={this.props.preferences.openledger_sbd}
+                onChange={this.handleChange}
+                placeholder="Enter your SBD Memo key for OpenLedger"
+              />
+              <Form.Input
+                label="STEEM Memo"
+                name="openledger_steem"
+                value={this.props.preferences.openledger_steem}
+                onChange={this.handleChange}
+                placeholder="Enter your SBD Memo key for OpenLedger"
+              />
+            </Form.Group>
+          </Segment>
+          <Segment attached>
+            <Header size="small">
               Poloniex
             </Header>
             <Form.Group widths="equal">
