@@ -73,10 +73,13 @@ export default class Send extends Component {
   }
   resetState() {
     const props = this.props;
-    const resetState = Object.assign({}, defaultState, {
-      from: props.keys.names[0]
+    this.setState({
+      to: '',
+      amount: '',
+      memo: '',
+      modalPreview: false,
+      memoDetected: false
     });
-    this.setState(resetState);
   }
   handleDestinationChange = (e: SyntheticEvent, { value }: { value: any }) => {
     this.setState({
