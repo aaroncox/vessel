@@ -189,7 +189,7 @@ export default class AccountsProxy extends Component {
       const delegatees = this.props.account.vestingDelegations[name];
       const delegated = account.delegated_vesting_shares;
       const hasDelegated = (delegated && delegated !== "0.000000 VESTS");
-      const hasDelegatees = (delegatees.length);
+      const hasDelegatees = (delegatees && delegatees.length);
       const delegatedAmount = parseFloat(delegated.split(" ")[0]);
       const vests = parseFloat(account.vesting_shares.split(" ")[0]);
       const available = vests - delegatedAmount;
