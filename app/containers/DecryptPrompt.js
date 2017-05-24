@@ -61,10 +61,14 @@ class DecryptPrompt extends Component {
   }
 
   decryptKey(wif: string, password: string) {
-    const bytes = CryptoJS.AES.decrypt(wif, password);
-    const key = bytes.toString(CryptoJS.enc.Utf8);
-    if (key) {
-      return key;
+    try {
+      const bytes = CryptoJS.AES.decrypt(wif, password);
+      const key = bytes.toString(CryptoJS.enc.Utf8);
+      if (key) {
+        return key;
+      }
+    } catch (e) {
+      console.log(e);
     }
     return false;
   }
