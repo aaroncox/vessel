@@ -16,7 +16,6 @@ class MenuBar extends Component {
   };
 
   componentDidMount() {
-    // console.log('didmount', this.props);
     this.interval = setInterval(this.timer.bind(this), 10000);
     this.timer();
     // this.props.actions.getTransactions(this.props.keys.names);
