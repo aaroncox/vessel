@@ -187,5 +187,14 @@ export default function processing(state: any = defaultState, action: actionType
 }
 
 function setError(response) {
-  return response.payload.error.data.stack[0].format
+  const stack = response.payload.error.data.stack[0];
+  const values = Object.keys(stack.data);
+  let message = stack.format;
+  if (values.length) {
+    values.map((key) => {
+      const value = stack.data[key];
+      message = message.split('${' + key + '}').join(value);
+    })
+  }
+  return message
 }
