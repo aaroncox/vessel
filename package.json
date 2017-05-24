@@ -214,7 +214,7 @@
     "semantic-ui": "^2.2.10",
     "semantic-ui-react": "^0.68.3",
     "source-map-support": "^0.4.15",
-    "steem": "^0.5.5",
+    "steem": "^0.5.8",
     "utf-8-validate": "^3.0.1"
   },
   "devEngines": {
