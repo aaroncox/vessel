@@ -2,6 +2,7 @@
 import {
   ACCOUNT_DATA_UPDATE,
   ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE,
+  ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE,
   ACCOUNT_GET_TRANSACTIONS_RESOLVED
 } from '../actions/account';
 
@@ -41,7 +42,13 @@ export default function account(state = defaultState, action: actionType) {
       return Object.assign({}, state, {
         withdrawRoutes: amended
       });
-      return state;
+    }
+    case ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE: {
+      const vestingDelegations = (state.vestingDelegations) ? state.vestingDelegations : {};
+      const amended = Object.assign({}, vestingDelegations, action.payload);
+      return Object.assign({}, state, {
+        vestingDelegations: amended
+      });
     }
     default: {
       return state;

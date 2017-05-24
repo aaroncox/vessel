@@ -148,12 +148,13 @@ class AccountsPage extends Component {
             active={activeItem === 'proxy'}
             onClick={this.handleItemClick}
           />
-          {/* <Menu.Item
-            name='delegation'
+          <Menu.Item
+            name="delegation"
+            icon="tasks"
             content="SP Delegation"
             active={activeItem === 'delegation'}
             onClick={this.handleItemClick}
-          /> */}
+          />
         </Menu>
         {activeTab}
         <MenuBar />

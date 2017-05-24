@@ -6,6 +6,9 @@ import * as ProcessingActions from './processing';
 export const ACCOUNT_DATA_UPDATE = 'ACCOUNT_DATA_UPDATE';
 export const ACCOUNT_DATA_UPDATE_FAILED = 'ACCOUNT_DATA_UPDATE_FAILED';
 export const ACCOUNT_DATA_UPDATE_PENDING = 'ACCOUNT_DATA_UPDATE_PENDING';
+export const ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_PENDING = 'ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_PENDING';
+export const ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_FAILED = 'ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_FAILED';
+export const ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE = 'ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE';
 export const ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE_PENDING = 'ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE_PENDING';
 export const ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE_FAILED = 'ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE_FAILED';
 export const ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE = 'ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE';
@@ -53,6 +56,29 @@ export function claimRewardBalance(wif: string, params: object) {
       dispatch(refreshAccountData([account]));
     });
     dispatch(ProcessingActions.processingRewardClaim());
+  };
+}
+
+export function getVestingDelegations(account: string) {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_PENDING
+    });
+    steem.api.getVestingDelegations(account, -1, 100, (err, results) => {
+      if (err) {
+        dispatch({
+          type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_FAILED,
+          payload: err
+        });
+      } else {
+        const payload = {};
+        payload[account] = results;
+        dispatch({
+          type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE,
+          payload
+        });
+      }
+    });
   };
 }
 
@@ -132,8 +158,12 @@ export function refreshAccountData(accounts: Array) {
         results.forEach((data) => {
           payload[data.name] = data;
           // If we have withdraw routes, update those as well
-          if(data.withdraw_routes > 0) {
+          if (data.withdraw_routes > 0) {
             dispatch(getWithdrawRoutes(data.name));
+          }
+          // If we have delegated SP, update that data
+          if (data.delegated_vesting_shares !== "0.000000 VESTS") {
+            dispatch(getVestingDelegations(data.name));
           }
         });
         dispatch({
@@ -173,38 +203,34 @@ export function transferCompleted() {
   }
 }
 
-// export function setDelegateVestingShares(wif, params) {
-//   return (dispatch: () => void) => {
-//     const { account, target, vestingShares } = params;
-//     dispatch({
-//       type: ACCOUNT_DELEGATE_VESTING_SHARES_STARTED
-//     });
-//     // console.log(account, target, vestingShares)
-//     // dispatch(refreshAccountData([account]));
-//     // dispatch({
-//     //   type: ACCOUNT_DELEGATE_VESTING_SHARES_RESOLVED
-//     // });
-//     // steem.broadcast.accountWitnessProxy(wif, account, vestingShares, (err, result) => {
-//     //   if (err) {
-//     //     dispatch({
-//     //       type: ACCOUNT_DELEGATE_VESTING_SHARES_FAILED,
-//     //       payload: err
-//     //     });
-//     //   } else {
-//     //     dispatch(refreshAccountData([account]));
-//     //     dispatch({
-//     //       type: ACCOUNT_DELEGATE_VESTING_SHARES_RESOLVED
-//     //     });
-//     //   }
-//     // });
-//   };
-// }
-//
-// export function setDelegateVestingSharesCompleted() {
-//   return {
-//     type: ACCOUNT_DELEGATE_VESTING_SHARES_COMPLETED,
-//   }
-// }
+export function setDelegateVestingShares(wif, params) {
+  return (dispatch: () => void) => {
+    const { delegator, delegatee, vestingShares } = params;
+    dispatch({
+      type: ACCOUNT_DELEGATE_VESTING_SHARES_STARTED
+    });
+    const formattedVestingShares = [parseFloat(vestingShares).toFixed(6), 'VESTS'].join(' ');
+    steem.broadcast.delegateVestingShares(wif, delegator, delegatee, formattedVestingShares, (err, result) => {
+      if (err) {
+        dispatch({
+          type: ACCOUNT_DELEGATE_VESTING_SHARES_FAILED,
+          payload: err
+        });
+      } else {
+        dispatch(refreshAccountData([delegator]));
+        dispatch({
+          type: ACCOUNT_DELEGATE_VESTING_SHARES_RESOLVED
+        });
+      }
+    });
+  };
+}
+
+export function setDelegateVestingSharesCompleted() {
+  return {
+    type: ACCOUNT_DELEGATE_VESTING_SHARES_COMPLETED,
+  }
+}
 
 export function setWithdrawVestingRoute(wif, params) {
   return (dispatch: () => void) => {
