@@ -1,17 +1,15 @@
 import React from 'react';
 import { Popup } from 'semantic-ui-react';
 
-const NumericLabel = (props) => {
+function NumericLabel(props) {
 
   // inspired by http://stackoverflow.com/a/9462382
   function nFormatter(num, minValue) {
-
     if(!num || !+num || typeof +num !== 'number'  ){
       return {
         number: num
       }
     }
-
     num = +num;
 
     minValue = minValue || 0;
@@ -127,7 +125,7 @@ const NumericLabel = (props) => {
         option.maximumFractionDigits = props.params.shortFormatPrecision || props.params.precision || 0
       }
     }
-
+    if(!shortenNumber) return <span>0</span>;
     var theFormattedNumber = shortenNumber.toFixed(3);
 
     if(numberLetter){
