@@ -1,7 +1,7 @@
 {
   "name": "vessel",
   "productName": "vessel",
-  "version": "0.0.6a",
+  "version": "0.0.6b",
   "description": "A simple wallet for managing your Steem accounts.",
   "scripts": {
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js",
