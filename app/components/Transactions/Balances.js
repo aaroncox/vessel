@@ -33,10 +33,10 @@ export default class PendingReward extends Component {
         SP: <Icon name="asterisk" loading />
       };
     }
-    _.forOwn(mapping, (fields: Array) => {
+    _.forOwn(mapping, (fields: Array, assignment: string) => {
       _.forEach(fields, (field) => {
         const [value, symbol] = data[field].split(' ');
-        balances[symbol] += parseFloat(value);
+        balances[assignment] += parseFloat(value);
       });
     });
     balances.SP = totalVestsSteem * balances.VESTS / totalVests;
@@ -52,8 +52,8 @@ export default class PendingReward extends Component {
         return (accounts && accounts[account]) ? t.getBalances(accounts[account]) : {};
       });
       const totals = {
-        SBD: balances.reduce((SBD, balance) => SBD + parseFloat(balance.SBD), 0),
-        STEEM: balances.reduce((STEEM, balance) => STEEM + parseFloat(balance.STEEM), 0),
+        SBD: balances.reduce((SBD, balance) => SBD + parseFloat(balance.SBD) + parseFloat(balance.SBD_SAVINGS), 0),
+        STEEM: balances.reduce((STEEM, balance) => STEEM + parseFloat(balance.STEEM) + parseFloat(balance.STEEM_SAVINGS), 0),
         VESTS: balances.reduce((VESTS, balance) => VESTS + parseFloat(balance.VESTS), 0),
         SP: balances.reduce((SP, balance) => SP + parseFloat(balance.SP), 0),
       };
