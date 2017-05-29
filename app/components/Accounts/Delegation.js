@@ -186,7 +186,7 @@ export default class AccountsProxy extends Component {
     const names = this.props.keys.names;
     const accounts = names.map((name) => {
       const account = this.props.account.accounts[name];
-      const delegatees = this.props.account.vestingDelegations[name];
+      const delegatees = (this.props.account.vestingDelegations || {})[name];
       const delegated = account.delegated_vesting_shares;
       const hasDelegated = (delegated && delegated !== "0.000000 VESTS");
       const hasDelegatees = (delegatees && delegatees.length);
