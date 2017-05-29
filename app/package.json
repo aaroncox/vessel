@@ -1,7 +1,7 @@
 {
   "name": "vessel",
   "productName": "vessel",
-  "version": "0.0.6b",
+  "version": "0.0.6c",
   "description": "A simple wallet for managing your Steem accounts.",
   "main": "./main.prod.js",
   "author": {
