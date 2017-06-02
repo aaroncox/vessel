@@ -91,7 +91,7 @@ export default class Send extends Component {
   handleSymbolChange = (e: SyntheticEvent, { value }: { value: any }) => {
     const detectMemo = this.detectMemo(this.state.to, value);
     const newState = {
-      amount: 0.000,
+      amount: '',
       symbol: value,
       memo: detectMemo || '',
       memoDetected: (detectMemo)
@@ -127,9 +127,8 @@ export default class Send extends Component {
     this.setState({ memo: cleaned });
   }
 
-  handleAmountChange = (e: SyntheticEvent, { value }: { value: string }) => {
-    const cleaned = parseFloat(value.trim());
-    this.setState({ amount: cleaned });
+  handleAmountChange = (e: SyntheticEvent, { amount }: { amount: any }) => {
+    this.setState({ amount });
   }
 
   setAmountMaximum = (e: SyntheticEvent) => {
