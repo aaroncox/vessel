@@ -187,14 +187,20 @@ export default function processing(state: any = defaultState, action: actionType
 }
 
 function setError(response) {
-  const stack = response.payload.error.data.stack[0];
-  const values = Object.keys(stack.data);
-  let message = stack.format;
-  if (values.length) {
-    values.map((key) => {
-      const value = stack.data[key];
-      message = message.split('${' + key + '}').join(value);
-    })
+  try {
+    const stack = response.payload.error.data.stack[0];
+    const values = Object.keys(stack.data);
+    let message = stack.format;
+    if (values.length) {
+      values.map((key) => {
+        const value = stack.data[key];
+        message = message.split('${' + key + '}').join(value);
+      });
+    }
+    return message;
+  } catch (e) {
+    console.log(e);
+    console.log(response);
+    return 'Unknown Error, check View -> Devtools for more information.';
   }
-  return message
 }
