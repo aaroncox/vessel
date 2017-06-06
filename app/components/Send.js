@@ -127,8 +127,8 @@ export default class Send extends Component {
     this.setState({ memo: cleaned });
   }
 
-  handleAmountChange = (e: SyntheticEvent, { amount }: { amount: any }) => {
-    this.setState({ amount });
+  handleAmountChange = (e: SyntheticEvent, { value }: { value: any }) => {
+    this.setState({ amount: value });
   }
 
   setAmountMaximum = (e: SyntheticEvent) => {
