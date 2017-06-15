@@ -123,7 +123,7 @@ export default class Send extends Component {
   }
 
   handleMemoChange = (e: SyntheticEvent, { value }: { value: string }) => {
-    const cleaned = value.trim();
+    const cleaned = value.replace(/\s+/gim, ' ');
     this.setState({ memo: cleaned });
   }
 
@@ -153,7 +153,11 @@ export default class Send extends Component {
 
   handlePreview = (e: SyntheticEvent) => {
     if(this.isFormValid()) {
-      this.setState({ modalPreview: true });
+      const cleaned = this.state.memo.trim();
+      this.setState({ 
+        memo: cleaned,
+        modalPreview: true 
+      });
     }
     e.preventDefault();
   }
