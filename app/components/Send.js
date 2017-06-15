@@ -128,7 +128,8 @@ export default class Send extends Component {
   }
 
   handleAmountChange = (e: SyntheticEvent, { value }: { value: any }) => {
-    this.setState({ amount: value });
+    const cleaned = value.replace(/[a-z\s]+/gim, '');
+    this.setState({ amount: cleaned });
   }
 
   setAmountMaximum = (e: SyntheticEvent) => {
