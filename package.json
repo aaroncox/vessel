@@ -28,7 +28,8 @@
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
     "package-all": "npm run build && build -mwl",
-    "release": "build -mwl"
+    "release": "build -mwl",
+    "dist": "electron-builder"
   },
   "browserslist": "electron 1.6",
   "build": {
@@ -214,7 +215,8 @@
     "semantic-ui-react": "^0.68.3",
     "source-map-support": "^0.4.15",
     "steem": "^0.5.8",
-    "utf-8-validate": "^3.0.1"
+    "utf-8-validate": "^3.0.1",
+    "dsteem": "0.6.0"
   },
   "devEngines": {
     "node": ">=6.x",
