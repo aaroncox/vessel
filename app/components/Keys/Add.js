@@ -6,6 +6,7 @@ import { Button, Divider, Grid, Header, Segment } from 'semantic-ui-react';
 import KeysGenerate from './Generate';
 import KeysImport from './Import';
 import KeysLogin from './Login';
+import KeysCreate from './Create';
 
 export default class Welcome extends Component {
 
@@ -54,6 +55,22 @@ export default class Welcome extends Component {
         </Segment>
         <Segment padded>
           <Header>
+            Create new account
+            <Header.Subheader>
+              Create a brand new Steem account funded via an existing account.
+            </Header.Subheader>
+          </Header>
+          <Button
+            color="green"
+            size="large"
+            onClick={this.handleMethodChange}
+            value="create-new-account"
+          >
+            Create new account
+          </Button>
+        </Segment>
+        <Segment padded>
+          <Header>
             Experimental - Generate New Private Keys
             <Header.Subheader>
               For advanced users.
@@ -93,6 +110,14 @@ export default class Welcome extends Component {
       case 'generate-private-key':
         display = (
           <KeysGenerate
+            handleMethodReset={this.handleMethodReset}
+            {...this.props}
+          />
+        );
+        break;
+      case 'create-new-account':
+        display = (
+          <KeysCreate
             handleMethodReset={this.handleMethodReset}
             {...this.props}
           />

@@ -59,6 +59,21 @@ export function claimRewardBalance(wif: string, params: object) {
   };
 }
 
+// This function automatically attempts to use the minimal account creation fee
+// and delegation amount.
+export function createAccountDelegated(wif: string, params: object) {
+  return (dispatch: () => void) => {
+    const { creator, username, password } = params;
+    const dsteem = require('dsteem');
+    const client = new dsteem.Client('wss://steemd.steemit.com');
+    const creatorKey = dsteem.PrivateKey.fromString(wif);
+    client.broadcast.createAccount({
+      creator, username, password
+    }, creatorKey);
+    dispatch(ProcessingActions.processingAccountCreate());
+  };
+}
+
 export function getVestingDelegations(account: string) {
   return (dispatch: () => void) => {
     dispatch({
