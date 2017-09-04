@@ -92,8 +92,6 @@ export default class KeysCreate extends Component {
   }
 
   handleConfirm = (e: SyntheticEvent) => {
-    const dsteem = require('dsteem');
-    const client = new dsteem.Client('wss://steemd.steemit.com');
     const { requestedOwner, requestedName, requestedFundingMethod, password } = this.state;
     let creatorKey = this.props.keys.permissions[requestedOwner];
     this.props.actions.useKey('createAccountDelegated',
