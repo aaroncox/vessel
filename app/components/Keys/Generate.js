@@ -138,7 +138,7 @@ export default class KeysGenerate extends Component {
           >
             <input />
             <Label
-              color={this.state.checkingUsername ? 'white' : this.state.usernameAvailable ? 'green' : 'red'}
+              color={this.state.checkingUsername ? 'teal' : this.state.usernameAvailable ? 'green' : 'red'}
               >
               <Icon
                 fitted
@@ -215,7 +215,7 @@ export default class KeysGenerate extends Component {
             content="Close"
             onClick={this.props.handleMethodReset}
           />
-        </Segment>
+      </Segment>
       </div>
     );
     return display;
