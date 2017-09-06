@@ -12,7 +12,9 @@ import {
   KEY_ADD_FAILED_ACCOUNT_404,
   KEY_ADD_FAILED_WIF_INCORRECT,
   KEY_ADD_FAILED_WIF_INVALID,
-  KEY_ADD_PROMPT
+  KEY_ADD_PROMPT,
+  KEY_CREATE_CANCEL,
+  KEY_CREATE_PROMPT
 } from '../actions/keys';
 
 const defaultState = {
@@ -43,6 +45,16 @@ export default function keys(state: any = defaultState, action: actionType) {
       return Object.assign({}, state, {
         addPrompt: true,
         confirm: action.payload
+      });
+    }
+    case KEY_CREATE_PROMPT: {
+      return Object.assign({}, state, {
+        createPrompt: true
+      });
+    }
+    case KEY_CREATE_CANCEL: {
+      return Object.assign({}, state, {
+        createPrompt: false
       });
     }
     case KEY_ADD_CONFIRMED: {
