@@ -24,6 +24,9 @@ export const KEY_ADD_FAILED_ACCOUNT_404 = 'KEY_ADD_FAILED_ACCOUNT_404';
 export const KEY_ADD_FAILED_WIF_INCORRECT = 'KEY_ADD_FAILED_WIF_INCORRECT';
 export const KEY_ADD_FAILED_WIF_INVALID = 'KEY_ADD_FAILED_WIF_INVALID';
 export const KEY_ADD_PROMPT = 'KEY_ADD_PROMPT';
+export const KEY_CREATE_CANCEL = 'KEY_CREATE_CANCEL';
+export const KEY_CREATE_PROMPT = 'KEY_CREATE_PROMPT';
+
 
 export function addKey(account: string, wif: string) {
   const isValidKey = steem.auth.isWif(wif);
@@ -115,6 +118,18 @@ export function addKeyPrompt() {
   return {
     type: KEY_ADD_PROMPT
   };
+}
+
+export function createKeyPrompt() {
+  return {
+    type: KEY_CREATE_PROMPT
+  }
+}
+
+export function createKeyCancel() {
+  return {
+    type: KEY_CREATE_CANCEL
+  }
 }
 
 // Given an account and a keys

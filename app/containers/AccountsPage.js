@@ -13,6 +13,7 @@ import * as KeyActions from '../actions/keys';
 import MenuBar from './MenuBar';
 import ContentBar from '../components/ContentBar';
 import KeysAdd from '../components/Keys/Add';
+import KeysCreate from '../components/Keys/Create';
 
 class AccountsPage extends Component {
 
@@ -29,6 +30,14 @@ class AccountsPage extends Component {
 
   handleAddAccountCancel = () => {
     this.props.actions.addKeyCancel();
+  }
+
+  handleCreateAccount = () => {
+    this.props.actions.createKeyPrompt();
+  }
+
+  handleCreateAccountCancel = () => {
+    this.props.actions.createKeyCancel();
   }
 
   handleRemoveKeyCancel = () => {
@@ -59,6 +68,22 @@ class AccountsPage extends Component {
           onClose={this.handleAddAccountCancel}
         />
       );
+    }
+    if (this.props.keys.createPrompt) {
+      modal = (
+        <Modal
+          open
+          closeIcon="close"
+          style="large"
+          content={
+            <Segment basic>
+              <KeysCreate handleMethodReset={this.handleCreateAccountCancel} {...this.props} />
+            </Segment>
+          }
+          onClose={this.handleCreateAccountCancel}
+        />
+
+      )
     }
     let activeTab = <Accounts {...this.props} />;
     switch (activeItem) {
@@ -122,7 +147,14 @@ class AccountsPage extends Component {
               onClick={this.handleAddAccount}
               icon="plus"
               floated="right"
-              content="Add another account"
+              content="Add account"
+            />
+            <Button
+              color="primary"
+              onClick={this.handleCreateAccount}
+              icon="plus"
+              floated="right"
+              content="Create account"
             />
             <Icon name="users" />
             <Header.Content>
