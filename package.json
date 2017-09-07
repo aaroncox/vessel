@@ -42,6 +42,12 @@
       "main.prod.js.map",
       "package.json"
     ],
+    "protocols": {
+      "name": "Steem Wallet URL",
+      "schemes": [
+        "steem"
+      ]
+    },
     "dmg": {
       "icon": "assets/icons/mac/icon.icns",
       "contents": [
@@ -198,6 +204,7 @@
     "formsy-react": "^0.19.2",
     "formsy-semantic-ui-react": "^0.2.3",
     "history": "^4.6.1",
+    "query-string": "^4.3.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-hot-loader": "3.0.0-beta.6",

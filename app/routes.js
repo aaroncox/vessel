@@ -18,7 +18,7 @@ export default () => (
       <Route exact path="/" component={WelcomePage} />
       <Route path="/transactions" component={TransactionsPage} />
       <Route path="/debug" component={DebugPage} />
-      <Route path="/send" component={SendPage} />
+      <Route path="/send/:to?/:amount?/:symbol?" component={SendPage} />
       <Route path="/vesting" component={VestingPage} />
       <Route path="/accounts" component={AccountsPage} />
       <Route path="/settings" component={SettingsPage} />

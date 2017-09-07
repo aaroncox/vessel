@@ -15,6 +15,8 @@ import * as ProcessingActions from '../actions/processing';
 import * as KeysActions from '../actions/keys';
 import * as SteemActions from '../actions/steem';
 
+const queryString = require('query-string');
+
 class TransactionsPage extends Component {
 
   render() {
@@ -31,6 +33,16 @@ class TransactionsPage extends Component {
           <PendingRewards {...this.props} />
           <Balances {...this.props} />
         </Segment>
+      );
+    }
+    // console.log(global.location.search);
+    if (global.location.search) {
+      const search = global.location.search;
+      const parsed = queryString.parse(search);
+      return (
+        <Redirect
+          to={`/send/${parsed.to}/${parsed.amount}/${parsed.symbol}`}
+        />
       );
     }
     return (

@@ -55,9 +55,16 @@ const defaultState = {
 export default class Send extends Component {
   constructor(props) {
     super(props);
-    this.state = Object.assign({}, defaultState, {
+    let state = Object.assign({}, defaultState, {
       from: props.keys.names[0]
     });
+    const { to, amount, symbol } = this.props.match.params;
+    global.location.search = ''
+    if (to && amount && symbol) {
+      state = Object.assign({}, state, { to, amount, symbol, modalPreview: true });
+    }
+    this.state = state;
+
   }
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.processing.account_transfer_resolved) {

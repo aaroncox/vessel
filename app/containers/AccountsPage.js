@@ -14,6 +14,8 @@ import MenuBar from './MenuBar';
 import ContentBar from '../components/ContentBar';
 import KeysAdd from '../components/Keys/Add';
 
+const queryString = require('query-string');
+
 class AccountsPage extends Component {
 
   state = {
@@ -43,6 +45,14 @@ class AccountsPage extends Component {
     if (!this.props.keys.isUser) {
       return <Redirect to="/" />;
     }
+    console.log(global);
+    if (global.location.search) {
+      const search = global.location.search;
+      const parsed = queryString.parse(search);
+      console.log(search, parsed);
+      // return <Redirect to="/" />;
+    }
+
     const { activeItem } = this.state;
     let modal = false;
     if (this.props.keys.addPrompt) {

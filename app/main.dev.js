@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, protocol } from 'electron';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
@@ -19,6 +19,8 @@ if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 }
+
+app.setAsDefaultProtocolClient('steem')
 
 // if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
 require('electron-debug')();
@@ -49,6 +51,30 @@ app.on('window-all-closed', () => {
   app.quit();
 });
 
+app.on('will-finish-launching', () => {
+  console.log("hi");
+  // For OSX
+  app.on('open-url', (e, url) => {
+    url = url.replace("steem://","");
+    console.log("fire", url);
+    mainWindow.loadURL(`file://${__dirname}/app.html${url}`)
+    e.preventDefault();
+  })
+
+  // For Windows
+  process.argv.forEach(arg => {
+    if (/steem:\/\//.test(arg)) {
+      console.log("fire", arg);
+    }
+  })
+});
+
+function devToolsLog(s) {
+  console.log(s)
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.executeJavaScript(`console.log("${s}")`)
+  }
+}
 
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
@@ -60,6 +86,13 @@ app.on('ready', async () => {
     width: 970,
     height: 600
   });
+
+  protocol.registerHttpProtocol('steem', (req, cb) => {
+    console.log(req, cb);
+    // const fullUrl = formFullTodoUrl(req.url)
+    devToolsLog('full url to open ' + req.url)
+    mainWindow.loadURL(`file://${__dirname}/app.html?protocol=${req.url}`)
+  })
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
