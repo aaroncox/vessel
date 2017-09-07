@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import steem from 'steem';
 import _ from 'lodash';
-import { Button, Checkbox, Divider, Grid, Header, Icon, Label, Message, Segment, Input, Select, Table, Modal } from 'semantic-ui-react';
+import { Button, Checkbox, Divider, Grid, Header, Icon, Label, List, Message, Segment, Input, Select, Table, Modal } from 'semantic-ui-react';
 import KeysConfirm from './Confirm';
 
 var bip39 = require('bip39');
@@ -207,75 +207,82 @@ export default class KeysCreate extends Component {
           open
           header="Please confirm the details of this transaction"
           content={
-            <Segment basic padded>
-              <p>
-                Ensure that all of the data below looks correct before continuing.
-                If everything looks good, click <strong>Confirmed - Create Account</strong>.
-              </p>
-              <Table
-                definition
-                collapsing
-                style={{ minWidth: '300px', margin: '0 auto' }}
-              >
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell textAlign="right">Field</Table.HeaderCell>
-                    <Table.HeaderCell>Value</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  <Table.Row>
-                    <Table.Cell textAlign="right">
-                      Owner:
-                    </Table.Cell>
-                    <Table.Cell>
-                      {this.state.requestedOwner}
-                    </Table.Cell>
-                  </Table.Row>
-                  <Table.Row>
-                    <Table.Cell textAlign="right">
-                      Account:
-                    </Table.Cell>
-                    <Table.Cell>
-                      {this.state.requestedName}
-                    </Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-              <br /><hr />
-              <Header>
-                Generated Seed
-                <Header.Subheader>
-                  WRITE THIS DOWN (or save in password manager). This is your main account password.
-                </Header.Subheader>
-              </Header>
-              <Segment>
-                {this.state.password}
-              </Segment>
-              <Button
-                color="green"
-                content="Copy to clipboard"
-                onClick={()=> setClipboardText(this.state.mnemonic)}
-                disabled={!this.state.mnemonic}
-              />
-              <Header>
-                Key Backup JSON
-                <Header.Subheader>
-                  NEVER share these keys with anyone and back them up to a safe place.
-                </Header.Subheader>
-              </Header>
-              <Segment>
-                <pre>{JSON.stringify(privatekeys, null, 2)}</pre>
-              </Segment>
-              <Segment basic textAlign="center">
-                <Button
-                  color="green"
-                  content="Copy to clipboard"
-                  onClick={()=> setClipboardText(JSON.stringify(privatekeys, null, 2))}
-                  disabled={!this.state.mnemonic}
-                />
-              </Segment>
-            </Segment>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={7}>
+                  <Segment basic>
+                    <Header>
+                      Confirm New Account Details
+                    </Header>
+                    <p>
+                      Ensure that all of the data below looks correct before continuing.
+                      If everything looks good, click <strong>Create Account</strong>.
+                    </p>
+                    <Table
+                      definition
+                      collapsing
+                      style={{ minWidth: '300px', margin: '0 auto' }}
+                    >
+                      <Table.Body>
+                        <Table.Row>
+                          <Table.Cell textAlign="right">
+                            Originating Account:
+                          </Table.Cell>
+                          <Table.Cell>
+                            {this.state.requestedOwner}
+                          </Table.Cell>
+                        </Table.Row>
+                        <Table.Row>
+                          <Table.Cell textAlign="right">
+                            New Account:
+                          </Table.Cell>
+                          <Table.Cell>
+                            {this.state.requestedName}
+                          </Table.Cell>
+                        </Table.Row>
+                      </Table.Body>
+                    </Table>
+                  </Segment>
+                </Grid.Column>
+                <Grid.Column width={7}>
+                  <Segment basic>
+                    <Header>
+                      New Account Password
+                    </Header>
+                    <p>
+                      <strong>WRITE THIS DOWN (or save in a password manager).</strong>
+                      {' '}
+                      This password will allow you to log into any Steem related service with full permissions. Use the posting private key if you only wish to grant posting permissions.
+                    </p>
+                    <Segment>
+                      {this.state.password}
+                    </Segment>
+                  </Segment>
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
+                  <Segment basic>
+                    <Header>
+                      <Button
+                        color="green"
+                        content="Copy to clipboard"
+                        floated="right"
+                        onClick={()=> setClipboardText(JSON.stringify(privatekeys, null, 2))}
+                        disabled={!this.state.mnemonic}
+                      />
+                      Key Backup JSON
+                      <Header.Subheader>
+                        NEVER share these keys with anyone and back them up to a safe place.
+                      </Header.Subheader>
+                    </Header>
+                    <Segment>
+                      <pre>{JSON.stringify(privatekeys, null, 2)}</pre>
+                    </Segment>
+                  </Segment>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           }
           actions={[
             {
@@ -305,55 +312,73 @@ export default class KeysCreate extends Component {
             This feature is under development. Use at your own risk.
           </Header.Subheader>
         </Header>
-        <p>This process costs 6SP or equivalent vests + 0.200 STEEM from a previously imported Vessel account.</p>
-        <ul>
-          <li>Enter a username to see if it is taken or available.</li>
-          <li>Click <strong>Create This Account</strong> to create the account to review the provided information.</li>
-          <li>If everything looks good, click <strong>Confirm</strong> to proceed.</li>
-          <li>Once the account has been created, you can use it via Vessel as well as on SteemIt.</li>
-        </ul>
-        <Segment textAlign="center">
-          <Segment basic>
-            <p>Select owner account.</p>
-              <Select
-                value={this.state.requestedOwner}
-                name="owner"
-                label="Select the owner account"
-                options={availableOwner}
-                placeholder="Owner Account..."
-                onChange={this.checkOwner}
-              />
-          </Segment>
-          <Segment basic>
-            <p>Specify a name for the new account.</p>
-            <Input
-              labelPosition="right"
-              name="username"
-              onChange={this.checkUsername}
-            >
-              <input />
-              <Label
-                color={this.state.checkingUsername ? 'teal' : this.state.usernameAvailable ? 'green' : 'red'}
+        <Grid divided>
+          <Grid.Row>
+            <Grid.Column width={7}>
+              <Message negative>
+                <Message.Content>
+                  <Message.Header>New accounts require initial funds</Message.Header>
+                  <p>
+                   New accounts require funding in order to be created, which is transfered from the originating account.
+                   Currently to create an account, you must use at least
+                   This process costs 6SP or equivalent vests + 0.200 STEEM from a previously imported Vessel account.
+                  </p>
+                </Message.Content>
+              </Message>
+              <Header size="small">
+                Next steps...
+              </Header>
+              <List bulleted>
+                <List.Item>Enter an account name to see if it is available.</List.Item>
+                <List.Item>Click <strong>Generate Account</strong> to create the password and keys, while reviewing it's information.</List.Item>
+                <List.Item>If everything looks good, click <strong>Create</strong> to submit the details to the blockchain, as well as funding it's initial balance.</List.Item>
+                <List.Item>Once the account has been created, it will be automatically imported into Vessel, and you can use either the <strong>Master Password</strong> or the <strong>Posting Private Key</strong> to log into Steemit or any Steem powered website.</List.Item>
+              </List>
+            </Grid.Column>
+            <Grid.Column width={9}>
+              <Segment basic>
+                <p>Select the originating account, which will fund the new account.</p>
+                  <Select
+                    value={this.state.requestedOwner}
+                    name="owner"
+                    label="Select the owner account"
+                    options={availableOwner}
+                    placeholder="Owner Account..."
+                    onChange={this.checkOwner}
+                  />
+              </Segment>
+              <Segment basic>
+                <p>Specify a name for the new account.</p>
+                <Input
+                  labelPosition="right"
+                  name="username"
+                  onChange={this.checkUsername}
                 >
-                <Icon
-                  fitted
-                  loading={this.state.checkingUsername}
-                  name={this.state.checkingUsername ? 'asterisk' : this.state.usernameAvailable ? 'checkmark' : 'cancel'}
+                  <input />
+                  <Label
+                    color={this.state.checkingUsername ? 'teal' : this.state.usernameAvailable ? 'green' : 'red'}
+                    >
+                    <Icon
+                      fitted
+                      loading={this.state.checkingUsername}
+                      name={this.state.checkingUsername ? 'asterisk' : this.state.usernameAvailable ? 'checkmark' : 'cancel'}
+                    />
+                    {this.state.checkingUsername ? 'Checking' : this.state.usernameAvailable ? 'Available' : 'Taken'}
+                  </Label>
+                </Input>
+              </Segment>
+              <Segment basic>
+                <Button
+                  size="large"
+                  color="blue"
+                  content="Create Account"
+                  onClick={this.createAccount}
+                  disabled={!(this.state.usernameAvailable && this.state.ownerAvailable)}
                 />
-                {this.state.checkingUsername ? 'Checking' : this.state.usernameAvailable ? 'Available' : 'Taken'}
-              </Label>
-            </Input>
-          </Segment>
-          <Segment basic>
-            <Button
-              size="large"
-              color="blue"
-              content="Create Account"
-              onClick={this.createAccount}
-              disabled={!(this.state.usernameAvailable && this.state.ownerAvailable)}
-            />
-          </Segment>
-        </Segment>
+              </Segment>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         <Segment basic textAlign="center">
           <Button
             size="large"
