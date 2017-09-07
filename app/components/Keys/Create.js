@@ -21,7 +21,6 @@ export default class KeysCreate extends Component {
   }
   checkUsername = _.debounce((e, props) => {
     const name = props.value.trim();
-    console.log("name: [" + name + "]")
     if (name === "") {
       this.setState({
         checkingUsername: false,
@@ -45,7 +44,6 @@ export default class KeysCreate extends Component {
 
   checkOwner = _.debounce((e, props) => {
     const name = props.value.trim();
-    console.log("owner: [" + name + "]")
     if (name === "") {
       this.setState({
         checkingOwner: false,
@@ -143,7 +141,6 @@ export default class KeysCreate extends Component {
       var existsTextarea = document.getElementById(id);
 
       if(!existsTextarea){
-        console.log("Creating textarea");
         var textarea = document.createElement("textarea");
         textarea.id = id;
         // Place in top-left corner of screen regardless of scroll position.
@@ -167,30 +164,22 @@ export default class KeysCreate extends Component {
         // Avoid flash of white box if rendered for any reason.
         textarea.style.background = 'transparent';
         document.querySelector("body").appendChild(textarea);
-        console.log("The textarea now exists");
         existsTextarea = document.getElementById(id);
-      }else{
-          console.log("The textarea already exists")
       }
-
       existsTextarea.value = text;
       existsTextarea.select();
-
       try {
         var status = document.execCommand('copy');
         if(!status){
           console.error("Cannot copy text");
         }else{
-          console.log("The text is now on the clipboard");
         }
       } catch (err) {
-        console.log('Unable to copy.');
       }
     }
 
     let sharable = {};
     let privatekeys = {};
-    console.log(this.state);
     if (this.state.requestedName && this.state.pub) {
       sharable = {
         account: this.state.requestedName,
