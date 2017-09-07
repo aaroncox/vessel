@@ -1,8 +1,10 @@
 // @flow
 import steem from 'steem';
+import { Asset, Price, Client } from 'dsteem'
 import type { accountStateType } from '../reducers/account';
 import * as ProcessingActions from './processing';
 
+export const ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION = 'ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION';
 export const ACCOUNT_DATA_UPDATE = 'ACCOUNT_DATA_UPDATE';
 export const ACCOUNT_DATA_UPDATE_FAILED = 'ACCOUNT_DATA_UPDATE_FAILED';
 export const ACCOUNT_DATA_UPDATE_PENDING = 'ACCOUNT_DATA_UPDATE_PENDING';
@@ -71,6 +73,34 @@ export function createAccountDelegated(wif: string, params: object) {
       creator, username, password
     }, creatorKey);
     dispatch(ProcessingActions.processingAccountCreate());
+    client.disconnect()
+  };
+}
+
+export function getMinimumAccountDelegation() {
+  return async dispatch => {
+    const client = new Client('wss://steemd.steemit.com')
+    const constants = await client.database.getConfig()
+    const chainProps = await client.database.getChainProperties()
+    const dynamicProps = await client.database.getDynamicGlobalProperties()
+
+    const creationFee = Asset.from(chainProps.account_creation_fee)
+    const sharePrice = Price.from({base: dynamicProps.total_vesting_shares, quote: dynamicProps.total_vesting_fund_steem})
+
+    const ratio = constants['STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO']
+    const modifier = constants['STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER']
+
+    const fee = Asset.from('0.200 STEEM')
+
+    const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio))
+    const delegation = targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio)))
+    const sp = sharePrice.convert(delegation)
+
+    client.disconnect()
+    dispatch({
+      type: ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION,
+      payload: { delegation, fee, sp }
+    });
   };
 }
 
