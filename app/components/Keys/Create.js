@@ -72,7 +72,9 @@ export default class KeysCreate extends Component {
   generateSeed = () => {
     let mnemonic = bip39.generateMnemonic();
     const name = this.state.requestedName;
-    const password = bip39.mnemonicToSeedHex(mnemonic);
+    const seed = bip39.mnemonicToSeedHex(mnemonic);
+    let masterKey = steem.auth.getPrivateKeys(name, seed, ['master']);
+    let password = 'P' + masterKey.master;
     const types = ['owner', 'active', 'posting', 'memo'];
     let pub = steem.auth.generateKeys(name, password, types);
     let prv = steem.auth.getPrivateKeys(name, password, types);
