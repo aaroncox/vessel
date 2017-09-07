@@ -190,6 +190,10 @@ export default class KeysCreate extends Component {
         keys: this.state.prv
       }
     }
+    let delegation = {};
+    if(this.props.account && this.props.account.minimumDelegation) {
+      delegation = this.props.account.minimumDelegation;
+    }
     if (this.state.modalPreview) {
       modal = (
         <Modal
@@ -317,10 +321,12 @@ export default class KeysCreate extends Component {
                 <Message.Content>
                   <Message.Header>New accounts require initial funds</Message.Header>
                   <p>
-                   New accounts require funding in order to be created, which is transfered from the originating account.
-                   Currently to create an account, you must use at least
-                   This process costs 6SP or equivalent vests + 0.200 STEEM from a previously imported Vessel account.
+                   New accounts require funding in order to be created, which is transfered from the originating account. Currently to create an account, you must fund it initially with a minimum of:
                   </p>
+                  <List bulleted>
+                    <List.Item>{delegation.fee.amount} {delegation.fee.symbol}</List.Item>
+                    <List.Item>{delegation.delegation.amount} {delegation.delegation.symbol}</List.Item>
+                  </List>
                 </Message.Content>
               </Message>
               <Header size="small">

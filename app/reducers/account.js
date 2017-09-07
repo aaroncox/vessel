@@ -1,5 +1,6 @@
 // @flow
 import {
+  ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION,
   ACCOUNT_DATA_UPDATE,
   ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE,
   ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE,
@@ -28,6 +29,11 @@ export default function account(state = defaultState, action: actionType) {
       return Object.assign({}, state, {
         transactions: action.payload.transactions
       });
+    case ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION: {
+      return Object.assign({}, state, {
+        minimumDelegation: action.payload
+      });
+    }
     case ACCOUNT_DATA_UPDATE: {
       const accounts = (state.accounts) ? state.accounts : {};
       const amended = Object.assign({}, accounts, action.payload);
