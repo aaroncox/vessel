@@ -209,7 +209,7 @@ export default class KeysCreate extends Component {
           content={
             <Grid>
               <Grid.Row>
-                <Grid.Column width={7}>
+                <Grid.Column width={9}>
                   <Segment basic>
                     <Header>
                       Confirm New Account Details
@@ -218,10 +218,12 @@ export default class KeysCreate extends Component {
                       Ensure that all of the data below looks correct before continuing.
                       If everything looks good, click <strong>Create Account</strong>.
                     </p>
+                  </Segment>
+                </Grid.Column>
+                <Grid.Column width={7}>
+                  <Segment basic>
                     <Table
-                      definition
                       collapsing
-                      style={{ minWidth: '300px', margin: '0 auto' }}
                     >
                       <Table.Body>
                         <Table.Row>
@@ -244,16 +246,23 @@ export default class KeysCreate extends Component {
                     </Table>
                   </Segment>
                 </Grid.Column>
-                <Grid.Column width={7}>
+              </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
                   <Segment basic>
                     <Header>
+                      <Button
+                        color="green"
+                        content="Copy to clipboard"
+                        floated="right"
+                        onClick={()=> setClipboardText(this.state.password)}
+                        disabled={!this.state.mnemonic}
+                      />
                       New Account Password
+                      <Header.Subheader>
+                        WRITE THIS DOWN (or save in a password manager). This password will allow you to log into any Steem related service with full permissions. Use the posting private key if you only wish to grant posting permissions.
+                      </Header.Subheader>
                     </Header>
-                    <p>
-                      <strong>WRITE THIS DOWN (or save in a password manager).</strong>
-                      {' '}
-                      This password will allow you to log into any Steem related service with full permissions. Use the posting private key if you only wish to grant posting permissions.
-                    </p>
                     <Segment>
                       {this.state.password}
                     </Segment>
