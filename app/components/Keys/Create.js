@@ -81,6 +81,7 @@ export default class KeysCreate extends Component {
 
   createAccount = () => {
     this.generateSeed();
+    this.props.actions.processingAccountCreateCancel();
     this.setState({modalPreview: true});
   }
 
@@ -91,27 +92,45 @@ export default class KeysCreate extends Component {
     e.preventDefault();
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.processing.account_create_resolved) {
+      const { addKeyConfirmed } = this.props.actions;
+      const { requestedName } = this.state;
+      addKeyConfirmed(requestedName, this.state.prv.active, 'active', false, '');
+      this.setState({
+        modalPreview: false
+      });
+      this.props.handleMethodReset();
+      this.props.actions.processingAccountCreateCancel();
+    }
+  }
+
   handleConfirm = (e: SyntheticEvent) => {
-    const { requestedOwner, requestedName, requestedFundingMethod, password } = this.state;
+    const { useKey } = this.props.actions;
+    const { requestedOwner, requestedName, password } = this.state;
     let creatorKey = this.props.keys.permissions[requestedOwner];
-    this.props.actions.useKey('createAccountDelegated',
-      {
-        creator: requestedOwner,
-        username: requestedName,
-        password: password
-      }, creatorKey);
-    const { addKeyConfirmed } = this.props.actions;
-    addKeyConfirmed(requestedName, this.state.prv.active, 'active', false, '');
-    this.setState({
-      modalPreview: false
-    });
-    this.props.handleMethodReset;
+    useKey('createAccountDelegated', {
+      creator: requestedOwner,
+      username: requestedName,
+      password
+    }, creatorKey);
     e.preventDefault();
   }
   render() {
     let modal = false;
     const accounts = this.props.account.accounts;
     const keys = this.props.keys;
+    let errorMessage = false;
+    if (this.props.processing && this.props.processing.account_create_error) {
+      errorMessage = (
+        <Message
+          error
+          icon="warning"
+          content={this.props.processing.account_create_error}
+        />
+      )
+    }
+
     const availableOwner = keys.names.map((name) => {
       const hasPermission = (keys.permissions[name].type === 'active' || keys.permissions[name].type === 'owner');
       return hasPermission ? {
@@ -187,7 +206,7 @@ export default class KeysCreate extends Component {
       }
       privatekeys = {
         account: this.state.requestedName,
-        keys: this.state.prv
+        keys: (({ owner, active, posting, memo }) => ({ owner, active, posting, memo }))(this.state.prv),
       }
     }
     let delegation = {};
@@ -200,91 +219,97 @@ export default class KeysCreate extends Component {
           open
           header="Please confirm the details of this transaction"
           content={
-            <Grid>
-              <Grid.Row>
-                <Grid.Column width={9}>
-                  <Segment basic>
-                    <Header>
-                      Confirm New Account Details
-                    </Header>
-                    <p>
-                      Ensure that all of the data below looks correct before continuing.
-                      If everything looks good, click <strong>Create Account</strong>.
-                    </p>
-                  </Segment>
-                </Grid.Column>
-                <Grid.Column width={7}>
-                  <Segment basic>
-                    <Table
-                      collapsing
-                    >
-                      <Table.Body>
-                        <Table.Row>
-                          <Table.Cell textAlign="right">
-                            Originating Account:
-                          </Table.Cell>
-                          <Table.Cell>
-                            {this.state.requestedOwner}
-                          </Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                          <Table.Cell textAlign="right">
-                            New Account:
-                          </Table.Cell>
-                          <Table.Cell>
-                            {this.state.requestedName}
-                          </Table.Cell>
-                        </Table.Row>
-                      </Table.Body>
-                    </Table>
-                  </Segment>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <Segment basic>
-                    <Header>
-                      <Button
-                        color="green"
-                        content="Copy to clipboard"
-                        floated="right"
-                        onClick={()=> setClipboardText(this.state.password)}
-                        disabled={!this.state.mnemonic}
-                      />
-                      New Account Password
-                      <Header.Subheader>
-                        WRITE THIS DOWN (or save in a password manager). This password will allow you to log into any Steem related service with full permissions. Use the posting private key if you only wish to grant posting permissions.
-                      </Header.Subheader>
-                    </Header>
-                    <Segment>
-                      {this.state.password}
+            <Segment
+              loading={this.props.processing.account_create_pending}
+              style={{ margin: 0 }}
+              >
+              <Grid>
+                <Grid.Row>
+                  <Grid.Column width={9}>
+                    <Segment basic>
+                      <Header>
+                        Confirm New Account Details
+                      </Header>
+                      <p>
+                        Ensure that all of the data below looks correct before continuing.
+                        If everything looks good, click <strong>Create Account</strong>.
+                      </p>
                     </Segment>
-                  </Segment>
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row>
-                <Grid.Column>
-                  <Segment basic>
-                    <Header>
-                      <Button
-                        color="green"
-                        content="Copy to clipboard"
-                        floated="right"
-                        onClick={()=> setClipboardText(JSON.stringify(privatekeys, null, 2))}
-                        disabled={!this.state.mnemonic}
-                      />
-                      Key Backup JSON
-                      <Header.Subheader>
-                        NEVER share these keys with anyone and back them up to a safe place.
-                      </Header.Subheader>
-                    </Header>
-                    <Segment>
-                      <pre>{JSON.stringify(privatekeys, null, 2)}</pre>
+                  </Grid.Column>
+                  <Grid.Column width={7}>
+                    <Segment basic>
+                      <Table
+                        collapsing
+                      >
+                        <Table.Body>
+                          <Table.Row>
+                            <Table.Cell textAlign="right">
+                              Originating Account:
+                            </Table.Cell>
+                            <Table.Cell>
+                              {this.state.requestedOwner}
+                            </Table.Cell>
+                          </Table.Row>
+                          <Table.Row>
+                            <Table.Cell textAlign="right">
+                              New Account:
+                            </Table.Cell>
+                            <Table.Cell>
+                              {this.state.requestedName}
+                            </Table.Cell>
+                          </Table.Row>
+                        </Table.Body>
+                      </Table>
                     </Segment>
-                  </Segment>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Segment basic>
+                      <Header>
+                        <Button
+                          color="green"
+                          content="Copy to clipboard"
+                          floated="right"
+                          onClick={()=> setClipboardText(this.state.password)}
+                          disabled={!this.state.mnemonic}
+                        />
+                        New Account Password
+                        <Header.Subheader>
+                          WRITE THIS DOWN (or save in a password manager). This password will allow you to log into any Steem related service with full permissions. Use the posting private key if you only wish to grant posting permissions.
+                        </Header.Subheader>
+                      </Header>
+                      <Segment>
+                        {this.state.password}
+                      </Segment>
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Segment basic>
+                      <Header>
+                        <Button
+                          color="green"
+                          content="Copy to clipboard"
+                          floated="right"
+                          onClick={()=> setClipboardText(JSON.stringify(privatekeys, null, 2))}
+                          disabled={!this.state.mnemonic}
+                        />
+                        Key Backup JSON
+                        <Header.Subheader>
+                          NEVER share these keys with anyone and back them up to a safe place.
+                        </Header.Subheader>
+                      </Header>
+                      <Segment>
+                        <pre>{JSON.stringify(privatekeys, null, 2)}</pre>
+                      </Segment>
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+              {errorMessage}
+            </Segment>
           }
           actions={[
             {
@@ -324,8 +349,8 @@ export default class KeysCreate extends Component {
                    New accounts require funding in order to be created, which is transfered from the originating account. Currently to create an account, you must fund it initially with a minimum of:
                   </p>
                   <List bulleted>
-                    <List.Item>{delegation.fee.amount} {delegation.fee.symbol}</List.Item>
-                    <List.Item>{delegation.delegation.amount} {delegation.delegation.symbol}</List.Item>
+                    <List.Item>{delegation.fee}</List.Item>
+                    <List.Item>{delegation.delegation} ({delegation.sp})</List.Item>
                   </List>
                 </Message.Content>
               </Message>

@@ -7,6 +7,7 @@ export const PROCESSING_ACCOUNT_LOADING_COMPLETE = 'PROCESSING_ACCOUNT_LOADING_C
 export const PROCESSING_REWARD_CLAIM = 'PROCESSING_REWARD_CLAIM';
 export const PROCESSING_REWARD_CLAIM_COMPLETE = 'PROCESSING_REWARD_CLAIM_COMPLETE';
 export const PROCESSING_ACCOUNT_CREATE = 'PROCESSING_ACCOUNT_CREATE';
+export const PROCESSING_ACCOUNT_CREATE_CANCEL = 'PROCESSING_ACCOUNT_CREATE_CANCEL';
 export const PROCESSING_ACCOUNT_CREATE_COMPLETE = 'PROCESSING_ACCOUNT_CREATE_COMPLETE';
 export const PROCESSING_ACCOUNT_CREATE_FAILED = 'PROCESSING_ACCOUNT_CREATE_FAILED';
 
@@ -28,14 +29,21 @@ export function processingAccountCreate() {
   };
 }
 
-export function processingAccountCreateFailed() {
+export function processingAccountCreateCancel() {
   return {
-    type: PROCESSING_ACCOUNT_CREATE_FAILED
+    type: PROCESSING_ACCOUNT_CREATE_CANCEL
   };
 }
 
 export function processingAccountCreateComplete() {
   return {
     type: PROCESSING_ACCOUNT_CREATE_COMPLETE
+  };
+}
+
+export function processingAccountCreateFailed(payload) {
+  return {
+    type: PROCESSING_ACCOUNT_CREATE_FAILED,
+    payload
   };
 }
