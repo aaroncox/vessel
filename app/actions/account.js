@@ -53,7 +53,7 @@ export function claimRewardBalance(wif: string, params: object) {
       extensions: []
     }, {
       posting: wif
-    }, (err, result) => {
+    }, () => {
       dispatch(ProcessingActions.processingRewardClaimComplete());
       dispatch(refreshAccountData([account]));
     });
@@ -79,24 +79,27 @@ export function createAccountDelegated(wif: string, params: object) {
 
 export function getMinimumAccountDelegation() {
   return async dispatch => {
-    const client = new Client('wss://steemd.steemit.com')
-    const constants = await client.database.getConfig()
-    const chainProps = await client.database.getChainProperties()
-    const dynamicProps = await client.database.getDynamicGlobalProperties()
+    const client = new Client('wss://steemd.steemit.com');
+    const constants = await client.database.getConfig();
+    const chainProps = await client.database.getChainProperties();
+    const dynamicProps = await client.database.getDynamicGlobalProperties();
 
-    const creationFee = Asset.from(chainProps.account_creation_fee)
-    const sharePrice = Price.from({base: dynamicProps.total_vesting_shares, quote: dynamicProps.total_vesting_fund_steem})
+    const creationFee = Asset.from(chainProps.account_creation_fee);
+    const sharePrice = Price.from({
+      base: dynamicProps.total_vesting_shares,
+      quote: dynamicProps.total_vesting_fund_steem
+    });
 
-    const ratio = constants['STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO']
-    const modifier = constants['STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER']
+    const ratio = constants.STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO;
+    const modifier = constants.STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER;
 
-    const fee = Asset.from('0.200 STEEM')
+    const fee = Asset.from('0.200 STEEM');
 
-    const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio))
-    const delegation = targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio)))
-    const sp = sharePrice.convert(delegation)
+    const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio));
+    const delegation = targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio)));
+    const sp = sharePrice.convert(delegation);
 
-    client.disconnect()
+    client.disconnect();
     dispatch({
       type: ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION,
       payload: { delegation, fee, sp }
