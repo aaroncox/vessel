@@ -1,6 +1,7 @@
 // @flow
 import {
   PROCESSING_ACCOUNT_CREATE,
+  PROCESSING_ACCOUNT_CREATE_CANCEL,
   PROCESSING_ACCOUNT_CREATE_COMPLETE,
   PROCESSING_ACCOUNT_CREATE_FAILED,
   PROCESSING_ACCOUNT_LOADING,
@@ -45,6 +46,30 @@ type actionType = {
 export default function processing(state: any = defaultState, action: actionType) {
   // console.log('>>> reducers/processing', state, action);
   switch (action.type) {
+    case PROCESSING_ACCOUNT_CREATE:
+      return Object.assign({}, state, {
+        account_create_error: false,
+        account_create_pending: true,
+        account_create_resolved: false,
+      });
+    case PROCESSING_ACCOUNT_CREATE_CANCEL:
+      return Object.assign({}, state, {
+        account_create_error: false,
+        account_create_pending: false,
+        account_create_resolved: false,
+      });
+    case PROCESSING_ACCOUNT_CREATE_COMPLETE:
+      return Object.assign({}, state, {
+        account_create_error: false,
+        account_create_pending: false,
+        account_create_resolved: true,
+      });
+    case PROCESSING_ACCOUNT_CREATE_FAILED:
+      return Object.assign({}, state, {
+        account_create_error: action.payload.message,
+        account_create_pending: false,
+        account_create_resolved: false,
+      });
     case ACCOUNT_TRANSFER_STARTED:
       return Object.assign({}, state, {
         account_transfer_error: false,

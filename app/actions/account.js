@@ -69,11 +69,15 @@ export function createAccountDelegated(wif: string, params: object) {
     const dsteem = require('dsteem');
     const client = new dsteem.Client('wss://steemd.steemit.com');
     const creatorKey = dsteem.PrivateKey.fromString(wif);
+    dispatch(ProcessingActions.processingAccountCreate());
     client.broadcast.createAccount({
       creator, username, password
-    }, creatorKey);
-    dispatch(ProcessingActions.processingAccountCreate());
-    client.disconnect()
+    }, creatorKey).then(function(result) {
+      dispatch(ProcessingActions.processingAccountCreateComplete());
+      client.disconnect()
+    }, function(error) {
+      dispatch(ProcessingActions.processingAccountCreateFailed(error));
+    });
   };
 }
 
