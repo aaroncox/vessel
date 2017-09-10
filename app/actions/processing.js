@@ -8,6 +8,7 @@ export const PROCESSING_REWARD_CLAIM = 'PROCESSING_REWARD_CLAIM';
 export const PROCESSING_REWARD_CLAIM_COMPLETE = 'PROCESSING_REWARD_CLAIM_COMPLETE';
 export const PROCESSING_ACCOUNT_CREATE = 'PROCESSING_ACCOUNT_CREATE';
 export const PROCESSING_ACCOUNT_CREATE_COMPLETE = 'PROCESSING_ACCOUNT_CREATE_COMPLETE';
+export const PROCESSING_ACCOUNT_CREATE_FAILED = 'PROCESSING_ACCOUNT_CREATE_FAILED';
 
 export function processingRewardClaim() {
   return {
@@ -24,6 +25,12 @@ export function processingRewardClaimComplete() {
 export function processingAccountCreate() {
   return {
     type: PROCESSING_ACCOUNT_CREATE
+  };
+}
+
+export function processingAccountCreateFailed() {
+  return {
+    type: PROCESSING_ACCOUNT_CREATE_FAILED
   };
 }
 
