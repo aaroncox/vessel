@@ -70,8 +70,10 @@ export default class Settings extends Component {
           <Header>
             Exchange Configuration
             <Header.Subheader>
-              Configure the required <strong>memo</strong> for each
-              individual currency and exchange.
+              Configure the required <strong>unencrypted memo</strong> for each
+              individual currency and exchange. Do <strong>NOT</strong> add the
+              <strong>#</strong> prefix for encryption, only the memo that the exchange
+              specifies.
             </Header.Subheader>
           </Header>
 
@@ -81,18 +83,18 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="SBD Memo"
+                label="SBD Memo (Unencrypted)"
                 name="bittrex_sbd"
                 value={this.props.preferences.bittrex_sbd}
                 onChange={this.handleChange}
-                placeholder="Enter your SBD Memo key for Bittrex"
+                placeholder="Enter your SBD Unencrypted Memo key for Bittrex"
               />
               <Form.Input
-                label="STEEM Memo"
+                label="STEEM Memo (Unencrypted)"
                 name="bittrex_steem"
                 value={this.props.preferences.bittrex_steem}
                 onChange={this.handleChange}
-                placeholder="Enter your STEEM Memo key for Bittrex"
+                placeholder="Enter your STEEM Unencrypted Memo key for Bittrex"
               />
             </Form.Group>
           </Segment>
@@ -102,18 +104,18 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="SBD Memo"
+                label="SBD Memo (Unencrypted)"
                 name="openledger_sbd"
                 value={this.props.preferences.openledger_sbd}
                 onChange={this.handleChange}
-                placeholder="Enter your SBD Memo key for OpenLedger"
+                placeholder="Enter your SBD Unencrypted Memo key for OpenLedger"
               />
               <Form.Input
-                label="STEEM Memo"
+                label="STEEM Memo (Unencrypted)"
                 name="openledger_steem"
                 value={this.props.preferences.openledger_steem}
                 onChange={this.handleChange}
-                placeholder="Enter your STEEM Memo key for OpenLedger"
+                placeholder="Enter your STEEM Unencrypted Memo key for OpenLedger"
               />
             </Form.Group>
           </Segment>
@@ -123,18 +125,18 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="SBD Memo"
+                label="SBD Memo (Unencrypted)"
                 name="poloniex_sbd"
                 value={this.props.preferences.poloniex_sbd}
                 onChange={this.handleChange}
-                placeholder="Enter your SBD Memo key for Poloniex"
+                placeholder="Enter your SBD Unencrypted Memo key for Poloniex"
               />
               <Form.Input
-                label="STEEM Memo"
+                label="STEEM Memo (Unencrypted)"
                 name="poloniex_steem"
                 value={this.props.preferences.poloniex_steem}
                 onChange={this.handleChange}
-                placeholder="Enter your STEEM Memo key for Poloniex"
+                placeholder="Enter your STEEM Unencrypted Memo key for Poloniex"
               />
             </Form.Group>
           </Segment>

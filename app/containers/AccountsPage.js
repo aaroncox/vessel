@@ -3,17 +3,19 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
-import { Button, Header, Icon, Menu, Modal, Segment } from 'semantic-ui-react';
+import { Button, Header, Icon, Menu, Modal, Segment, Table } from 'semantic-ui-react';
 
 import Accounts from '../components/Accounts';
 import AccountsDelegation from '../components/Accounts/Delegation';
 import AccountsProxy from '../components/Accounts/Proxy';
 import * as AccountActions from '../actions/account';
 import * as KeyActions from '../actions/keys';
+import * as ProcessingActions from '../actions/processing';
 import MenuBar from './MenuBar';
 import ContentBar from '../components/ContentBar';
 import KeysAdd from '../components/Keys/Add';
 import KeysCreate from '../components/Keys/Create';
+import KeysMemo from '../components/Keys/Memo';
 
 class AccountsPage extends Component {
 
@@ -30,6 +32,14 @@ class AccountsPage extends Component {
 
   handleAddAccountCancel = () => {
     this.props.actions.addKeyCancel();
+  }
+
+  handleAddMemoKeyCancel = () => {
+    this.props.actions.addMemoKeyCancel();
+  }
+
+  handleAddMemoKeyConfirmed = () => {
+    this.props.actions.addMemoKeyConfirmed();
   }
 
   handleCreateAccount = () => {
@@ -59,7 +69,7 @@ class AccountsPage extends Component {
         <Modal
           open
           closeIcon="close"
-          style="large"
+          className="large"
           content={
             <Segment basic>
               <KeysAdd {...this.props} />
@@ -74,10 +84,13 @@ class AccountsPage extends Component {
         <Modal
           open
           closeIcon="close"
-          style="large"
+          className="large"
           content={
             <Segment basic>
-              <KeysCreate handleMethodReset={this.handleCreateAccountCancel} {...this.props} />
+              <KeysCreate
+                handleMethodReset={this.handleCreateAccountCancel}
+                {...this.props}
+              />
             </Segment>
           }
           onClose={this.handleCreateAccountCancel}
@@ -137,6 +150,28 @@ class AccountsPage extends Component {
         />
       );
     }
+    if (this.props.keys.addMemoPrompt) {
+      modal = (
+        <Modal
+          open
+          header="Add a Memo Key"
+          content={
+            <KeysMemo
+              actions={this.props.actions}
+              keys={this.props.keys}
+            />
+          }
+          actions={[
+            {
+              key: 'no',
+              content: 'Cancel',
+              color: 'red',
+              onClick: this.handleAddMemoKeyCancel
+            }
+          ]}
+        />
+      );
+    }
     return (
       <ContentBar>
         {modal}
@@ -150,7 +185,7 @@ class AccountsPage extends Component {
               content="Add account"
             />
             <Button
-              color="primary"
+              color="blue"
               onClick={this.handleCreateAccount}
               icon="plus"
               floated="right"
@@ -209,6 +244,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       ...AccountActions,
       ...KeyActions,
+      ...ProcessingActions,
     }, dispatch)
   };
 }
