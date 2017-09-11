@@ -7,6 +7,9 @@ export default class Accounts extends Component {
   handleRemoveKey = (e, data) => {
     this.props.actions.removeKey(data.value);
   }
+  handleAddMemoKey = (e, data) => {
+    this.props.actions.addMemoKeyPrompt(data.value);
+  }
   render() {
     const t = this;
     const names = this.props.keys.names;
@@ -34,6 +37,23 @@ export default class Accounts extends Component {
             </Header>
           </Table.Cell>
           {permissions}
+          <Table.Cell textAlign="center">
+            <span>
+              {
+                (this.props.keys.permissions[name].memo)
+                ? <Icon size="large" color="green" name="checkmark" />
+                : (
+                  <Button
+                    basic
+                    icon="circle plus"
+                    color="blue"
+                    onClick={t.handleAddMemoKey}
+                    value={name}
+                  />
+                )
+              }
+            </span>
+          </Table.Cell>
           <Table.Cell>
             <Button
               icon="trash"
@@ -62,7 +82,7 @@ export default class Accounts extends Component {
               <Table.HeaderCell colSpan={1} textAlign="center">
                 Wallet
               </Table.HeaderCell>
-              <Table.HeaderCell colSpan={3} textAlign="center">
+              <Table.HeaderCell colSpan={4} textAlign="center">
                 Key Types
               </Table.HeaderCell>
               <Table.HeaderCell colSpan={1} />
@@ -82,6 +102,9 @@ export default class Accounts extends Component {
               </Table.HeaderCell>
               <Table.HeaderCell textAlign="center">
                 Owner
+              </Table.HeaderCell>
+              <Table.HeaderCell textAlign="center">
+                Memo
               </Table.HeaderCell>
               <Table.HeaderCell>
                 Controls

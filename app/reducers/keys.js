@@ -12,6 +12,10 @@ import {
   KEY_ADD_FAILED_ACCOUNT_404,
   KEY_ADD_FAILED_WIF_INCORRECT,
   KEY_ADD_FAILED_WIF_INVALID,
+  KEY_ADD_MEMO_PROMPT,
+  KEY_ADD_MEMO_CANCEL,
+  KEY_ADD_MEMO_CONFIRM,
+  KEY_ADD_MEMO_CONFIRMED,
   KEY_ADD_PROMPT,
   KEY_CREATE_CANCEL,
   KEY_CREATE_PROMPT
@@ -47,16 +51,6 @@ export default function keys(state: any = defaultState, action: actionType) {
         confirm: action.payload
       });
     }
-    case KEY_CREATE_PROMPT: {
-      return Object.assign({}, state, {
-        createPrompt: true
-      });
-    }
-    case KEY_CREATE_CANCEL: {
-      return Object.assign({}, state, {
-        createPrompt: false
-      });
-    }
     case KEY_ADD_CONFIRMED: {
       const newPermissions = {
         ...state.permissions,
@@ -82,14 +76,44 @@ export default function keys(state: any = defaultState, action: actionType) {
       return Object.assign({}, state, {
         lastError: 'Invalid WIF Key for Account!'
       });
+    case KEY_ADD_MEMO_CANCEL: {
+      return Object.assign({}, state, {
+        addMemoPrompt: false,
+        confirmMemo: false
+      });
+    }
+    case KEY_ADD_MEMO_PROMPT: {
+      return Object.assign({}, state, {
+        addMemoPrompt: true,
+        confirmMemo: action.payload
+      });
+    }
+    case KEY_ADD_MEMO_CONFIRMED: {
+      const newPermissions = state.permissions
+      const { account, wif } = action.payload
+      if(newPermissions[account]) {
+        newPermissions[account].memo = wif;
+      }
+      return Object.assign({}, state, {
+        addMemoPrompt: false,
+        confirmMemo: false,
+        permissions: newPermissions
+      });
+    }
+    case KEY_CREATE_PROMPT: {
+      return Object.assign({}, state, {
+        createPrompt: true
+      });
+    }
+    case KEY_CREATE_CANCEL: {
+      return Object.assign({}, state, {
+        createPrompt: false
+      });
+    }
     case KEY_USE: {
       const { account } = action.payload;
       const { encrypted, key } = state.permissions[account];
-      // console.log(state);
       return state;
-      // return Object.assign({}, state, {
-      //   requested:
-      // });
     }
     case KEY_USE_DECRYPT_PROMPT: {
       const { operation, params, auth } = action.payload;
