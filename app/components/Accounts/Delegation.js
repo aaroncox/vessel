@@ -240,7 +240,7 @@ export default class AccountsProxy extends Component {
                         Amount
                       </Table.HeaderCell>
                       <Table.HeaderCell>
-                        Date Revokable
+                        Date
                       </Table.HeaderCell>
                       <Table.HeaderCell collapsing>
 
