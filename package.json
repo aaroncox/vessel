@@ -68,6 +68,7 @@
       ]
     },
     "linux": {
+      "category": "Network",
       "icon": "assets/icons/png",
       "target": [
         "deb",
