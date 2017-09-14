@@ -29,7 +29,7 @@ const exchangeOptions = [
   },
   {
     key: 'poloniex',
-    text: 'Poloniex (@poloniex)',
+    text: '(!) Poloniex (@poloniex)',
     value: 'poloniex'
   },
   {
@@ -47,6 +47,15 @@ const exchangeLinks = {
   poloniex: 'https://poloniex.com',
   shapeshiftio: 'https://shapeshift.io'
 };
+
+const exchangeNotes = {
+  poloniex: (
+    <Message>
+      <strong>Warning</strong>:
+      Poloniex deposits have not been working for months, it's recommended to avoid this exchange. Please ensure verify whether or not their Steem wallet is active on their website.
+    </Message>
+  )
+}
 
 const exchangeSupportingEncryption = ['bittrex'];
 
@@ -289,6 +298,7 @@ export default class Send extends Component {
       if (this.state.to) {
         externalLink = (
           <p style={{ marginLeft: '1em' }}>
+            {exchangeNotes[this.state.to]}
             <a
               onClick={this.handleExternalLink}
               value={this.state.to}
