@@ -112,6 +112,8 @@ export default class AccountsProxy extends Component {
       const delegated = parseFloat(account.delegated_vesting_shares.split(" ")[0]);
       const vests = parseFloat(account.vesting_shares.split(" ")[0]);
       const available = vests - delegated;
+      const target = parseFloat(this.state.vests)
+      const delegateWarning = (target > available - 100)
       addVesting = (
         <Modal
           size="small"
@@ -119,7 +121,7 @@ export default class AccountsProxy extends Component {
           header="Delegate Vests to another Account"
           content={
             <Form
-              error={account_delegate_vesting_shares_error}
+              error={account_delegate_vesting_shares_error || delegateWarning}
               loading={account_delegate_vesting_shares_pending}
             >
               <Segment
@@ -167,6 +169,11 @@ export default class AccountsProxy extends Component {
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
+                <Message
+                  error
+                  header="Warning! Delegating too much SP."
+                  content="Leaving so little SP in this account may cause it to stop functioning, meaning you may have to power up more Steem or Delegate to this account from another in order to even undo what you are about to do."
+                />
                 <Message
                   header="Caution! Delegation takes 7 days to revoke."
                   content="If you confirm this delegation, it will take effect immediately. When you are ready to revoke the delegation, it will take 7 days for that delegated balance to return to your account."
