@@ -122,7 +122,6 @@ export default class AccountsProxy extends Component {
           header="Delegate Vests to another Account"
           content={
             <Form
-              error={account_delegate_vesting_shares_error || delegateWarning}
               loading={account_delegate_vesting_shares_pending}
             >
               <Segment
@@ -172,6 +171,7 @@ export default class AccountsProxy extends Component {
                 </Grid>
                 <Message
                   error
+                  visible={delegateWarning}
                   header="Warning! Delegating too much SP."
                   content="Leaving so little SP in this account may cause it to stop functioning, meaning you may have to power up more Steem or Delegate to this account from another in order to even undo what you are about to do."
                 />
@@ -181,6 +181,7 @@ export default class AccountsProxy extends Component {
                 />
                 <Message
                   error
+                  visible={(typeof account_delegate_vesting_shares_error === 'undefined') ? false : true}
                   header='Operation Error'
                   content={account_delegate_vesting_shares_error}
                 />
