@@ -22,6 +22,12 @@ export default class AccountsProxy extends Component {
     editDelegationFor: false
   }
   componentWillReceiveProps = (nextProps) => {
+    if (nextProps.processing.account_delegate_vesting_shares_error) {
+      this.setState({
+        undelegateError: nextProps.processing.account_delegate_vesting_shares_error
+      })
+      nextProps.actions.setDelegateVestingSharesCompleted();
+    }
     if (nextProps.processing.account_delegate_vesting_shares_resolved) {
       nextProps.actions.setDelegateVestingSharesCompleted();
       this.resetState();
@@ -29,7 +35,8 @@ export default class AccountsProxy extends Component {
   }
   resetState() {
     this.setState({
-      editDelegationFor: false
+      editDelegationFor: false,
+      undelegateError: false,
     });
   }
   handleCancel = () => {
@@ -55,6 +62,7 @@ export default class AccountsProxy extends Component {
   handleVestingSharesRemove = (e, props) => {
     const { delegator, delegatee, id } = props.value.delegatee;
     const permissions = this.props.keys.permissions;
+    this.setState({undelegateError: false})
     this.props.actions.useKey('setDelegateVestingShares', { delegator, delegatee, vestingShares: 0.000000 }, permissions[delegator])
   }
   handleSetDelegateVesting = (e, props) => {
@@ -79,6 +87,16 @@ export default class AccountsProxy extends Component {
   render() {
     const t = this;
     let addVesting = false;
+    let undelegateError = false;
+    if (this.state.undelegateError) {
+      undelegateError = (
+        <Message
+          error
+          header='Operation Error'
+          content={this.state.undelegateError}
+        />
+      )
+    }
     const numberFormat = {
       shortFormat: true,
       shortFormatMinValue: 1000
@@ -298,6 +316,7 @@ export default class AccountsProxy extends Component {
             exactly 7 days before returning to the original account.
           </Header.Subheader>
         </Header>
+        {undelegateError}
         <Table celled>
           <Table.Header>
             <Table.Row>
