@@ -48,7 +48,7 @@ const exchangeLinks = {
   shapeshiftio: 'https://shapeshift.io'
 };
 
-const exchangeSupportingEncryption = ['bittrex', 'poloniex'];
+const exchangeSupportingEncryption = ['bittrex'];
 
 const defaultState = {
   from: '',
