@@ -60,7 +60,8 @@ export default class AccountsProxy extends Component {
     this.setState({ vests, sp });
   }
   handleVestingSharesRemove = (e, props) => {
-    const { delegator, delegatee, id } = props.value.delegatee;
+    let { delegator, delegatee, id } = props.value.delegatee;
+    delegatee = delegatee.toLowerCase().replace('@', '');
     const permissions = this.props.keys.permissions;
     this.setState({undelegateError: false})
     this.props.actions.useKey('setDelegateVestingShares', { delegator, delegatee, vestingShares: 0.000000 }, permissions[delegator])
