@@ -192,6 +192,7 @@
     "bip39": "^2.3.0",
     "bufferutil": "^3.0.0",
     "crypto-js": "^3.1.9-1",
+    "dsteem": "^0.6.0",
     "electron-config": "^1.0.0",
     "electron-debug": "^1.1.0",
     "electron-json-storage": "^3.0.5",
@@ -216,8 +217,7 @@
     "semantic-ui-react": "^0.68.3",
     "source-map-support": "^0.4.15",
     "steem": "^0.5.8",
-    "utf-8-validate": "^3.0.1",
-    "dsteem": "0.6.0"
+    "utf-8-validate": "^3.0.1"
   },
   "devEngines": {
     "node": ">=6.x",
