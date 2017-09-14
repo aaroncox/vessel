@@ -91,6 +91,11 @@ export default class KeysMemo extends Component {
     }
     let display = (
       <Segment padded>
+        <Message
+          error
+          icon="warning"
+          content="This feature is intended for advanced users only, please make sure you know what you're doing while encrypting memos. Using this feature incorrectly may cause the loss of funds deposited to an exchange."
+        />
         <Header>
           <Header.Subheader>
             If you'd like to encrypt transaction memos from this account, please add the memo private key associated to the specified account:
