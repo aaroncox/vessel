@@ -8,9 +8,6 @@ import KeysConfirm from './Confirm';
 var bip39 = require('bip39');
 
 export default class KeysCreate extends Component {
-  constructor(props) {
-    super(props);
-  }
   state = {
     requestedName: false,
     requestedOwner: false,
@@ -349,8 +346,8 @@ export default class KeysCreate extends Component {
                    New accounts require funding in order to be created, which is transfered from the originating account. Currently to create an account, you must fund it initially with a minimum of:
                   </p>
                   <List bulleted>
-                    <List.Item>{delegation.fee}</List.Item>
-                    <List.Item>{delegation.delegation} ({delegation.sp})</List.Item>
+                    <List.Item>STEEM: {delegation.fee.amount}</List.Item>
+                    <List.Item>VESTS: {delegation.delegation.amount}<br/>(~{delegation.sp.amount} SP)</List.Item>
                   </List>
                 </Message.Content>
               </Message>

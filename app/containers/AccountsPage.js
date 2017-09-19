@@ -24,6 +24,11 @@ class AccountsPage extends Component {
     addAccount: false
   };
 
+  constructor(props) {
+    super(props);
+    props.actions.getMinimumAccountDelegation();
+  }
+
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   handleAddAccount = () => {
