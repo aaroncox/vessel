@@ -1,52 +1,32 @@
 // @flow
 import React, { Component } from 'react';
-import { Form, Header, Segment } from 'semantic-ui-react';
 
-const defaultNodeOptions = [
-  {
-    key: 'wss://steemd.steemit.com',
-    text: 'wss://steemd.steemit.com',
-    value: 'wss://steemd.steemit.com',
-  },
-];
+import { Form, Input } from 'formsy-semantic-ui-react'
+import { Divider, Grid, Header, Label, Segment, Select } from 'semantic-ui-react';
 
 export default class Settings extends Component {
 
-  constructor(props) {
-    super(props);
-    const nodeOptions = defaultNodeOptions;
-    if (props.preferences && props.preferences.steemd_node) {
-      nodeOptions.push({
-        key: props.preferences.steemd_node,
-        text: props.preferences.steemd_node,
-        value: props.preferences.steemd_node
-      });
-    }
-    this.state = {
-      nodeOptions: nodeOptions
-    };
-  }
-
-  handleChange = (
+   handleChange = (
     e: SyntheticEvent, { name, value }: { name: string, value: string }
   ) => {
-    const { setPreference } = this.props.actions;
-    setPreference(name, value);
+     const { setPreference } = this.props.actions;
+     setPreference(name, value);
   }
 
-  handleNodeChange = (
-    e: SyntheticEvent, { name, value }: { name: string, value: string }
-  ) => {
+  onValidSubmit = (
+   e: SyntheticEvent
+ ) => {
+   console.log(e)
     const { setPreference } = this.props.actions;
-    setPreference(name, value);
-  }
+    setPreference('steemd_node', e.steemd_node);
+ }
 
   render() {
     return (
       <Segment basic padded>
-        <Form>
+        <Form onValidSubmit={this.onValidSubmit}>
 
-          {/*<Header>
+          <Header>
             Preferred Steem Node
             <Header.Subheader>
               Configure which Steem node your wallet connects to in order to broadcast transactions.
@@ -54,18 +34,31 @@ export default class Settings extends Component {
           </Header>
 
           <Segment attached>
-            <Form.Field
-              control={Select}
-              search
-              allowAdditions
-              name="steemd_node"
-              value={this.props.preferences.steemd_node}
-              label="Select a default node..."
-              options={this.state.nodeOptions}
-              onChange={this.handleNodeChange}
-              placeholder="Select a default node..."
-            />
-          </Segment>*/}
+            <Grid>
+              <Grid.Column width={9}>
+                <Form.Input
+                  label="Steem RPC Node"
+                  name="steemd_node"
+                  instantValidation
+                  validations="isUrl"
+                  validationErrors={{
+                    isUrl: 'Requires a valid URL starting with http:// or https://'
+                  }}
+                  errorLabel={ <Label color="red" pointing /> }
+                  value={this.props.preferences.steemd_node}
+                />
+              </Grid.Column>
+              <Grid.Column width={7}>
+                <Form.Button color='blue' content='Update' label={`Currently: ${this.props.preferences.steemd_node}`}/>
+              </Grid.Column>
+            </Grid>
+          </Segment>
+
+        </Form>
+
+        <Divider />
+
+        <Form>
 
           <Header>
             Exchange Configuration
