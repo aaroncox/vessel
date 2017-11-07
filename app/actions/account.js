@@ -28,6 +28,10 @@ export const ACCOUNT_SET_VOTING_PROXY_STARTED = 'ACCOUNT_SET_VOTING_PROXY_STARTE
 export const ACCOUNT_SET_VOTING_PROXY_FAILED = 'ACCOUNT_SET_VOTING_PROXY_FAILED';
 export const ACCOUNT_SET_VOTING_PROXY_RESOLVED = 'ACCOUNT_SET_VOTING_PROXY_RESOLVED';
 export const ACCOUNT_SET_VOTING_PROXY_COMPLETED = 'ACCOUNT_SET_VOTING_PROXY_COMPLETED';
+export const ACCOUNT_VOTE_WITNESS_STARTED = 'ACCOUNT_VOTE_WITNESS_STARTED';
+export const ACCOUNT_VOTE_WITNESS_FAILED = 'ACCOUNT_VOTE_WITNESS_FAILED';
+export const ACCOUNT_VOTE_WITNESS_RESOLVED = 'ACCOUNT_VOTE_WITNESS_RESOLVED';
+export const ACCOUNT_VOTE_WITNESS_COMPLETED = 'ACCOUNT_VOTE_WITNESS_COMPLETED';
 export const ACCOUNT_VESTING_WITHDRAW_COMPLETED = 'ACCOUNT_VESTING_WITHDRAW_COMPLETED';
 export const ACCOUNT_VESTING_WITHDRAW_STARTED = 'ACCOUNT_VESTING_WITHDRAW_STARTED';
 export const ACCOUNT_VESTING_WITHDRAW_FAILED = 'ACCOUNT_VESTING_WITHDRAW_FAILED';
@@ -112,6 +116,29 @@ export function getMinimumAccountDelegation() {
 }
 
 export function getVestingDelegations(account: string) {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_PENDING
+    });
+    steem.api.getVestingDelegations(account, -1, 100, (err, results) => {
+      if (err) {
+        dispatch({
+          type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_FAILED,
+          payload: err
+        });
+      } else {
+        const payload = {};
+        payload[account] = results;
+        dispatch({
+          type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE,
+          payload
+        });
+      }
+    });
+  };
+}
+
+export function getWitnessVotes(account: string) {
   return (dispatch: () => void) => {
     dispatch({
       type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_PENDING
@@ -338,6 +365,34 @@ export function setVotingProxy(wif, params) {
 export function setVotingProxyCompleted() {
   return {
     type: ACCOUNT_SET_VOTING_PROXY_COMPLETED,
+  }
+}
+
+export function voteWitness(wif, params) {
+  return (dispatch: () => void) => {
+    const { account, witness, approve } = params;
+    dispatch({
+      type: ACCOUNT_VOTE_WITNESS_STARTED
+    });
+    steem.broadcast.accountWitnessVote(wif, account, witness, approve, (err, result) => {
+      if (err) {
+        dispatch({
+          type: ACCOUNT_VOTE_WITNESS_FAILED,
+          payload: err
+        });
+      } else {
+        dispatch(refreshAccountData([account]));
+        dispatch({
+          type: ACCOUNT_VOTE_WITNESS_RESOLVED
+        });
+      }
+    });
+  }
+}
+
+export function voteWitnessCompleted() {
+  return {
+    type: ACCOUNT_VOTE_WITNESS_COMPLETED,
   }
 }
 
