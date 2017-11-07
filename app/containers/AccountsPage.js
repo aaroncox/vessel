@@ -8,6 +8,7 @@ import { Button, Header, Icon, Menu, Modal, Segment, Table } from 'semantic-ui-r
 import Accounts from '../components/Accounts';
 import AccountsDelegation from '../components/Accounts/Delegation';
 import AccountsProxy from '../components/Accounts/Proxy';
+import AccountsVoting from '../components/Accounts/Voting';
 import * as AccountActions from '../actions/account';
 import * as KeyActions from '../actions/keys';
 import * as ProcessingActions from '../actions/processing';
@@ -111,6 +112,10 @@ class AccountsPage extends Component {
       }
       case 'proxy': {
         activeTab = <AccountsProxy {...this.props} />;
+        break;
+      }
+      case 'voting': {
+        activeTab = <AccountsVoting {...this.props} />;
         break;
       }
       default: {
@@ -218,6 +223,13 @@ class AccountsPage extends Component {
             icon="sitemap"
             content="Witness Proxy"
             active={activeItem === 'proxy'}
+            onClick={this.handleItemClick}
+          />
+          <Menu.Item
+            name="voting"
+            icon="check"
+            content="Witness Voting"
+            active={activeItem === 'voting'}
             onClick={this.handleItemClick}
           />
           <Menu.Item

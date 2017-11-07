@@ -27,6 +27,10 @@ import {
   ACCOUNT_SET_VOTING_PROXY_FAILED,
   ACCOUNT_SET_VOTING_PROXY_STARTED,
   ACCOUNT_SET_VOTING_PROXY_RESOLVED,
+  ACCOUNT_VOTE_WITNESS_COMPLETED,
+  ACCOUNT_VOTE_WITNESS_FAILED,
+  ACCOUNT_VOTE_WITNESS_STARTED,
+  ACCOUNT_VOTE_WITNESS_RESOLVED,
   ACCOUNT_VESTING_WITHDRAW_COMPLETED,
   ACCOUNT_VESTING_WITHDRAW_FAILED,
   ACCOUNT_VESTING_WITHDRAW_STARTED,
@@ -165,6 +169,30 @@ export default function processing(state: any = defaultState, action: actionType
         account_set_voting_proxy_resolved: false,
         account_set_voting_proxy_error: false,
         account_set_voting_proxy_pending: false,
+      });
+    case ACCOUNT_VOTE_WITNESS_STARTED:
+      return Object.assign({}, state, {
+        account_vote_witness_resolved: false,
+        account_vote_witness_error: false,
+        account_vote_witness_pending: true,
+      });
+    case ACCOUNT_VOTE_WITNESS_FAILED:
+      return Object.assign({}, state, {
+        account_vote_witness_resolved: false,
+        account_vote_witness_error: setError(action.payload),
+        account_vote_witness_pending: false,
+      });
+    case ACCOUNT_VOTE_WITNESS_RESOLVED:
+      return Object.assign({}, state, {
+        account_vote_witness_resolved: true,
+        account_vote_witness_error: false,
+        account_vote_witness_pending: false,
+      });
+    case ACCOUNT_VOTE_WITNESS_COMPLETED:
+      return Object.assign({}, state, {
+        account_vote_witness_resolved: false,
+        account_vote_witness_error: false,
+        account_vote_witness_pending: false,
       });
     case ACCOUNT_VESTING_WITHDRAW_STARTED:
       return Object.assign({}, state, {
