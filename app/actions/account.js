@@ -295,7 +295,6 @@ export function setWithdrawVestingRoute(wif, params) {
       type: ACCOUNT_SET_WITHDRAW_VESTING_ROUTE_STARTED
     });
     steem.broadcast.setWithdrawVestingRoute(wif, account, target, percent * 100, autoVest, (err, result) => {
-      console.log(err, result);
       if (err) {
         dispatch({
           type: ACCOUNT_SET_WITHDRAW_VESTING_ROUTE_FAILED,
