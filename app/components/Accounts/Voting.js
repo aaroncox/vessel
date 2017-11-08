@@ -4,6 +4,7 @@ import steem from 'steem';
 import React, { Component } from 'react';
 import { Button, Divider, Form, Grid, Header, Input, Message, Modal, Segment, Table } from 'semantic-ui-react';
 import InputRange from 'react-input-range';
+import Collapsible from 'react-collapsible';
 
 import NumericLabel from '../../utils/NumericLabel';
 import AccountName from '../global/AccountName';
@@ -69,7 +70,6 @@ export default class AccountsVoting extends Component {
   }
   getWitnessesByVote = (e, props) => {
     let witnesses = [];
-    steem.api.setOptions({url:'https://api.steemit.com'});
     steem.api.getWitnessesByVote("", 100, function(err,response){
       for (var i=0;i<response.length;i++) {
         witnesses.push({id: response[i]['owner'], label: response[i]['owner']});
@@ -185,7 +185,7 @@ export default class AccountsVoting extends Component {
                 basic
               >
                 <p>
-                  Please enter the name of the Witness you wish to unvote.
+                  Are you sure you wish to unvote <strong>{name['witness']}</strong>?
                 </p>
               </Segment>
             </Form>
@@ -233,37 +233,40 @@ export default class AccountsVoting extends Component {
           <Table.Cell>
             {(hasActiveVotes)
               ? (
-                <Table size="small">
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell>
-                        Witness
-                      </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        Witness
-                      </Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                  {witnesses.map((witness) => {
-                    return (
-                      <Table.Row key={witness}>
-                        <Table.Cell>
-                          <AccountName name={witness} />
-                        </Table.Cell>
-                        <Table.Cell textAlign="center" style={{ width: 75 }}>
-                          <Button
-                            icon="trash"
-                            color="orange"
-                            onClick={this.handleVoteWitnessRemove}
-                            value={{account: name, witness: witness}}
-                          />
-                        </Table.Cell>
+                <Collapsible trigger="Votes Table ">
+                <Divider/>
+                  <Table size="small">
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.HeaderCell>
+                            Witness
+                        </Table.HeaderCell>
+                        <Table.HeaderCell>
+                          Remove
+                        </Table.HeaderCell>
                       </Table.Row>
-                    )
-                  })}
-                  </Table.Body>
-                </Table>
+                    </Table.Header>
+                    <Table.Body>
+                      {witnesses.map((witness) => {
+                        return (
+                          <Table.Row key={witness}>
+                            <Table.Cell>
+                                <AccountName name={witness} />
+                            </Table.Cell>
+                            <Table.Cell textAlign="center" style={{ width: 75 }}>
+                              <Button
+                                icon="trash"
+                                color="orange"
+                                onClick={this.handleVoteWitnessRemove}
+                                value={{account: name, witness: witness}}
+                              />
+                            </Table.Cell>
+                          </Table.Row>
+                        )
+                      })}
+                    </Table.Body>
+                  </Table>
+                </Collapsible>
               )
               : 'No active witness votes'
             }

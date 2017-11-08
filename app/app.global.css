@@ -106,3 +106,21 @@ pre code {
   height: 1rem;
   position: relative;
   width: 100%; }
+
+.Collapsible {
+  font-weight: 700;
+  color: #4183C4;
+  cursor: pointer;
+}
+
+.is-closed:after {
+  content: "\2b07";
+}
+
+.is-open:after {
+  content: "\2b06";
+}
+
+a {
+  cursor: pointer;
+}
