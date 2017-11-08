@@ -12,21 +12,19 @@ export default class AccountsVoting extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      vests: 0,
-      sp: 0,
-      editVoteFor: false
+      addVoteFor: false,
+      removeVoteFor: false
     };
     this.props.actions.resetState = this.resetState.bind(this);
   }
   state = {
-    vests: 0,
-    sp: 0,
-    editVoteFor: false
+    addVoteFor: false,
+    removeVoteFor: false
   }
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.processing.account_vote_witness_error) {
       this.setState({
-        removeVoteError: nextProps.processing.account_vote_witness_error
+        addVoteError: nextProps.processing.account_vote_witness_error
       })
       nextProps.actions.voteWitnessCompleted();
     }
@@ -37,34 +35,50 @@ export default class AccountsVoting extends Component {
   }
   resetState() {
     this.setState({
-      editVoteFor: false,
+      addVoteFor: false,
+      addVoteError: false,
+      removeVoteFor: false,
       removeVoteError: false,
     });
   }
   handleCancel = () => {
     this.resetState();
   }
-  handleVoteWitnessRemove = (e, props) => {
-    let { account, witness } = props.value.witness;
-    witness = witness.toLowerCase().replace('@', '');
-    const permissions = this.props.keys.permissions;
-    this.setState({removeVoteError: false})
-    this.props.actions.useKey('voteWitness', { account, witness, approve: false }, permissions[account])
-  }
   handleVoteWitness = (e, props) => {
     this.setState({
-      editVoteFor: props.value
+      addVoteFor: props.value
     })
   }
   handleVoteWitnessConfirm = (e, props) => {
     const { permissions } = this.props.keys;
-    const account = this.state.editVoteFor;
+    const account = this.state.addVoteFor;
     const witness = this.state[account];
     this.props.actions.useKey('voteWitness', { account, witness, approve: true }, permissions[account])
     e.preventDefault();
   }
-  handleChangeVestingShares = (e, props) => {
-    const editing = this.state.editVoteFor;
+  handleVoteWitnessRemove = (e, props) => {
+    this.setState({
+      removeVoteFor: props.value
+    })
+  }
+  handleVoteWitnessRemoveConfirm = (e, props) => {
+    const { permissions } = this.props.keys;
+    const { account, witness } = props.value;
+    this.props.actions.useKey('voteWitness', { account, witness, approve: false }, permissions[account])
+    e.preventDefault();
+  }
+  getWitnessesByVote = (e, props) => {
+    let witnesses = [];
+    steem.api.setOptions({url:'https://api.steemit.com'});
+    steem.api.getWitnessesByVote("", 100, function(err,response){
+      for (var i=0;i<response.length;i++) {
+        witnesses.push({id: response[i]['owner'], label: response[i]['owner']});
+      }
+    });
+    return witnesses;
+  }
+  handleSetWitness = (e, props) => {
+    const editing = this.state.addVoteFor;
     const newState = {};
     newState[editing] = props.value.trim();
     this.setState(newState);
@@ -72,7 +86,18 @@ export default class AccountsVoting extends Component {
   render() {
     const t = this;
     let addWitnessVote = false;
+    let addVoteError = false;
+    let removeWitnessVote = false;
     let removeVoteError = false;
+    if (this.state.addVoteError) {
+      addVoteError = (
+        <Message
+          error
+          header='Operation Error'
+          content={this.state.addVoteError}
+        />
+      )
+    }
     if (this.state.removeVoteError) {
       removeVoteError = (
         <Message
@@ -91,8 +116,8 @@ export default class AccountsVoting extends Component {
       account_vote_witness_pending,
       account_vote_witness_resolved
     } = this.props.processing;
-    if (this.state.editVoteFor) {
-      const name = this.state.editVoteFor;
+    if (this.state.addVoteFor) {
+      const name = this.state.addVoteFor;
       const account = this.props.account.accounts[name];
       addWitnessVote = (
         <Modal
@@ -114,8 +139,8 @@ export default class AccountsVoting extends Component {
                   fluid
                   name="witness"
                   placeholder="Witness Account Name"
+                  onChange= {this.handleSetWitness}
                   autoFocus
-                  onChange={this.handleChangeVestingShares}
                 />
                 <Divider />
               </Segment>
@@ -135,8 +160,52 @@ export default class AccountsVoting extends Component {
               type: 'submit',
               content: 'Confirm Witness Vote',
               color: 'blue',
-              value: this.state.editVoteFor,
+              value: this.state.addVoteFor,
               onClick: this.handleVoteWitnessConfirm,
+              disabled: account_vote_witness_pending
+            }
+          ]}
+        />
+      );
+    }
+    if (this.state.removeVoteFor) {
+      const name = this.state.removeVoteFor;
+      const account = this.props.account.accounts[name];
+      removeWitnessVote = (
+        <Modal
+          size="small"
+          open
+          header="Remove vote for a STEEM Witness"
+          content={
+            <Form
+              loading={account_vote_witness_pending}
+            >
+              <Segment
+                padded
+                basic
+              >
+                <p>
+                  Please enter the name of the Witness you wish to unvote.
+                </p>
+              </Segment>
+            </Form>
+          }
+          actions={[
+            {
+              key: 'no',
+              content: 'Cancel Operation',
+              floated: 'left',
+              color: 'blue',
+              onClick: this.handleCancel,
+              disabled: account_vote_witness_pending
+            },
+            {
+              key: 'yes',
+              type: 'submit',
+              content: 'Confirm Witness Unvote',
+              color: 'red',
+              value: this.state.removeVoteFor,
+              onClick: this.handleVoteWitnessRemoveConfirm,
               disabled: account_vote_witness_pending
             }
           ]}
@@ -170,8 +239,8 @@ export default class AccountsVoting extends Component {
                       <Table.HeaderCell>
                         Witness
                       </Table.HeaderCell>
-                      <Table.HeaderCell collapsing>
-                        Remove
+                      <Table.HeaderCell>
+                        Witness
                       </Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
@@ -182,13 +251,12 @@ export default class AccountsVoting extends Component {
                         <Table.Cell>
                           <AccountName name={witness} />
                         </Table.Cell>
-                        <Table.Cell>
+                        <Table.Cell textAlign="center" style={{ width: 75 }}>
                           <Button
-                            color="orange"
-                            size="small"
                             icon="trash"
-                            value={{ witness }}
+                            color="orange"
                             onClick={this.handleVoteWitnessRemove}
+                            value={{account: name, witness: witness}}
                           />
                         </Table.Cell>
                       </Table.Row>
@@ -214,12 +282,13 @@ export default class AccountsVoting extends Component {
     return (
       <Segment basic padded>
         {addWitnessVote}
+        {removeWitnessVote}
         <Header>
           <Header.Subheader>
             Each account may vote for 30 witnesses at a time.
           </Header.Subheader>
         </Header>
-        {removeVoteError}
+        {addVoteError}
         <Table celled>
           <Table.Header>
             <Table.Row>
