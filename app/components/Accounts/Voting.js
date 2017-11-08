@@ -14,7 +14,8 @@ export default class AccountsVoting extends Component {
     super(props);
     this.state = {
       addVoteFor: false,
-      removeVoteFor: false
+      removeVoteFor: false,
+      voteError: false,
     };
     this.props.actions.resetState = this.resetState.bind(this);
   }
@@ -25,9 +26,10 @@ export default class AccountsVoting extends Component {
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.processing.account_vote_witness_error) {
       this.setState({
-        addVoteError: nextProps.processing.account_vote_witness_error
+        voteError: nextProps.processing.account_vote_witness_error
       })
       nextProps.actions.voteWitnessCompleted();
+      this.resetState();
     }
     if (nextProps.processing.account_vote_witness_resolved) {
       nextProps.actions.voteWitnessCompleted();
@@ -37,9 +39,7 @@ export default class AccountsVoting extends Component {
   resetState() {
     this.setState({
       addVoteFor: false,
-      addVoteError: false,
       removeVoteFor: false,
-      removeVoteError: false,
     });
   }
   handleCancel = () => {
@@ -84,35 +84,19 @@ export default class AccountsVoting extends Component {
     this.setState(newState);
   }
   render() {
-    const t = this;
     let addWitnessVote = false;
-    let addVoteError = false;
+    let voteError = false;
     let removeWitnessVote = false;
-    let removeVoteError = false;
-    if (this.state.addVoteError) {
-      addVoteError = (
+    if (this.state.voteError) {
+      voteError = (
         <Message
           error
-          header='Operation Error'
-          content={this.state.addVoteError}
+          header="Operation Error"
+          content={this.state.voteError}
         />
       )
     }
-    if (this.state.removeVoteError) {
-      removeVoteError = (
-        <Message
-          error
-          header='Operation Error'
-          content={this.state.removeVoteError}
-        />
-      )
-    }
-    const numberFormat = {
-      wholenumber: 'floor',
-      precision: 0
-    };
     const {
-      account_vote_witness_error,
       account_vote_witness_pending,
       account_vote_witness_resolved
     } = this.props.processing;
@@ -291,7 +275,7 @@ export default class AccountsVoting extends Component {
             Each account may vote for 30 witnesses at a time.
           </Header.Subheader>
         </Header>
-        {addVoteError}
+        {voteError}
         <Table celled>
           <Table.Header>
             <Table.Row>
