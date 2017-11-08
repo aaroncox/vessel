@@ -138,29 +138,6 @@ export function getVestingDelegations(account: string) {
   };
 }
 
-export function getWitnessVotes(account: string) {
-  return (dispatch: () => void) => {
-    dispatch({
-      type: ACCOUNT_GET_WITNESS_VOTES_PENDING
-    });
-    steem.api.getVestingDelegations(account, -1, 100, (err, results) => {
-      if (err) {
-        dispatch({
-          type: ACCOUNT_GET_WITNESS_VOTES_FAILED,
-          payload: err
-        });
-      } else {
-        const payload = {};
-        payload[account] = results;
-        dispatch({
-          type: ACCOUNT_GET_WITNESS_VOTES,
-          payload
-        });
-      }
-    });
-  };
-}
-
 export function getTransactionsResolved(payload = {}) {
   return {
     type: ACCOUNT_GET_TRANSACTIONS_RESOLVED,
