@@ -141,19 +141,19 @@ export function getVestingDelegations(account: string) {
 export function getWitnessVotes(account: string) {
   return (dispatch: () => void) => {
     dispatch({
-      type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_PENDING
+      type: ACCOUNT_GET_WITNESS_VOTES_PENDING
     });
     steem.api.getVestingDelegations(account, -1, 100, (err, results) => {
       if (err) {
         dispatch({
-          type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_FAILED,
+          type: ACCOUNT_GET_WITNESS_VOTES_FAILED,
           payload: err
         });
       } else {
         const payload = {};
         payload[account] = results;
         dispatch({
-          type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE,
+          type: ACCOUNT_GET_WITNESS_VOTES,
           payload
         });
       }
