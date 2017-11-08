@@ -5,14 +5,24 @@
 
 # Vessel - Steem Desktop Wallet
 
-Vessel is a lite wallet for the Steem blockchain that you can run on your desktop computer.
+Vessel is a lite wallet for the Steem blockchain that you can run on your desktop computer without needing to run the blockchain itself.
 
 **This is experimental and messy software at the moment, please use with caution.**
 
 ## Updates
 
+- [2017/10/19 - 0.0.8 Release](https://steemit.com/steem-project/@jesta/vessel-008-configurable-steem-node-new-default-node)
+- [2017/09/19 - 0.0.7 release](https://steemit.com/steem-project/@jesta/vessel-007-account-creation-encrypted-memos-bittrex)
 - [2017/05/24 - 0.0.6 release](https://steemit.com/steem-project/@jesta/vessel-006-steem-power-delegation)
 - [2017/05/20 - This app was announced on steemit.com](https://steemit.com/steem-project/@jesta/vessel-pre-release-looking-for-feedback)
+
+## Questions or ideas?
+
+We have a [chainBB](https://chainbb.com) forum (powered by the Steem blockchain) running here:
+
+[https://chainbb.com/f/vessel](https://chainbb.com/f/vessel)
+
+This forum will serve as the primary point of discussion for the Vessel desktop wallet.
 
 ## Support this App
 
