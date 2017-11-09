@@ -79,7 +79,6 @@ export default class AccountsProxy extends Component {
     }, () => {
       this.handleOnChange(parseFloat(vesting_shares.split(" ")[0]))
     })
-    console.log(props.value)
   }
   handleSetDelegateVesting = (e, props) => {
     this.setState({
