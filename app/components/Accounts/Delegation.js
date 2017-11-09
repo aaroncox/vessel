@@ -10,16 +10,17 @@ export default class AccountsProxy extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      vests: 0,
+      editDelegationFor: false,
       sp: 0,
-      editDelegationFor: false
+      undelegateError: false,
+      vests: 0,
     };
     this.props.actions.resetState = this.resetState.bind(this);
   }
   state = {
-    vests: 0,
+    editDelegationFor: false,
     sp: 0,
-    editDelegationFor: false
+    vests: 0,
   }
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.processing.account_delegate_vesting_shares_error) {
@@ -33,10 +34,13 @@ export default class AccountsProxy extends Component {
       this.resetState();
     }
   }
-  resetState() {
+  resetState = () => {
     this.setState({
       editDelegationFor: false,
+      sp: 0,
       undelegateError: false,
+      vests: 0,
+      [this.state.editDelegationFor]: '',
     });
   }
   handleCancel = () => {
@@ -65,6 +69,17 @@ export default class AccountsProxy extends Component {
     const permissions = this.props.keys.permissions;
     this.setState({undelegateError: false})
     this.props.actions.useKey('setDelegateVestingShares', { delegator, delegatee, vestingShares: 0.000000 }, permissions[delegator])
+  }
+  handleVestingSharesEdit = (e, props) => {
+    const t = this
+    let { delegator, delegatee, id, vesting_shares } = props.value.delegatee;
+    this.setState({
+      editDelegationFor: delegator,
+      [delegator]: delegatee,
+    }, () => {
+      this.handleOnChange(parseFloat(vesting_shares.split(" ")[0]))
+    })
+    console.log(props.value)
   }
   handleSetDelegateVesting = (e, props) => {
     this.setState({
@@ -112,7 +127,12 @@ export default class AccountsProxy extends Component {
       const account = this.props.account.accounts[name];
       const delegated = parseFloat(account.delegated_vesting_shares.split(" ")[0]);
       const vests = parseFloat(account.vesting_shares.split(" ")[0]);
-      const available = vests - delegated;
+      let existingDelegation = 0
+      if (this.props.account.vestingDelegations && this.props.account.vestingDelegations[name]) {
+        const existingDelegations = this.props.account.vestingDelegations[name]
+        existingDelegation = existingDelegations.reduce((a, b) => (b.delegatee === this.state[name]) ? a + parseFloat(b.vesting_shares.split(" ")[0]) : 0, 0)
+      }
+      const available = vests - delegated + existingDelegation;
       const target = parseFloat(this.state.vests)
       const delegateWarning = (target > available - 100)
       addVesting = (
@@ -120,6 +140,7 @@ export default class AccountsProxy extends Component {
           size="small"
           open
           header="Delegate Vests to another Account"
+          onClose={this.resetState}
           content={
             <Form
               loading={account_delegate_vesting_shares_pending}
@@ -136,12 +157,13 @@ export default class AccountsProxy extends Component {
                   fluid
                   name="delegatee"
                   placeholder="Delegatee Account Name"
+                  defaultValue={this.state[name]}
                   autoFocus
                   onChange={this.handleChangeVestingShares}
                 />
                 <Divider />
                 <p>
-                  Use the slider to determine how much of your VESTS to delegate.
+                  Use the slider to determine how much of your VESTS to delegate. If you are editing an existing delegation, set the value to the new total you wish to delegate.
                 </p>
                 <Grid>
                   <Grid.Row>
@@ -149,7 +171,7 @@ export default class AccountsProxy extends Component {
                       <Segment padded="very" basic>
                         <InputRange
                           maxValue={available}
-                          minValue={0.000001}
+                          minValue={0}
                           value={this.state.vests}
                           onChange={this.handleOnChange}
                           onChangeComplete={this.handleOnChangeComplete}
@@ -266,9 +288,6 @@ export default class AccountsProxy extends Component {
                       <Table.HeaderCell>
                         Amount
                       </Table.HeaderCell>
-                      <Table.HeaderCell>
-                        Date
-                      </Table.HeaderCell>
                       <Table.HeaderCell collapsing>
 
                       </Table.HeaderCell>
@@ -283,16 +302,25 @@ export default class AccountsProxy extends Component {
                           <AccountName name={delegatee.delegatee} />
                         </Table.Cell>
                         <Table.Cell>
-                          <NumericLabel params={numberFormat}>{vests}</NumericLabel></Table.Cell>
-                        <Table.Cell>{delegatee.min_delegation_time}</Table.Cell>
+                          <NumericLabel params={numberFormat}>{vests}</NumericLabel>
+                        </Table.Cell>
                         <Table.Cell>
-                          <Button
-                            color="orange"
-                            size="small"
-                            icon="trash"
-                            value={{ delegatee }}
-                            onClick={this.handleVestingSharesRemove}
-                          />
+                          <Button.Group>
+                            <Button
+                              color="blue"
+                              size="small"
+                              icon="pencil"
+                              value={{ delegatee }}
+                              onClick={this.handleVestingSharesEdit}
+                            />
+                            <Button
+                              color="orange"
+                              size="small"
+                              icon="trash"
+                              value={{ delegatee }}
+                              onClick={this.handleVestingSharesRemove}
+                            />
+                          </Button.Group>
                         </Table.Cell>
                       </Table.Row>
                     )
