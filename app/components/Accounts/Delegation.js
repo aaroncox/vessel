@@ -47,20 +47,28 @@ export default class AccountsProxy extends Component {
     this.resetState();
   }
   handleOnChange = (value) => {
-    const vests = parseFloat(value).toFixed(6);
+    const parsed = parseFloat(value)
+    if (Number.isNaN(parsed)) {
+      return
+    }
+    const vests = parsed.toFixed(6);
     const props = this.props.steem.props;
     const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-    const sp = totalVestsSteem * vests / totalVests;
+    const sp = (totalVestsSteem * vests / totalVests).toFixed(3);
     this.setState({ vests, sp });
   }
 
   handleOnChangeComplete = (value) => {
-    const vests = parseFloat(value).toFixed(6);
+    const parsed = parseFloat(value)
+    if (Number.isNaN(parsed)) {
+      return
+    }
+    const vests = parsed.toFixed(6);
     const props = this.props.steem.props;
     const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-    const sp = totalVestsSteem * vests / totalVests;
+    const sp = (totalVestsSteem * vests / totalVests).toFixed(3);
     this.setState({ vests, sp });
   }
   handleVestingSharesRemove = (e, props) => {
@@ -92,6 +100,29 @@ export default class AccountsProxy extends Component {
     const delegatee = this.state[delegator];
     this.props.actions.useKey('setDelegateVestingShares', { delegator, delegatee, vestingShares: vests }, permissions[delegator])
     e.preventDefault();
+  }
+  handleOnChangeInput = (e, props) => {
+    const { name, value } = props
+    const globalProps = this.props.steem.props;
+    const totalVestsSteem = parseFloat(globalProps.total_vesting_fund_steem.split(" ")[0])
+    const totalVests = parseFloat(globalProps.total_vesting_shares.split(" ")[0])
+    const parsed = parseFloat(value)
+    let vests, sp
+    if (Number.isNaN(parsed)) {
+      this.setState({ [name]: value });
+      return
+    }
+    if (name === 'vests') {
+      const fixed = parsed.toFixed(6);
+      sp = (totalVestsSteem * fixed / totalVests).toFixed(3)
+      vests = value
+    }
+    if (name === 'sp') {
+      const fixed = parsed.toFixed(3);
+      sp = value
+      vests = (fixed / totalVestsSteem * totalVests).toFixed(6)
+    }
+    this.setState({ vests, sp });
   }
   handleChangeVestingShares = (e, props) => {
     const editing = this.state.editDelegationFor;
@@ -152,18 +183,37 @@ export default class AccountsProxy extends Component {
                   Please enter the name of the target account that you wish to delegate
                   a portion of the {name} account's vested weight to.
                 </p>
-                <Input
-                  fluid
-                  name="delegatee"
-                  placeholder="Delegatee Account Name"
-                  defaultValue={this.state[name]}
-                  autoFocus
-                  onChange={this.handleChangeVestingShares}
-                />
-                <Divider />
-                <p>
-                  Use the slider to determine how much of your VESTS to delegate. If you are editing an existing delegation, set the value to the new total you wish to delegate.
-                </p>
+                <Segment padded>
+                  <Form.Field>
+                    <label>Delegatee Account Name</label>
+                    <Input
+                      fluid
+                      name="delegatee"
+                      placeholder="Delegatee Account Name"
+                      defaultValue={this.state[name]}
+                      autoFocus
+                      onChange={this.handleChangeVestingShares}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Steem Power</label>
+                    <Input
+                      fluid
+                      name="sp"
+                      value={this.state.sp}
+                      onChange={this.handleOnChangeInput}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Vesting Shares</label>
+                    <Input
+                      fluid
+                      name="vests"
+                      value={this.state.vests}
+                      onChange={this.handleOnChangeInput}
+                    />
+                  </Form.Field>
+                </Segment>
                 <Grid>
                   <Grid.Row>
                     <Grid.Column width={12}>
