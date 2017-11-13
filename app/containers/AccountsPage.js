@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Button, Header, Icon, Menu, Modal, Segment, Table } from 'semantic-ui-react';
 
 import Accounts from '../components/Accounts';
+import AccountsAuths from '../components/Accounts/Auths';
 import AccountsDelegation from '../components/Accounts/Delegation';
 import AccountsProxy from '../components/Accounts/Proxy';
 import AccountsVoting from '../components/Accounts/Voting';
@@ -106,6 +107,10 @@ class AccountsPage extends Component {
     }
     let activeTab = <Accounts {...this.props} />;
     switch (activeItem) {
+      case 'auths': {
+        activeTab = <AccountsAuths {...this.props} />;
+        break;
+      }
       case 'delegation': {
         activeTab = <AccountsDelegation {...this.props} />;
         break;
@@ -219,6 +224,20 @@ class AccountsPage extends Component {
             onClick={this.handleItemClick}
           />
           <Menu.Item
+            name="auths"
+            icon="users"
+            content="Account Auths"
+            active={activeItem === 'auths'}
+            onClick={this.handleItemClick}
+          />
+          <Menu.Item
+            name="delegation"
+            icon="tasks"
+            content="SP Delegation"
+            active={activeItem === 'delegation'}
+            onClick={this.handleItemClick}
+          />
+          <Menu.Item
             name="proxy"
             icon="sitemap"
             content="Witness Proxy"
@@ -230,13 +249,6 @@ class AccountsPage extends Component {
             icon="check"
             content="Witness Voting"
             active={activeItem === 'voting'}
-            onClick={this.handleItemClick}
-          />
-          <Menu.Item
-            name="delegation"
-            icon="tasks"
-            content="SP Delegation"
-            active={activeItem === 'delegation'}
             onClick={this.handleItemClick}
           />
         </Menu>
