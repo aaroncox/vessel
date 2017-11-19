@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router';
 import steem from 'steem';
 
 import App from './containers/App';
+import AdvancedPage from './containers/AdvancedPage';
 import AccountsPage from './containers/AccountsPage';
 import DebugPage from './containers/DebugPage';
 import SettingsPage from './containers/SettingsPage';
@@ -74,6 +75,7 @@ class Routes extends Component {
           <Route path="/vesting" component={VestingPage} />
           <Route path="/accounts" component={AccountsPage} />
           <Route path="/settings" component={SettingsPage} />
+          <Route path="/advanced" component={AdvancedPage} />
         </Switch>
       </App>
     );

@@ -16,7 +16,6 @@ export default class Settings extends Component {
   onValidSubmit = (
    e: SyntheticEvent
  ) => {
-   console.log(e)
     const { setPreference } = this.props.actions;
     setPreference('steemd_node', e.steemd_node);
  }

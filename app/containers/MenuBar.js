@@ -75,6 +75,10 @@ class MenuBar extends Component {
           <Icon name="settings" />
           Settings
         </Link>
+        <Link className="link item" to="/advanced">
+          <Icon name="lab" />
+          Advanced
+        </Link>
         <Menu.Item
           className="link"
           style={{
