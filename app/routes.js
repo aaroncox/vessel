@@ -9,6 +9,7 @@ import App from './containers/App';
 import AdvancedPage from './containers/AdvancedPage';
 import AccountsPage from './containers/AccountsPage';
 import DebugPage from './containers/DebugPage';
+import PromptOperation from './containers/PromptOperation';
 import SettingsPage from './containers/SettingsPage';
 import SendPage from './containers/SendPage';
 import TransactionsPage from './containers/TransactionsPage';
@@ -64,11 +65,33 @@ class Routes extends Component {
     }
   }
   render() {
+    var parse = require('url-parse');
+    const parsed = parse(window.location.href, true)
+    if (parsed && parsed.query && parsed.query.action && parsed.query.action === 'promptOperation') {
+      return (
+        <App>
+          <DecryptPrompt />
+          <PromptOperation query={parsed.query} />
+        </App>
+      )
+    }
     return (
       <App>
         <DecryptPrompt />
         <Switch>
-          <Route exact path="/" component={WelcomePage} />
+          <Route
+            exact
+            path="/"
+            render={
+              (props) => {
+                if(this.props.keys.isUser) {
+                  return <TransactionsPage />;
+                } else {
+                  return <WelcomePage />;
+                }
+              }
+            }
+          />
           <Route path="/transactions" component={TransactionsPage} />
           <Route path="/debug" component={DebugPage} />
           <Route path="/send" component={SendPage} />
@@ -84,6 +107,8 @@ class Routes extends Component {
 
 function mapStateToProps(state) {
   return {
+    keys: state.keys,
+    location: state.location,
     preferences: state.preferences,
     router: state.router
   };

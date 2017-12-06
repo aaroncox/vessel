@@ -43,6 +43,16 @@
       "main.prod.js.map",
       "package.json"
     ],
+    "protocols": [
+      {
+        "name": "steem",
+        "role": "Viewer",
+        "schemes": [
+          "steem",
+          "vessel"
+        ]
+      }
+    ],
     "dmg": {
       "icon": "assets/icons/mac/icon.icns",
       "contents": [
@@ -219,6 +229,7 @@
     "semantic-ui-react": "^0.68.3",
     "source-map-support": "^0.4.15",
     "steem": "^0.6.4",
+    "url-parse": "^1.2.0",
     "utf-8-validate": "^3.0.1"
   },
   "devEngines": {

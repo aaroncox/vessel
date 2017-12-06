@@ -15,6 +15,10 @@ import {
   ACCOUNT_CUSTOM_JSON_RESOLVED,
   ACCOUNT_CUSTOM_JSON_FAILED,
   ACCOUNT_CUSTOM_JSON_COMPLETED,
+  ACCOUNT_CUSTOM_OPS_STARTED,
+  ACCOUNT_CUSTOM_OPS_RESOLVED,
+  ACCOUNT_CUSTOM_OPS_FAILED,
+  ACCOUNT_CUSTOM_OPS_COMPLETED,
   ACCOUNT_TRANSFER_STARTED,
   ACCOUNT_TRANSFER_FAILED,
   ACCOUNT_TRANSFER_RESOLVED,
@@ -119,6 +123,30 @@ export default function processing(state: any = defaultState, action: actionType
         account_custom_json_error: false,
         account_custom_json_resolved: false,
         account_custom_json_pending: false
+      });
+    case ACCOUNT_CUSTOM_OPS_STARTED:
+      return Object.assign({}, state, {
+        account_custom_ops_error: false,
+        account_custom_ops_resolved: false,
+        account_custom_ops_pending: true
+      });
+    case ACCOUNT_CUSTOM_OPS_FAILED:
+      return Object.assign({}, state, {
+        account_custom_ops_error: setError(action.payload),
+        account_custom_ops_resolved: false,
+        account_custom_ops_pending: false
+      });
+    case ACCOUNT_CUSTOM_OPS_RESOLVED:
+      return Object.assign({}, state, {
+        account_custom_ops_error: false,
+        account_custom_ops_resolved: true,
+        account_custom_ops_pending: false
+      });
+    case ACCOUNT_CUSTOM_OPS_COMPLETED:
+      return Object.assign({}, state, {
+        account_custom_ops_error: false,
+        account_custom_ops_resolved: false,
+        account_custom_ops_pending: false
       });
     case ACCOUNT_TRANSFER_COMPLETED:
       return Object.assign({}, state, {

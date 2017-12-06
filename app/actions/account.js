@@ -8,6 +8,10 @@ export const ACCOUNT_CUSTOM_JSON_STARTED = 'ACCOUNT_CUSTOM_JSON_STARTED';
 export const ACCOUNT_CUSTOM_JSON_RESOLVED = 'ACCOUNT_CUSTOM_JSON_RESOLVED';
 export const ACCOUNT_CUSTOM_JSON_FAILED = 'ACCOUNT_CUSTOM_JSON_FAILED';
 export const ACCOUNT_CUSTOM_JSON_COMPLETED = 'ACCOUNT_CUSTOM_JSON_COMPLETED';
+export const ACCOUNT_CUSTOM_OPS_STARTED = 'ACCOUNT_CUSTOM_OPS_STARTED';
+export const ACCOUNT_CUSTOM_OPS_RESOLVED = 'ACCOUNT_CUSTOM_OPS_RESOLVED';
+export const ACCOUNT_CUSTOM_OPS_FAILED = 'ACCOUNT_CUSTOM_OPS_FAILED';
+export const ACCOUNT_CUSTOM_OPS_COMPLETED = 'ACCOUNT_CUSTOM_OPS_COMPLETED';
 export const ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION = 'ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION';
 export const ACCOUNT_DATA_UPDATE = 'ACCOUNT_DATA_UPDATE';
 export const ACCOUNT_DATA_UPDATE_FAILED = 'ACCOUNT_DATA_UPDATE_FAILED';
@@ -454,4 +458,27 @@ export function customJsonCompleted() {
   return {
     type: ACCOUNT_CUSTOM_JSON_COMPLETED,
   }
+}
+
+export function send(wif, params) {
+  return (dispatch: () => void) => {
+    const { operations, extensions } = params
+    console.log(operations, extensions)
+    dispatch({
+      type: ACCOUNT_CUSTOM_OPS_STARTED
+    })
+    steem.broadcast.send({ operations, extensions }, { posting: wif }, function(err, result) {
+      if(result) {
+        dispatch({
+          type: ACCOUNT_CUSTOM_OPS_RESOLVED
+        })
+      }
+      if(err) {
+        dispatch({
+          type: ACCOUNT_CUSTOM_OPS_FAILED,
+          payload: err
+        })
+      }
+    });
+  };
 }
