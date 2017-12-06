@@ -22,9 +22,6 @@ export default class Welcome extends Component {
   }
 
   render() {
-    if (this.props.keys.isUser) {
-      return <Redirect to="/transactions" />;
-    }
     return (
       <Grid divided stretched>
         <Grid.Row centered>
