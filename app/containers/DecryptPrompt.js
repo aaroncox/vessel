@@ -86,9 +86,7 @@ class DecryptPrompt extends Component {
           content={
             <Segment padded basic>
               <p>
-                The wallet requested is encrypted locally. Please confirm
-                the operations below and type your wallet password to broadcast
-                the operation.
+                The wallet requested is encrypted locally. Please type your wallet password to broadcast the transaction to the blockchain.
               </p>
               <Form>
                 <Input
