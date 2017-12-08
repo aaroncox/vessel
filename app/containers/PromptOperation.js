@@ -49,9 +49,22 @@ class PromptOperation extends Component {
 
   constructor(props) {
     super(props)
+    let meta = {}, ops = []
+    try {
+      meta = JSON.parse(window.atob(props.query.meta))
+    } catch(exception) {
+      console.log(exception)
+    }
+    try {
+      ops = JSON.parse(window.atob(props.query.ops))
+    } catch(exception) {
+      console.log(exception)
+    }
     this.state = {
       account: null,
-      ops: JSON.parse(window.atob(props.query.ops)),
+      meta,
+      ops,
+      opsString: props.query.ops,
     }
   }
 
@@ -90,15 +103,18 @@ class PromptOperation extends Component {
   }
 
   render() {
-    const { ops } = this.state
+    const { ops, meta } = this.state
     const { keys } = this.props
     return (
-      <OperationsForm
-        processing={this.props.processing}
+      <OperationsPrompt
         accounts={keys.names}
         accountChange={this.modifyOpsByAccount.bind(this)}
-        submitOps={this.submitOps.bind(this)}
+        meta={meta}
+        modifyOpsPrompt={this.modifyOpsPrompt.bind(this)}
         ops={ops}
+        processing={this.props.processing}
+        steem={this.props.steem}
+        submitOps={this.submitOps.bind(this)}
       />
     );
   }
@@ -109,7 +125,8 @@ function mapStateToProps(state) {
     account: state.account,
     keys: state.keys,
     preferences: state.preferences,
-    processing: state.processing
+    processing: state.processing,
+    steem: state.steem
   };
 }
 

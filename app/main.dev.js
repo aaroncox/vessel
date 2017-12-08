@@ -85,7 +85,10 @@ app.on('ready', async () => {
       const exp = /\/tx\/((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)/;
       const match = exp.exec(parsed.pathname);
       const base64encoded = match[1];
-      promptWindow.loadURL(`file://${__dirname}/app.html?type=sign&action=promptOperation&ops=${base64encoded}`);
+      const metaexp = /^#((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$/
+      const metamatch = metaexp.exec(parsed.hash)
+      const base64encodedmeta = metamatch[1]
+      promptWindow.loadURL(`file://${__dirname}/app.html?type=sign&action=promptOperation&ops=${base64encoded}&meta=${base64encodedmeta}`);
     }
   })
 
