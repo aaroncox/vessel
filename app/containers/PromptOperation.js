@@ -9,7 +9,7 @@ import * as AccountActions from '../actions/account';
 import * as KeysActions from '../actions/keys';
 import * as ProcessingActions from '../actions/processing';
 
-import OperationsForm from '../components/sign/operations/form'
+import OperationsPrompt from '../components/sign/operations/prompt'
 
 const permissions = {
   active: [
@@ -92,6 +92,13 @@ class PromptOperation extends Component {
     })
     this.props.actions.useKey('send', { operations: ops, extensions: [] }, permissions[account]);
     e.preventDefault()
+  }
+
+  modifyOpsPrompt(e, data) {
+    const { ops } = this.state
+    const { index, name, value } = data
+    ops[index][1][name] = value
+    this.setState(ops)
   }
 
   modifyOpsByAccount(account) {

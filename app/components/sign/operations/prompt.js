@@ -1,7 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import { Button, Checkbox, Form, Header, Input, Label, Message, Radio, Segment, Select, TextArea } from 'semantic-ui-react'
+import { Accordion, Button, Card, Checkbox, Divider, Dropdown, Form, Grid, Header, Icon, Image, Input, Label, Message, Radio, Segment, Statistic, Select, TextArea } from 'semantic-ui-react'
+
+import OperationsPromptFieldAsset from './fields/asset'
+import OperationsPromptFieldVests from './fields/vests'
+
+import OperationsPromptDelegation from './types/delegation'
+import OperationsPromptTransfer from './types/transfer'
 
 const opData = {}
 
@@ -90,19 +96,70 @@ const opTemplates = {
   }
 };
 
-export default class OperationsForm extends Component {
-  state = {
-    account: null,
-    key: null,
+export default class OperationsPrompt extends Component {
+
+  constructor(props) {
+    super(props)
+    const op = props.ops[0]
+    const opData = op[1]
+    this.state = {
+      account: null,
+      displayRawJSON: false,
+      key: null,
+      prompts: this.getPromptsFromMeta(props),
+    }
+  }
+
+  getPromptsFromMeta = (props) => {
+    return Object.keys(props.meta).map((field) => {
+      const meta = props.meta[field]
+      if(meta.prompt) {
+        switch(meta.type) {
+          case "asset":
+          case "sbd":
+          case "steem":
+            return (
+              <OperationsPromptFieldAsset
+                field={field}
+                key={field}
+                meta={meta}
+                modifyOpsPrompt={this.props.modifyOpsPrompt}
+                opData={opData}
+              />
+            )
+            break;
+          case "vests":
+            return (
+              <OperationsPromptFieldVests
+                field={field}
+                key={field}
+                meta={meta}
+                modifyOpsPrompt={this.props.modifyOpsPrompt}
+                opData={opData}
+                steem={this.props.steem}
+              />
+            )
+            break;
+          default:
+            return (
+              <Form.Field
+                key={field}
+                required={meta.required || false}
+                control={Input}
+                label={meta.label || field}
+                index={0}
+                name={field}
+                onChange={this.props.modifyOpsPrompt}
+              />
+            )
+        }
+      }
+    })
   }
 
   setAccount = (e, { value }) => {
     this.setState({account: value})
     this.props.accountChange(value)
-  }
-
-  setKey = (e, { value }) => {
-    this.setState({account: value})
   }
 
   createOpListItem = (op, idx) => {
@@ -111,14 +168,14 @@ export default class OperationsForm extends Component {
     const opTemplate = opTemplates[opType]
     if(!opTemplate) {
       return (
-        <Segment key={idx} attached verticalAlign='middle'>
+        <Segment key={idx} attached>
           <Label color='red' style={{marginRight: '1em'}}>{op[0]}</Label>
           Review this operation via the JSON.
         </Segment>
       )
     }
     return (
-      <Segment key={idx} attached verticalAlign='middle'>
+      <Segment key={idx} attached>
         <Label color={opTemplate['color']} style={{marginRight: '1em'}}>{op[0]}</Label>
         {opTemplate.message(opData)}
       </Segment>
@@ -126,7 +183,34 @@ export default class OperationsForm extends Component {
   }
 
   listOps = (ops) => {
-    return ops.map(this.createOpListItem)
+    if(ops.length === 1) {
+      const op = this.props.ops[0]
+      const opData = op[1]
+      switch(ops[0][0]) {
+        case 'delegate_vesting_shares':
+          return [
+            <Header attached='top' key='op-header'><Icon name='power' />Delegate Steem Power</Header>,
+            <OperationsPromptDelegation opData={opData} steem={this.props.steem} />
+          ]
+        case 'transfer':
+          return [
+            <Header attached='top' key='op-header'><Icon name='money' />Transfer Funds</Header>,
+            <OperationsPromptTransfer opData={opData} />
+          ]
+      }
+    }
+    return [
+      (
+        <Header attached='top' key='op-header'>
+          Actions/Operations
+        </Header>
+      ),
+      ops.map(this.createOpListItem)
+    ]
+  }
+
+  handleClick = () => {
+    this.setState({ displayRawJSON: !this.state.displayRawJSON })
   }
 
   render() {
@@ -149,6 +233,7 @@ export default class OperationsForm extends Component {
       <Form
         error={account_custom_ops_error}
         loading={account_custom_ops_pending}
+        size='large'
         onSubmit={this.props.submitOps}
       >
         <Segment attached='top' color='blue' inverted>
@@ -156,27 +241,37 @@ export default class OperationsForm extends Component {
             Sign Transaction ({ops.length} operations)
           </Header>
         </Segment>
-        <Segment attached>
-          <Form.Field
-            control={Select}
-            label='Signing Account'
-            options={accounts}
-            onChange={this.setAccount}
-            placeholder='The account to sign this transaction.'
-          />
-          <Header>
-            Operations in this Transaction
-            <Header.Subheader>
-              Vessel will broadcast this information using the selected account.
-            </Header.Subheader>
-          </Header>
+        <Segment attached secondary>
           <Segment.Group>
             {this.listOps(ops)}
+            <Segment attached>
+              {this.state.prompts}
+            </Segment>
+            <Segment attached>
+              <Form.Field
+                control={Select}
+                label='Signing Account'
+                options={accounts}
+                onChange={this.setAccount}
+                placeholder='The account to sign this transaction.'
+              />
+            </Segment>
+            <Segment attached='bottom'>
+              <Accordion>
+                <Accordion.Title active={this.state.displayRawJSON === true} index={0} onClick={this.handleClick}>
+                  <Header style={{margin: 0}}>
+                    <Header.Content style={{padding: 0}}>
+                      <Icon name='dropdown' />
+                      Transaction JSON
+                    </Header.Content>
+                  </Header>
+                </Accordion.Title>
+                <Accordion.Content active={this.state.displayRawJSON === true}>
+                  <Segment padded secondary><pre>{JSON.stringify(ops, null, 2) }</pre></Segment>
+                </Accordion.Content>
+              </Accordion>
+            </Segment>
           </Segment.Group>
-          <Header>
-            Raw JSON to broadcast
-          </Header>
-          <Segment padded secondary><pre>{JSON.stringify(ops, null, 2) }</pre></Segment>
           <Message
             color='yellow'
             icon='warning sign'
@@ -200,4 +295,5 @@ export default class OperationsForm extends Component {
       </Form>
     );
   }
+
 }
