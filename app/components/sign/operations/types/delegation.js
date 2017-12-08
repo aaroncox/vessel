@@ -4,11 +4,17 @@ import { Redirect } from 'react-router';
 import { Accordion, Button, Card, Checkbox, Divider, Dropdown, Form, Grid, Header, Icon, Image, Input, Label, Message, Radio, Segment, Statistic, Select, TextArea } from 'semantic-ui-react'
 import NumericLabel from '../../../../utils/NumericLabel';
 
+import AccountAvatar from '../../../global/AccountAvatar';
+import AccountName from '../../../global/AccountName';
+
+
 export default class OperationsPromptDelegation extends Component {
 
   render() {
     const { opData } = this.props
     const { vesting_shares } = opData
+    const avatar_delegator = <AccountAvatar name={opData.delegator} />
+    const avatar_delegatee = <AccountAvatar name={opData.delegatee} />
     const vests = parseFloat(vesting_shares.split(" ")[0])
     const totalVestsSteem = parseFloat(this.props.steem.props.total_vesting_fund_steem.split(" ")[0])
     const totalVests = parseFloat(this.props.steem.props.total_vesting_shares.split(" ")[0])
@@ -22,17 +28,9 @@ export default class OperationsPromptDelegation extends Component {
         <Grid>
           <Grid.Row columns={3} textAlign='center' verticalAlign='top'>
             <Grid.Column>
-              <div style={{
-                backgroundImage: `url(https://steemitimages.com/u/${opData.delegator || 'steemit'}/avatar/medium)`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                display: 'inline-block',
-                height: '96px',
-                width: '96px',
-              }} />
+              {avatar_delegator}
               <Header style={{margin: 0}}>
-                {opData.delegator || '<sender>'}
+                {(opData.delegator) ? <AccountName name={opData.delegator} /> : '<sender>'}
                 {(
                   opData.amount
                   ? (
@@ -54,17 +52,9 @@ export default class OperationsPromptDelegation extends Component {
               </Header>
             </Grid.Column>
             <Grid.Column>
-              <div style={{
-                backgroundImage: `url(https://steemitimages.com/u/${opData.delegatee || 'steemit'}/avatar/medium)`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                display: 'inline-block',
-                height: '96px',
-                width: '96px',
-              }} />
+              {avatar_delegatee}
               <Header style={{margin: 0}}>
-                {opData.delegatee}
+                <AccountName name={opData.delegatee} />
                 {(
                   opData.amount
                   ? (

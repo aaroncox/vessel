@@ -3,26 +3,23 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Accordion, Button, Card, Checkbox, Divider, Dropdown, Form, Grid, Header, Icon, Image, Input, Label, Message, Radio, Segment, Statistic, Select, TextArea } from 'semantic-ui-react'
 
+import AccountAvatar from '../../../global/AccountAvatar';
+import AccountName from '../../../global/AccountName';
+
 export default class OperationsPromptTransfer extends Component {
 
   render() {
     const { opData, prompts } = this.props
+    const avatar_from = <AccountAvatar name={opData.from} />
+    const avatar_to = <AccountAvatar name={opData.to} />
     return (
       <Segment attached padded>
         <Grid>
           <Grid.Row columns={3} textAlign='center' verticalAlign='top'>
             <Grid.Column>
-              <div style={{
-                backgroundImage: `url(https://steemitimages.com/u/${opData.from || 'steemit'}/avatar/medium)`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                display: 'inline-block',
-                height: '96px',
-                width: '96px',
-              }} />
+              {avatar_from}
               <Header style={{margin: 0}}>
-                {opData.from || '<sender>'}
+                {(opData.from) ? <AccountName name={opData.from} /> : '<sender>'}
                 {(
                   opData.amount
                   ? (
@@ -41,17 +38,9 @@ export default class OperationsPromptTransfer extends Component {
               </Header>
             </Grid.Column>
             <Grid.Column>
-              <div style={{
-                backgroundImage: `url(https://steemitimages.com/u/${opData.to || 'steemit'}/avatar/medium)`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                display: 'inline-block',
-                height: '96px',
-                width: '96px',
-              }} />
+              {avatar_to}
               <Header style={{margin: 0}}>
-                {opData.to}
+                <AccountName name={opData.to} />
                 {(
                   opData.amount
                   ? (
