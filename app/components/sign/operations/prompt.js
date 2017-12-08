@@ -9,6 +9,7 @@ import OperationsPromptFieldVests from './fields/vests'
 
 import OperationsPromptDelegation from './types/delegation'
 import OperationsPromptTransfer from './types/transfer'
+import OperationsPromptVote from './types/vote'
 
 const opData = {}
 
@@ -207,6 +208,11 @@ export default class OperationsPrompt extends Component {
           return [
             <Header attached='top' key='op-header'><Icon name='money' />Transfer Funds</Header>,
             <OperationsPromptTransfer opData={opData} />
+          ]
+        case 'vote':
+          return [
+            <Header attached='top' key='op-header'><Icon name='thumbs up' />Vote on a Post</Header>,
+            <OperationsPromptVote opData={opData} steem={this.props.steem} />
           ]
       }
     }
