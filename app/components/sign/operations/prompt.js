@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import { Accordion, Button, Card, Checkbox, Divider, Dropdown, Form, Grid, Header, Icon, Image, Input, Label, Message, Radio, Segment, Statistic, Select, TextArea } from 'semantic-ui-react'
 
 import OperationsPromptFieldAsset from './fields/asset'
+import OperationsPromptFieldPercent from './fields/percent'
 import OperationsPromptFieldVests from './fields/vests'
 
 import OperationsPromptDelegation from './types/delegation'
@@ -128,6 +129,16 @@ export default class OperationsPrompt extends Component {
               />
             )
             break;
+          case "percent":
+            return (
+              <OperationsPromptFieldPercent
+                field={field}
+                key={field}
+                meta={meta}
+                modifyOpsPrompt={this.props.modifyOpsPrompt}
+                opData={opData}
+              />
+            )
           case "vests":
             return (
               <OperationsPromptFieldVests
