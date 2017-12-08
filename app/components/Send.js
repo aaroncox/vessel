@@ -23,9 +23,9 @@ const exchangeOptions = [
     value: 'changelly',
   },
   {
-    key: 'openledger',
-    text: 'OpenLedger (@openledger)',
-    value: 'openledger'
+    key: 'openledger-dex',
+    text: 'OpenLedger (@openledger-dex)',
+    value: 'openledger-dex'
   },
   {
     key: 'poloniex',
@@ -43,7 +43,7 @@ const exchangeLinks = {
   bittrex: 'https://bittrex.com',
   blocktrades: 'https://blocktrades.us',
   changelly: 'https://changelly.com',
-  openledger: 'https://openledger.io',
+  'openledger-dex': 'https://openledger.io',
   poloniex: 'https://poloniex.com',
   shapeshiftio: 'https://shapeshift.io'
 };
