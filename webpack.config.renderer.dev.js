@@ -237,7 +237,7 @@ export default merge.smart(baseConfig, {
       verbose: true,
       disableDotRule: false,
     },
-    before() {
+    setup() {
       if (process.env.START_HOT) {
         spawn(
           'npm',
