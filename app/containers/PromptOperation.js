@@ -77,6 +77,19 @@ class PromptOperation extends Component {
   submitOps = (e) => {
     const { account, ops } = this.state
     const permissions = this.props.keys.permissions;
+    // Needs it's own independant section of logic, but here for now
+    ops.forEach((op, idx) => {
+      const opType = op[0]
+      const opData = op[1]
+      switch(opType) {
+        case 'convert':
+          // The requestid just needs to be a unique number, so currently setting to the timestamp
+          if(opData.requestid == '') {
+            ops[idx][1].requestid = Math.floor(Date.now() / 1000)
+          }
+          break
+      }
+    })
     this.props.actions.useKey('send', { operations: ops, extensions: [] }, permissions[account]);
     e.preventDefault()
   }
