@@ -261,9 +261,14 @@ export default class OperationsPrompt extends Component {
         <Segment attached secondary>
           <Segment.Group>
             {this.listOps(ops)}
-            <Segment attached>
-              {this.state.prompts}
-            </Segment>
+            {(this.state.prompts.length > 0)
+              ? (
+                <Segment attached>
+                  {this.state.prompts}
+                </Segment>
+              )
+              : false
+            }
             <Segment attached>
               <Form.Field
                 control={Select}
