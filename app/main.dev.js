@@ -14,6 +14,8 @@ import { app, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
+let customURI
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -39,16 +41,19 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
+const singleInstance = app.makeSingleInstance((argv, workingDirectory) => {
+  if (process.platform == 'win32') {
+    customURI = argv.slice(1)
+  }
+  if (mainWindow) {
+    createPrompt(false, customURI)
+  }
+})
 
-/**
- * Add event listeners...
- */
+if (singleInstance) {
+  app.quit()
+}
 
-app.on('window-all-closed', () => {
-  app.quit();
-});
-
-// prints given message both in the terminal console and in the DevTools
 function devToolsLog(s) {
   console.log(s)
   if (mainWindow && mainWindow.webContents) {
@@ -56,44 +61,13 @@ function devToolsLog(s) {
   }
 }
 
-app.on('ready', async () => {
+async function createWindow() {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
-
-  app.setAsDefaultProtocolClient('steem')
-
-  app.on('open-url', function (event, url) {
-    var parse = require('url-parse');
-    const promptWindow = new BrowserWindow({
-      alwaysOnTop: true,
-      show: false,
-      width: 500,
-      height: 600
-    });
-    const parsed = parse(url, true)
-    parsed.query.type = parsed.hostname
-    parsed.query.action = 'promptOperation'
-    promptWindow.once('ready-to-show', () => {
-      if (!promptWindow) {
-        throw new Error('"promptWindow" is not defined');
-      }
-      promptWindow.show();
-      promptWindow.focus();
-    })
-    if(parsed.host === 'sign') {
-      const exp = /\/tx\/((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)/;
-      const match = exp.exec(parsed.pathname);
-      const base64encoded = match[1];
-      const metaexp = /^#((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$/
-      const metamatch = metaexp.exec(parsed.hash)
-      let base64encodedmeta = 'e30='
-      if(metamatch) {
-        base64encodedmeta = metamatch[1]
-      }
-      promptWindow.loadURL(`file://${__dirname}/app.html?type=sign&action=promptOperation&ops=${base64encoded}&meta=${base64encodedmeta}`);
-    }
-  })
+  if (process.platform == 'win32') {
+    customURI = process.argv.slice(1)
+  }
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -102,6 +76,7 @@ app.on('ready', async () => {
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
+
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
@@ -118,4 +93,52 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
-});
+};
+
+function createPrompt(event, url) {
+  if(event) event.preventDefault()
+  customURI = url
+  var parse = require('url-parse');
+  const promptWindow = new BrowserWindow({
+    alwaysOnTop: true,
+    show: false,
+    width: 500,
+    height: 600
+  });
+  const parsed = parse(url, true)
+  parsed.query.type = parsed.hostname
+  parsed.query.action = 'promptOperation'
+  promptWindow.once('ready-to-show', () => {
+    if (!promptWindow) {
+      throw new Error('"promptWindow" is not defined');
+    }
+    promptWindow.show();
+    promptWindow.focus();
+  })
+  if(parsed.host === 'sign') {
+    const exp = /\/tx\/((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)/;
+    const match = exp.exec(parsed.pathname);
+    const base64encoded = match[1];
+    const metaexp = /^#((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$/
+    const metamatch = metaexp.exec(parsed.hash)
+    let base64encodedmeta = 'e30='
+    if(metamatch) {
+      base64encodedmeta = metamatch[1]
+    }
+    promptWindow.loadURL(`file://${__dirname}/app.html?type=sign&action=promptOperation&ops=${base64encoded}&meta=${base64encodedmeta}`);
+  }
+}
+
+app.setAsDefaultProtocolClient('steem')
+app.on('ready', createWindow)
+app.on('open-url', createPrompt)
+app.on('activate', function () {
+  if (mainWindow === null) {
+    createWindow()
+  }
+})
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
+})
