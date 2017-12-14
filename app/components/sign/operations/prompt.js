@@ -202,7 +202,7 @@ export default class OperationsPrompt extends Component {
         case 'delegate_vesting_shares':
           return [
             <Header attached='top' key='op-header'><Icon name='power' />Delegate Steem Power</Header>,
-            <OperationsPromptDelegation opData={opData} steem={this.props.steem} />
+            <OperationsPromptDelegation account={this.props.account} opData={opData} steem={this.props.steem} />
           ]
         case 'transfer':
           return [

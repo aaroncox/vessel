@@ -124,9 +124,10 @@ class PromptOperation extends Component {
 
   render() {
     const { ops, meta } = this.state
-    const { keys } = this.props
+    const { account, keys } = this.props
     return (
       <OperationsPrompt
+        account={account}
         accounts={keys.names}
         accountChange={this.modifyOpsByAccount.bind(this)}
         meta={meta}
