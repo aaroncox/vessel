@@ -79,10 +79,22 @@
     },
     "linux": {
       "category": "Network",
+      "desktop": {
+        "Name": "vessel",
+        "Version": "0.2.2",
+        "GenericName": "Steem Client",
+        "X-GNOME-FullName": "vessel",
+        "Comment": "A simple wallet for managing your Steem accounts.",
+        "Type": "Application",
+        "Terminal": "false",
+        "StartupNotify": "false",
+        "Categories": "Network;",
+        "MimeType": "application/x-steem;x-scheme-handler/steem;"
+      },
       "icon": "assets/icons/png",
       "target": [
         "deb",
-        "AppImage"
+        "snap"
       ]
     },
     "directories": {
@@ -152,7 +164,7 @@
     "css-loader": "^0.28.0",
     "devtron": "^1.4.0",
     "electron": "1.7.8",
-    "electron-builder": "^17.1.1",
+    "electron-builder": "^19.49.0",
     "electron-devtools-installer": "^2.2.0",
     "enzyme": "^2.8.2",
     "enzyme-to-json": "^1.5.1",

@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, dialog, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
@@ -42,7 +42,7 @@ const installExtensions = async () => {
 };
 
 const singleInstance = app.makeSingleInstance((argv, workingDirectory) => {
-  if (process.platform == 'win32') {
+  if (process.platform == 'win32' || process.platform === 'linux') {
     customURI = argv.slice(1)
   }
   if (mainWindow) {
@@ -62,10 +62,12 @@ function devToolsLog(s) {
 }
 
 async function createWindow() {
+
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
-  if (process.platform == 'win32') {
+
+  if (process.platform === 'win32' || process.platform === 'linux') {
     customURI = process.argv.slice(1)
   }
 
@@ -75,7 +77,10 @@ async function createWindow() {
     height: 750
   });
 
+  // mainWindow.webContents.openDevTools()
+
   mainWindow.loadURL(`file://${__dirname}/app.html`);
+
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -138,7 +143,5 @@ app.on('activate', function () {
   }
 })
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+  app.quit();
+});
