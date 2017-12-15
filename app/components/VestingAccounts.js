@@ -104,6 +104,7 @@ export default class VestingAccounts extends Component {
       const account = this.props.account.accounts[name];
       const withdrawRoutes = (this.props.account.withdrawRoutes) ? this.props.account.withdrawRoutes[name] : false;
       const nextPowerDown = new Date(account.next_vesting_withdrawal);
+      const isPoweringDown = (account.next_vesting_withdrawal != "1969-12-31T23:59:59")
       let nextPowerDownDisplay = false;
       let withdrawRoutesDisplay = false;
       let withdrawRoutesControl = (
@@ -165,7 +166,6 @@ export default class VestingAccounts extends Component {
           onClick={this.handlePowerDownPrompt}
         />
       );
-      const isPoweringDown = (nextPowerDown > 0) ? nextPowerDown : false;
       if (isPoweringDown) {
         const rate = account.vesting_withdraw_rate;
         const vests = parseFloat(rate.split(" ")[0]);
@@ -254,7 +254,7 @@ export default class VestingAccounts extends Component {
                 Destination Account(s)
               </Table.HeaderCell>
               <Table.HeaderCell>
-                Next Credit
+                Incoming Funds
               </Table.HeaderCell>
               <Table.HeaderCell textAlign="right">
                 Controls
