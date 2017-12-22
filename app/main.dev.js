@@ -54,13 +54,6 @@ if (singleInstance) {
   app.quit()
 }
 
-function devToolsLog(s) {
-  console.log(s)
-  if (mainWindow && mainWindow.webContents) {
-    mainWindow.webContents.executeJavaScript(`console.log("${s}")`)
-  }
-}
-
 async function createWindow() {
 
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
@@ -81,7 +74,6 @@ async function createWindow() {
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
-
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
@@ -90,6 +82,7 @@ async function createWindow() {
     }
     mainWindow.show();
     mainWindow.focus();
+    createPrompt(false, customURI)
   });
 
   mainWindow.on('closed', () => {
@@ -100,7 +93,10 @@ async function createWindow() {
   menuBuilder.buildMenu();
 };
 
-function createPrompt(event, url) {
+async function createPrompt(event, url) {
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
+    await installExtensions();
+  }
   if(event) event.preventDefault()
   customURI = url
   var parse = require('url-parse');
@@ -113,7 +109,7 @@ function createPrompt(event, url) {
   const parsed = parse(url, true)
   parsed.query.type = parsed.hostname
   parsed.query.action = 'promptOperation'
-  promptWindow.once('ready-to-show', () => {
+  promptWindow.webContents.on('did-finish-load', () => {
     if (!promptWindow) {
       throw new Error('"promptWindow" is not defined');
     }
@@ -145,3 +141,10 @@ app.on('activate', function () {
 app.on('window-all-closed', () => {
   app.quit();
 });
+
+function devToolsLog(s) {
+  console.log(s)
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.executeJavaScript(`console.log("${s}")`)
+  }
+}
