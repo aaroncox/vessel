@@ -11,6 +11,7 @@ Vessel is a lite wallet for the Steem blockchain that you can run on your deskto
 
 ## Updates
 
+- [2017/12/09 - 0.2.0 Release Notes](https://steemit.com/vessel/@jesta/vessel-0-2-0-interact-with-steem-securely-from-any-website)
 - [2017/11/29 - 0.0.9 Release Notes](https://steemit.com/vessel/@jesta/vessel-009-witness-voting-improved-delegation-controls-auths-and-customjson-ops)
 - [2017/10/19 - 0.0.8 Release Notes](https://steemit.com/steem-project/@jesta/vessel-008-configurable-steem-node-new-default-node)
 - [2017/09/19 - 0.0.7 Release Notes](https://steemit.com/steem-project/@jesta/vessel-007-account-creation-encrypted-memos-bittrex)
