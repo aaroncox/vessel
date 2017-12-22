@@ -25,7 +25,7 @@ export default class OperationsPromptDelegation extends Component {
       const existingDelegations = this.props.account.vestingDelegations[opData.delegator]
       existingDelegation = existingDelegations.reduce((a, b) => (b.delegator === opData.delegator && b.delegatee === opData.delegatee) ? a + parseFloat(b.vesting_shares.split(" ")[0]) : 0, 0)
       if(existingDelegation > 0) {
-        const existingSp = (existingDelegation * vests / totalVests).toFixed(3)
+        const existingSp = (totalVestsSteem * existingDelegation / totalVests).toFixed(3)
         existingDelegationWarning = (
           <Grid.Row columns={1}>
             <Grid.Column>
