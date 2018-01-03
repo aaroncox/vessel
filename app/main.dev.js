@@ -14,6 +14,7 @@ import { app, dialog, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
+let promptWindow = null;
 let customURI
 
 if (process.env.NODE_ENV === 'production') {
@@ -69,7 +70,6 @@ async function createWindow() {
     width: 970,
     height: 750
   });
-
   // mainWindow.webContents.openDevTools()
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -87,6 +87,8 @@ async function createWindow() {
 
   mainWindow.on('closed', () => {
     mainWindow = null;
+    promptWindow = null;
+    app.quit();
   });
 
   const menuBuilder = new MenuBuilder(mainWindow);
@@ -100,7 +102,7 @@ async function createPrompt(event, url) {
   if(event) event.preventDefault()
   customURI = url
   var parse = require('url-parse');
-  const promptWindow = new BrowserWindow({
+  promptWindow = new BrowserWindow({
     alwaysOnTop: true,
     show: false,
     width: 500,
@@ -141,6 +143,12 @@ app.on('activate', function () {
 app.on('window-all-closed', () => {
   app.quit();
 });
+
+app.on('will-quit', () => {
+  mainWindow = null;
+  promptWindow = null;
+});
+
 
 function devToolsLog(s) {
   console.log(s)
