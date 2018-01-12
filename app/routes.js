@@ -25,9 +25,6 @@ import * as SteemActions from './actions/steem';
 // // });
 
 class Routes extends Component {
-  state = {
-    steemd_node: 'https://rpc.buildteam.io'
-  }
 
   isURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -58,9 +55,8 @@ class Routes extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const nextNode = nextProps.preferences.steemd_node
-    const thisNode = this.state.steemd_node
+    const thisNode = this.props.preferences.steemd_node
     if (nextNode !== thisNode) {
-      this.setState({steemd_node: nextNode})
       this.changeNode(nextNode)
     }
   }
