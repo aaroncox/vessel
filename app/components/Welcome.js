@@ -7,6 +7,7 @@ import KeysAdd from './Keys/Add';
 import KeysGenerate from './Keys/Generate';
 import KeysImport from './Keys/Import';
 import KeysLogin from './Keys/Login';
+import PreferredNode from './global/PreferredNode'
 
 const logo = require('../img/steem.png');
 const { shell } = require('electron');
@@ -61,7 +62,9 @@ export default class Welcome extends Component {
                     To get started with Vessel, an account must be added to the wallet.
                   </Header.Subheader>
                 </Header>
+
                 <KeysAdd {...this.props} />
+                <PreferredNode {...this.props} />
               </Segment>
             </Segment>
           </Grid.Column>
