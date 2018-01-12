@@ -3,7 +3,9 @@ import {
   SET_PREFERENCE
 } from '../actions/preferences';
 
-const defaultState = {};
+const defaultState = {
+  steemd_node: 'https://rpc.buildteam.io'
+};
 
 export type preferencesStateType = {};
 
