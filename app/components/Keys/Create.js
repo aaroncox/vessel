@@ -214,7 +214,7 @@ export default class KeysCreate extends Component {
       modal = (
         <Modal
           open
-          header="Please confirm the details of this transaction"
+          header="Please backup the information below and then confirm the new account."
           content={
             <Segment
               loading={this.props.processing.account_create_pending}
@@ -225,11 +225,12 @@ export default class KeysCreate extends Component {
                   <Grid.Column width={9}>
                     <Segment basic>
                       <Header>
-                        Confirm New Account Details
+                        Final Step - Account not yet created
                       </Header>
                       <p>
                         Ensure that all of the data below looks correct before continuing.
-                        If everything looks good, click <strong>Create Account</strong>.
+                        If everything looks good, click <strong>Create Account</strong> at
+                        the bottom of this window.
                       </p>
                     </Segment>
                   </Grid.Column>
@@ -302,6 +303,16 @@ export default class KeysCreate extends Component {
                         <pre>{JSON.stringify(privatekeys, null, 2)}</pre>
                       </Segment>
                     </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Message
+                      icon='warning sign'
+                      header='Ready to create?'
+                      content='Ensure the steps above are completed and the data above has been copied elsewhere. The data displayed here can never be retrieved through Vessel again.'
+                    />
+
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
