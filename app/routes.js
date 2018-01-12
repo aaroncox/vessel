@@ -19,14 +19,14 @@ import DecryptPrompt from './containers/DecryptPrompt';
 
 import * as SteemActions from './actions/steem';
 
-// steem.config.set('websocket', 'wss://wallet.steem.ws')
+// steem.config.set('websocket', 'wss://api.steemit.com')
 // // steem.api.getAccountHistory('jesta', -1, 1000, function(err, result) {
 // //   console.log(err, result);
 // // });
 
 class Routes extends Component {
   state = {
-    steemd_node: 'https://wallet.steem.ws'
+    steemd_node: 'https://rpc.buildteam.io'
   }
 
   isURL(str) {
@@ -44,8 +44,8 @@ class Routes extends Component {
       // If it's a valid URL, set
       steem.api.setWebSocket(url);
     } else {
-      // Otherwise set to the wallet.steem.ws node
-      steem.api.setWebSocket('https://wallet.steem.ws');
+      // Otherwise set to the rpc.buildteam.io node
+      steem.api.setWebSocket('https://rpc.buildteam.io');
     }
     // Force a refresh immediately after change
     this.props.actions.refreshGlobalProps();
