@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 
 import { Button, Header, Modal, Segment, Table } from 'semantic-ui-react';
-import { Asset, Price, Client } from 'dsteem'
+import { Client } from 'dsteem';
+
 const servers = [
   'wss://gtg.steem.house:8090',
   'wss://seed.bitcoiner.me',
@@ -12,7 +13,7 @@ const servers = [
   'wss://steemd.privex.io',
   'wss://steemd.steemitstage.com',
   'wss://steemd.steemgigs.org',
-]
+];
 
 export default class ServerSelect extends Component {
 
@@ -23,9 +24,9 @@ export default class ServerSelect extends Component {
   }
 
   startStatus = () => {
-    this.setState({open: true})
+    this.setState({open: true});
     this.interval = setInterval(this.checkStatus.bind(this), 15000);
-    this.checkStatus()
+    this.checkStatus();
   }
 
   componentWillUnmount() {
@@ -34,28 +35,29 @@ export default class ServerSelect extends Component {
 
   stopStatus = () => {
     clearInterval(this.interval);
-    this.setState({ loading: false, open: false })
+    this.setState({ loading: false, open: false });
   }
 
   selectServer = (e, data) => {
     const server = data.value;
     const { refreshGlobalProps, setPreference } = this.props.actions;
     clearInterval(this.interval);
-    this.setState({ loading: true, open: false })
+    this.setState({ loading: true, open: false });
     setPreference('steemd_node', server);
-    refreshGlobalProps()
+    refreshGlobalProps();
   }
 
   checkStatus = () => {
     servers.forEach((server) => {
       try {
         const client = new Client(server);
-        const config = client.database.getDynamicGlobalProperties().then((props) => {
+        client.database.getDynamicGlobalProperties().then((props) => {
           let servers = Object.assign({}, this.state.servers);
           servers[server.replace('wss', 'https')] = props.time;
           this.setState({servers});
         });
       } catch(e) {
+        console.log(e)
       }
     })
   }
@@ -78,26 +80,26 @@ export default class ServerSelect extends Component {
             </Button>
           </Table.Cell>
         </Table.Row>
-      )
-    })
+      );
+    });
     return (
       <Modal
         closeIcon={true}
-        color='blue'
-        size='large'
+        color="blue"
+        size="large"
         loading={this.state.loading}
         onOpen={this.startStatus}
         onClose={this.stopStatus}
         open={this.state.open}
         trigger={
-          <Button floated='right' color='red' content='Change Servers'/>
+          <Button floated="right" color="red" content="Change Servers"/>
         }
         >
-          <Header attached='top'>
+          <Header attached="top">
             Select a Steem server to connect to:
           </Header>
           <Segment loading={this.state.loading}>
-            <Table attached='bottom'>
+            <Table attached="bottom">
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>
@@ -107,7 +109,7 @@ export default class ServerSelect extends Component {
                     Last Block
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-
+                    Controls
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
