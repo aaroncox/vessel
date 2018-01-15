@@ -9,7 +9,13 @@ type actionType = {
   payload: any
 };
 
-export default function account(state: any = {}, action: actionType) {
+const defaultProps = {
+  props: {
+    time: null
+  }
+}
+
+export default function account(state: any = defaultProps, action: actionType) {
   // console.log('>>> reducers/account', state, action);
   switch (action.type) {
     case STEEM_GLOBALPROPS_UPDATE_RESOLVED:
