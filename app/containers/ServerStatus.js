@@ -37,7 +37,7 @@ class ServerStatus extends Component {
             <ServerSelect {...this.props}/>
             <Icon name='warning sign' />
             <Header.Content>
-              Connection to the Steem Blockchain lost!
+              Connection lost, attempting to reconnect...
             </Header.Content>
           </Header>
         </Message>
