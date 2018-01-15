@@ -75,11 +75,16 @@ export function claimRewardBalance(wif: string, params: object) {
 
 // This function automatically attempts to use the minimal account creation fee
 // and delegation amount.
-export function createAccountDelegated(wif: string, params: object) {
+export function createAccountDelegated(wif: string, params: object, preferences = {}) {
   return (dispatch: () => void) => {
     const { creator, username, password } = params;
+    let client
+    if(preferences && preferences.steemd_node) {
+      client = new Client(preferences.steemd_node);
+    } else {
+      client = new Client('https://rpc.buildteam.io');
+    }
     const dsteem = require('dsteem');
-    const client = new dsteem.Client('wss://steemd.steemit.com');
     const creatorKey = dsteem.PrivateKey.fromString(wif);
     dispatch(ProcessingActions.processingAccountCreate());
     client.broadcast.createAccount({
@@ -93,9 +98,14 @@ export function createAccountDelegated(wif: string, params: object) {
   };
 }
 
-export function getMinimumAccountDelegation() {
+export function getMinimumAccountDelegation(preferences = {}) {
   return async dispatch => {
-    const client = new Client('wss://steemd.steemit.com');
+    let client
+    if(preferences && preferences.steemd_node) {
+      client = new Client(preferences.steemd_node);
+    } else {
+      client = new Client('https://rpc.buildteam.io');
+    }
     const constants = await client.database.getConfig();
     const chainProps = await client.database.getChainProperties();
     const dynamicProps = await client.database.getDynamicGlobalProperties();
@@ -114,7 +124,6 @@ export function getMinimumAccountDelegation() {
     const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio));
     const delegation = targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio)));
     const sp = sharePrice.convert(delegation);
-
     client.disconnect();
     dispatch({
       type: ACCOUNT_DATA_MINIMUM_ACCOUNT_DELEGATION,

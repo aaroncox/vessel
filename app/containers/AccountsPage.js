@@ -28,7 +28,7 @@ class AccountsPage extends Component {
 
   constructor(props) {
     super(props);
-    props.actions.getMinimumAccountDelegation();
+    props.actions.getMinimumAccountDelegation(props.preferences);
   }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
@@ -264,6 +264,7 @@ function mapStateToProps(state) {
     account: state.account,
     keys: state.keys,
     processing: state.processing,
+    preferences: state.preferences,
     steem: state.steem
   };
 }
