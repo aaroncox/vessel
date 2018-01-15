@@ -16,6 +16,7 @@ import TransactionsPage from './containers/TransactionsPage';
 import WelcomePage from './containers/WelcomePage';
 import VestingPage from './containers/VestingPage';
 import DecryptPrompt from './containers/DecryptPrompt';
+import ServerStatus from './containers/ServerStatus';
 
 import * as SteemActions from './actions/steem';
 
@@ -73,6 +74,7 @@ class Routes extends Component {
     }
     return (
       <App>
+        <ServerStatus {...this.props} />
         <DecryptPrompt />
         <Switch>
           <Route
@@ -103,10 +105,12 @@ class Routes extends Component {
 
 function mapStateToProps(state) {
   return {
+    account: state.account,
     keys: state.keys,
     location: state.location,
     preferences: state.preferences,
-    router: state.router
+    router: state.router,
+    steem: state.steem,
   };
 }
 
