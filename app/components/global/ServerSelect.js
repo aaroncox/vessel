@@ -11,8 +11,8 @@ const servers = [
   'wss://steemd.pevo.science',
   'wss://steemd.minnowsupportproject.org',
   'wss://steemd.privex.io',
-  'wss://steemd.steemitstage.com',
   'wss://steemd.steemgigs.org',
+  'wss://wallet.steem.ws',
 ];
 
 export default class ServerSelect extends Component {
