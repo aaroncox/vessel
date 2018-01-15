@@ -210,7 +210,7 @@ export default class KeysCreate extends Component {
     if(this.props.account && this.props.account.minimumDelegation) {
       delegation = this.props.account.minimumDelegation;
     }
-    if (this.state.modalPreview) {
+    if (this.state.modalPreview && delegation) {
       modal = (
         <Modal
           open
