@@ -358,7 +358,7 @@ export default class KeysCreate extends Component {
                   </p>
                   <List bulleted>
                     <List.Item>STEEM: {delegation.fee.amount}</List.Item>
-                    <List.Item>VESTS: {delegation.delegation.amount}<br/>(~{delegation.sp.amount} SP)</List.Item>
+                    <List.Item>VESTS: {delegation.delegation.amount.toFixed(6)} (~{delegation.sp.amount.toFixed(3)} SP)</List.Item>
                   </List>
                 </Message.Content>
               </Message>
