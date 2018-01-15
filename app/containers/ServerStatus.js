@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Button, Header, Icon, Message } from 'semantic-ui-react';
 
 import ServerSelect from '../components/global/ServerSelect'
+import ServerReconnect from '../components/global/ServerReconnect'
 import * as PreferencesActions from '../actions/preferences';
 import * as SteemActions from '../actions/steem';
 
@@ -34,7 +35,8 @@ class ServerStatus extends Component {
       message = (
         <Message attached='top' error color='red' size='big' style={{paddingLeft: '102px'}}>
           <Header textAlign='center'>
-            <ServerSelect {...this.props}/>
+            <ServerSelect {...this.props} />
+            <ServerReconnect {...this.props} />
             <Icon name='warning sign' />
             <Header.Content>
               Connection lost, attempting to reconnect...
