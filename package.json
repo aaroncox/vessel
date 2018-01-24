@@ -1,7 +1,7 @@
 {
   "name": "vessel",
   "productName": "vessel",
-  "version": "0.2.2",
+  "version": "0.2.7",
   "description": "A simple wallet for managing your Steem accounts.",
   "scripts": {
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js",
@@ -163,7 +163,7 @@
     "cross-spawn": "^5.1.0",
     "css-loader": "^0.28.0",
     "devtron": "^1.4.0",
-    "electron": "1.7.8",
+    "electron": "1.7.11",
     "electron-builder": "^19.49.0",
     "electron-devtools-installer": "^2.2.0",
     "enzyme": "^2.8.2",
