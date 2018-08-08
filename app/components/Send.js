@@ -325,7 +325,7 @@ export default class Send extends Component {
       );
     }
     if (keys.permissions[this.state.from] && keys.permissions[this.state.from].memo && steem.auth.isWif(keys.permissions[this.state.from].memo)) {
-      if (exchangeSupportingEncryption.indexOf(this.state.to) >= 0) {
+      if ((exchangeSupportingEncryption.indexOf(this.state.to) >= 0) || (this.state.destination === 'account')) {
         encryptedField = (
           <Form.Field>
             <Checkbox
