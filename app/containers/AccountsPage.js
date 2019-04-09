@@ -199,13 +199,6 @@ class AccountsPage extends Component {
               floated="right"
               content="Add account"
             />
-            <Button
-              color="blue"
-              onClick={this.handleCreateAccount}
-              icon="plus"
-              floated="right"
-              content="Create account"
-            />
             <Icon name="users" />
             <Header.Content>
               Accounts
