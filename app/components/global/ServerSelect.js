@@ -5,6 +5,7 @@ import { Button, Header, Modal, Segment, Table } from 'semantic-ui-react';
 import { Client } from 'dsteem';
 
 const servers = [
+  'wss://anyx.io',
   'wss://gtg.steem.house:8090',
   'wss://seed.bitcoiner.me',
   'wss://rpc.buildteam.io',
