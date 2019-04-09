@@ -126,6 +126,7 @@ function NumericLabel(props) {
       }
     }
     if(!shortenNumber) return <span>0</span>;
+    if(!shortenNumber.toFixed) return <span>?</span>;
     var theFormattedNumber = shortenNumber.toFixed(3);
 
     if(numberLetter){
