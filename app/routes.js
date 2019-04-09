@@ -43,7 +43,7 @@ class Routes extends Component {
       steem.api.setWebSocket(url);
     } else {
       // Otherwise set to the rpc.buildteam.io node
-      steem.api.setWebSocket('https://rpc.buildteam.io');
+      steem.api.setWebSocket('https://anyx.io');
     }
     // Force a refresh immediately after change
     this.props.actions.refreshGlobalProps();
