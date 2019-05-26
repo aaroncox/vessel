@@ -442,11 +442,17 @@ export function cancelWithdrawVesting(wif, params) {
 
 export function customJson(wif, params) {
   return (dispatch: () => void) => {
-    const { account, id, json } = params
+    const { account, id, json, permission } = params
+    let auths = []
+    let postingAuths = [account]
+    if (permission === 'active') {
+      auths = [account]
+      postingAuths = []
+    }
     dispatch({
       type: ACCOUNT_CUSTOM_JSON_STARTED
     })
-    steem.broadcast.customJson(wif, [], [account], id, json, function(err, result) {
+    steem.broadcast.customJson(wif, auths, postingAuths, id, json, function(err, result) {
       if(result) {
         dispatch({
           type: ACCOUNT_CUSTOM_JSON_RESOLVED

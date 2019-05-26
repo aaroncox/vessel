@@ -13,7 +13,8 @@ export default class AccountsCustomJSON extends Component {
       account: props.keys.names[0],
       id: '',
       json: '',
-      message: false
+      message: false,
+      permission: 'posting',
     }
   }
 
@@ -43,12 +44,18 @@ export default class AccountsCustomJSON extends Component {
     })
   }
 
+  handlePermissionChange = (e: SyntheticEvent, { value }: { value: any }) => {
+    this.setState({
+      permission: value
+    })
+  }
+
   onValidSubmit = (
     e: SyntheticEvent
   ) => {
-    const { account, id, json } = this.state
+    const { account, id, json, permission } = this.state
     this.setState({message: false})
-    this.props.actions.useKey('customJson', { account, id, json }, this.props.keys.permissions[account]);
+    this.props.actions.useKey('customJson', { account, id, json, permission }, this.props.keys.permissions[account]);
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -79,6 +86,11 @@ export default class AccountsCustomJSON extends Component {
         text: name + ' (unavailable - active/owner key not loaded)'
       };
     });
+    const availablePermissions = ['active', 'posting'].map((permission) => ({
+      key: permission,
+      text: permission,
+      value: permission
+    }))
     let message = false
     if(this.state.message) {
       message = (
@@ -89,6 +101,7 @@ export default class AccountsCustomJSON extends Component {
         />
       )
     }
+    console.log(this.state)
     return (
       <Segment basic padded>
         <Header>
@@ -110,6 +123,15 @@ export default class AccountsCustomJSON extends Component {
             options={availableFrom}
             placeholder="Sending Account..."
             onChange={this.handleAccountChange}
+          />
+          <Form.Field
+            control={Select}
+            value={this.state.permission}
+            name="permission"
+            label="Select a permission to use"
+            options={availablePermissions}
+            placeholder="Permission"
+            onChange={this.handlePermissionChange}
           />
           <Form.Input
             label="ID"
