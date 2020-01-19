@@ -4,7 +4,7 @@ import {
 } from '../actions/preferences';
 
 const defaultState = {
-  steemd_node: 'https://rpc.buildteam.io'
+  steemd_node: 'https://api.steemit.com'
 };
 
 export type preferencesStateType = {};
