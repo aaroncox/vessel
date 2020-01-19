@@ -1,7 +1,8 @@
 // @flow
 import { combineReducers } from 'redux';
-import { routerReducer as router } from 'react-router-redux';
+import { connectRouter } from 'connected-react-router';
 import { intlReducer } from 'react-intl-redux';
+import { createBrowserHistory } from 'history';
 
 import account from './account';
 import keys from './keys';
@@ -13,7 +14,7 @@ import steem from './steem';
 const rootReducer = combineReducers({
   account,
   keys,
-  router,
+  router: connectRouter(createBrowserHistory()),
   preferences,
   processing,
   steem,

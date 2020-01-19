@@ -5,15 +5,16 @@ import { Button, Header, Modal, Segment, Table } from 'semantic-ui-react';
 import { Client } from 'dsteem';
 
 const servers = [
-  'wss://anyx.io',
-  'wss://gtg.steem.house:8090',
-  'wss://seed.bitcoiner.me',
-  'wss://rpc.buildteam.io',
-  'wss://steemd.pevo.science',
-  'wss://steemd.minnowsupportproject.org',
-  'wss://steemd.privex.io',
-  'wss://steemd.steemgigs.org',
-  'wss://wallet.steem.ws',
+  'https://api.steemit.com',
+  // 'wss://anyx.io',
+  // 'wss://gtg.steem.house:8090',
+  // 'wss://seed.bitcoiner.me',
+  // 'wss://rpc.buildteam.io',
+  // 'wss://steemd.pevo.science',
+  // 'wss://steemd.minnowsupportproject.org',
+  // 'wss://steemd.privex.io',
+  // 'wss://steemd.steemgigs.org',
+  // 'wss://wallet.steem.ws',
 ];
 
 export default class ServerSelect extends Component {
