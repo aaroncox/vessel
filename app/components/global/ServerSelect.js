@@ -2,19 +2,14 @@
 import React, { Component } from 'react';
 
 import { Button, Header, Modal, Segment, Table } from 'semantic-ui-react';
-import { Client } from 'dsteem';
+import { Client } from 'dsteem'; // TODO : Remove dsteem requirement
 
 const servers = [
   'https://api.steemit.com',
-  // 'wss://anyx.io',
-  // 'wss://gtg.steem.house:8090',
-  // 'wss://seed.bitcoiner.me',
-  // 'wss://rpc.buildteam.io',
-  // 'wss://steemd.pevo.science',
-  // 'wss://steemd.minnowsupportproject.org',
-  // 'wss://steemd.privex.io',
-  // 'wss://steemd.steemgigs.org',
-  // 'wss://wallet.steem.ws',
+  'https://anyx.io',
+  'https://api.steem.house',
+  'https://steemd.minnowsupportproject.org',
+  'https://steemd.privex.io',
 ];
 
 export default class ServerSelect extends Component {

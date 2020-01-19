@@ -37,7 +37,7 @@ class Routes extends Component {
       // If it's a valid URL, set
       steem.api.setOptions({ url });
     } else {
-      // Otherwise set to the rpc.buildteam.io node
+      // Otherwise set to the api.steemit.com node
       steem.api.setOptions({ url: 'https://api.steemit.com' });
     }
     // Force a refresh immediately after change
