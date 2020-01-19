@@ -82,7 +82,7 @@ export function createAccountDelegated(wif: string, params: object, preferences 
     if(preferences && preferences.steemd_node) {
       client = new Client(preferences.steemd_node);
     } else {
-      client = new Client('https://rpc.buildteam.io');
+      client = new Client('https://api.steemit.com');
     }
     const dsteem = require('dsteem');
     const creatorKey = dsteem.PrivateKey.fromString(wif);
