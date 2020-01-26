@@ -126,3 +126,9 @@ pre code {
 a {
   cursor: pointer;
 }
+
+.modal {
+  left: 0;
+  right: 0;
+  margin: auto auto !important;
+}

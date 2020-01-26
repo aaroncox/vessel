@@ -1,5 +1,5 @@
 /*!
- * # Semantic UI 2.2.12 - Site
+ * # Semantic UI 2.4.1 - Site
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -13,21 +13,7 @@
              Page
 *******************************/
 
-
-/* lato-regular - latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  src: url('font/lato-v14-latin-regular.eot'); /* IE9 Compat Modes */
-  src: local('Lato Regular'), local('Lato-Regular'),
-       url('font/lato-v14-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('font/lato-v14-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('font/lato-v14-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('font/lato-v14-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('font/lato-v14-latin-regular.svg#Lato') format('svg'); /* Legacy iOS */
-}
-
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin');
 html,
 body {
   height: 100%;
@@ -171,6 +157,7 @@ input::selection {
 body ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
+  height: 10px;
 }
 body ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);

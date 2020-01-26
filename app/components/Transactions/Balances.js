@@ -68,22 +68,22 @@ export default class PendingReward extends Component {
           </Header>
           <Segment>
             <Statistic.Group size="tiny" widths="four">
-              <Statistic
-                value={<NumericLabel params={numberFormat}>{totals.SBD}</NumericLabel>}
-                label="SBD"
-              />
-              <Statistic
-                value={<NumericLabel params={numberFormat}>{totals.STEEM}</NumericLabel>}
-                label="STEEM"
-              />
-              <Statistic
-                value={<NumericLabel params={numberFormat}>{totals.SP}</NumericLabel>}
-                label="SP"
-              />
-              <Statistic
-                value={<NumericLabel params={numberFormat}>{totals.VESTS}</NumericLabel>}
-                label="VESTS"
-              />
+              <Statistic>
+                <Statistic.Label>SBD</Statistic.Label>
+                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.SBD}</NumericLabel>}</Statistic.Value>
+              </Statistic>
+              <Statistic>
+                <Statistic.Label>STEEM</Statistic.Label>
+                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.STEEM}</NumericLabel>}</Statistic.Value>
+              </Statistic>
+              <Statistic>
+                <Statistic.Label>SP</Statistic.Label>
+                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.SP}</NumericLabel>}</Statistic.Value>
+              </Statistic>
+              <Statistic>
+                <Statistic.Label>VESTS</Statistic.Label>
+                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.VESTS}</NumericLabel>}</Statistic.Value>
+              </Statistic>
             </Statistic.Group>
           </Segment>
           <Divider />

@@ -20,11 +20,6 @@ import ServerStatus from './containers/ServerStatus';
 
 import * as SteemActions from './actions/steem';
 
-// steem.config.set('websocket', 'wss://api.steemit.com')
-// // steem.api.getAccountHistory('jesta', -1, 1000, function(err, result) {
-// //   console.log(err, result);
-// // });
-
 class Routes extends Component {
 
   isURL(str) {
@@ -40,10 +35,10 @@ class Routes extends Component {
   changeNode(url) {
     if (url && this.isURL(url)) {
       // If it's a valid URL, set
-      steem.api.setWebSocket(url);
+      steem.api.setOptions({ url });
     } else {
-      // Otherwise set to the rpc.buildteam.io node
-      steem.api.setWebSocket('https://anyx.io');
+      // Otherwise set to the api.steemit.com node
+      steem.api.setOptions({ url: 'https://api.steemit.com' });
     }
     // Force a refresh immediately after change
     this.props.actions.refreshGlobalProps();
