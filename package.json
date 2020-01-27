@@ -1,7 +1,7 @@
 {
   "name": "vessel",
   "productName": "vessel",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A simple wallet for managing your Steem accounts.",
   "scripts": {
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js",
@@ -81,7 +81,7 @@
       "category": "Network",
       "desktop": {
         "Name": "vessel",
-        "Version": "0.3.0",
+        "Version": "0.3.1",
         "GenericName": "Steem Client",
         "X-GNOME-FullName": "vessel",
         "Comment": "A simple wallet for managing your Steem accounts.",
