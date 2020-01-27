@@ -48,6 +48,8 @@ export const ACCOUNT_TRANSFER_STARTED = 'ACCOUNT_TRANSFER_STARTED';
 export const ACCOUNT_TRANSFER_FAILED = 'ACCOUNT_TRANSFER_FAILED';
 export const ACCOUNT_TRANSFER_RESOLVED = 'ACCOUNT_TRANSFER_RESOLVED';
 export const ACCOUNT_TRANSFER_COMPLETED = 'ACCOUNT_TRANSFER_COMPLETED';
+export const ACCOUNT_CONTACTS_ADD = 'ACCOUNT_CONTACTS_ADD';
+export const ACCOUNT_CONTACTS_REMOVE = 'ACCOUNT_CONTACTS_REMOVE';
 
 export function claimRewardBalance(wif: string, params: object) {
   return (dispatch: () => void) => {
@@ -495,5 +497,23 @@ export function send(wif, params) {
         })
       }
     });
+  };
+}
+
+export function addContact(username) {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: ACCOUNT_CONTACTS_ADD,
+      payload: username
+    })
+  };
+}
+
+export function removeContact(username) {
+  return (dispatch: () => void) => {
+    dispatch({
+      type: ACCOUNT_CONTACTS_REMOVE,
+      payload: username
+    })
   };
 }

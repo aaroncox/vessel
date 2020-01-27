@@ -70,6 +70,8 @@ const defaultState = {
   destination: 'account',
   // destination: 'exchange',
   modalPreview: false,
+  addContactModal: false,
+  newContact: '',
 };
 
 export default class Send extends Component {
@@ -145,6 +147,11 @@ export default class Send extends Component {
 
   handleToChange = (e: SyntheticEvent, { value }: { value: string }) => {
     const cleaned = value.replace('@', '').trim();
+    if(cleaned === "add-contact") {
+      e.preventDefault();
+      this.setState({addContactModal: true})
+      return;
+    }
     const newState = {
       encryptMemo: false,
       to: cleaned,
@@ -188,6 +195,13 @@ export default class Send extends Component {
       encryptMemo: false,
       memoEncrypted: false
     })
+  }
+
+  handleContactChange = (e: SyntheticEvent, { value }: { value: string }) => {
+    const cleaned = value.replace(/(@|\s)+/gim, ' ');
+    this.setState({
+      newContact: cleaned
+    });
   }
 
   isFormValid = () => {
@@ -259,6 +273,23 @@ export default class Send extends Component {
     e.preventDefault();
   }
 
+  handleCancelContact = (e: SyntheticEvent) => {
+    this.setState({
+      addContactModal: false
+    });
+    e.preventDefault();
+  }
+
+  handleConfirmContact = (e: SyntheticEvent) => {
+    const { newContact } = this.state;
+    if (newContact !== '') this.props.actions.addContact(newContact);
+    this.setState({
+      addContactModal: false,
+      newContact: ''
+    });
+    e.preventDefault();
+  }
+
   render() {
     const accounts = this.props.account.accounts;
     const keys = this.props.keys;
@@ -324,6 +355,34 @@ export default class Send extends Component {
         </div>
       );
     }
+    if (this.state.destination === 'contact') {
+      let contactList = this.props.account.contacts.slice() || [];
+      contactList = contactList.map((contact) => {
+        return {
+          key: contact,
+          text: `@${contact}`,
+          value: contact,
+        }
+      })
+      contactList.push({
+        key: 'add-contact',
+        text: 'Add a New Contact',
+        value: 'add-contact'
+      })
+      toField = (
+        <div>
+          <Form.Field
+            control={Select}
+            search
+            value={this.state.to}
+            label="Select a contact:"
+            options={contactList}
+            onChange={this.handleToChange}
+            placeholder="Saved contact..."
+          />
+        </div>
+      );
+    }
     if (keys.permissions[this.state.from] && keys.permissions[this.state.from].memo && steem.auth.isWif(keys.permissions[this.state.from].memo)) {
       if ((exchangeSupportingEncryption.indexOf(this.state.to) >= 0) || (this.state.destination === 'account')) {
         encryptedField = (
@@ -342,6 +401,7 @@ export default class Send extends Component {
         <Modal
           open
           header="Please confirm the details of this transaction"
+          autoFocus={true}
           content={
             <Segment basic padded>
               <p>
@@ -421,6 +481,45 @@ export default class Send extends Component {
         />
       );
     }
+    if (this.state.addContactModal) {
+      modal = (
+        <Modal
+          open
+          header="Add a New Contact"
+          content={
+            <Segment basic padded>
+              <Form>
+                <Form.Field
+                  control={Input}
+                  name="contact"
+                  label='Username to add to contact list'
+                  placeholder="username (without @)"
+                  value={this.state.newContact}
+                  onChange={this.handleContactChange}
+                />
+              </Form>
+            </Segment>
+          }
+          actions={[
+            {
+              key: 'no',
+              icon: 'cancel',
+              content: 'Cancel',
+              color: 'red',
+              floated: 'left',
+              onClick: this.handleCancelContact,
+            },
+            {
+              key: 'yes',
+              icon: 'checkmark',
+              content: 'Confirmed - add contact',
+              color: 'green',
+              onClick: this.handleConfirmContact,
+            }
+          ]}
+        />
+      );
+    }
     return (
       <Form
         error={!!this.props.processing.account_transfer_error}
@@ -465,6 +564,14 @@ export default class Send extends Component {
                 label="an exchange"
                 value="exchange"
                 checked={this.state.destination === 'exchange'}
+                onChange={this.handleDestinationChange}
+              />
+              <Form.Field
+                control={Radio}
+                name="destination"
+                label="saved contact"
+                value="contact"
+                checked={this.state.destination === 'contact'}
                 onChange={this.handleDestinationChange}
               />
             </Grid.Column>
