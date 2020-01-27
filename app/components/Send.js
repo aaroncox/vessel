@@ -356,7 +356,7 @@ export default class Send extends Component {
       );
     }
     if (this.state.destination === 'contact') {
-      let contactList = this.props.account.contacts.slice() || [];
+      let contactList = this.props.account.contacts ? this.props.account.contacts.slice() : [];
       contactList = contactList.map((contact) => {
         return {
           key: contact,
