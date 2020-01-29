@@ -6,6 +6,7 @@ import { FormattedDate, FormattedTime } from 'react-intl';
 import NumericLabel from '../utils/NumericLabel';
 import CancelPowerDownPrompt from './Vesting/CancelPowerDownPrompt';
 import PowerDownPrompt from './Vesting/PowerDownPrompt';
+import PowerUpPrompt from './Vesting/PowerUpPrompt';
 import PowerDownDestinationPrompt from './Vesting/PowerDownDestinationPrompt';
 import AccountName from './global/AccountName';
 
@@ -30,6 +31,7 @@ export default class VestingAccounts extends Component {
       powerDown: false,
       powerDownDestination: false,
       cancelPowerDown: false,
+      powerUp: false,
     });
   }
   handleRemoveKey = (e, data) => {
@@ -60,8 +62,14 @@ export default class VestingAccounts extends Component {
       cancelPowerDown: props.value
     })
   }
+  handlePowerUpPrompt = (e, props) => {
+    this.setState({
+      powerUp: props.value
+    })
+  }
   render() {
     let powerDownPrompt = false;
+    let powerUpPrompt = false;
     const names = this.props.keys.names;
     if (this.state && this.state.powerDownDestination) {
       powerDownPrompt = (
@@ -90,6 +98,15 @@ export default class VestingAccounts extends Component {
         />
       );
     }
+    if (this.state && this.state.powerUp) {
+      powerUpPrompt = (
+        <PowerUpPrompt
+          handleCancel={this.props.actions.resetState}
+          targetAccount={this.state.powerUp}
+          {...this.props}
+        />
+      );
+    }
     const numberFormat = {
       shortFormat: true,
       shortFormatMinValue: 1000
@@ -97,7 +114,8 @@ export default class VestingAccounts extends Component {
     const {
       account_set_withdraw_vesting_route_error,
       account_set_withdraw_vesting_route_pending,
-      account_set_withdraw_vesting_route_resolved
+      account_set_withdraw_vesting_route_resolved,
+      account_power_down_resolved,
     } = this.props.processing;
     const props = this.props.steem.props;
     const accounts = names.map((name) => {
@@ -202,6 +220,20 @@ export default class VestingAccounts extends Component {
           </Header>
         );
       }
+      let powerUpControl = false;
+      if (parseFloat(account.balance.split(' ')[0]) > 0) {
+        powerUpControl = (
+          <Button
+            color="blue"
+            size="small"
+            icon="superpowers"
+            content="Power Up"
+            value={name}
+            onClick={this.handlePowerUpPrompt}
+          />
+        )
+        console.log("we have a balance for user: " + account.name)
+      }
       return (
         <Table.Row key={name}>
           <Table.Cell>
@@ -229,6 +261,7 @@ export default class VestingAccounts extends Component {
           </Table.Cell>
           <Table.Cell textAlign="right">
             {controls}
+            {powerUpControl}
           </Table.Cell>
         </Table.Row>
       );
@@ -241,6 +274,7 @@ export default class VestingAccounts extends Component {
         disabled={account_set_withdraw_vesting_route_pending}
         >
         {powerDownPrompt}
+        {powerUpPrompt}
         <Table celled striped>
           <Table.Header>
             <Table.Row>

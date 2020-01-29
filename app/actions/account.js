@@ -44,6 +44,10 @@ export const ACCOUNT_VESTING_WITHDRAW_COMPLETED = 'ACCOUNT_VESTING_WITHDRAW_COMP
 export const ACCOUNT_VESTING_WITHDRAW_STARTED = 'ACCOUNT_VESTING_WITHDRAW_STARTED';
 export const ACCOUNT_VESTING_WITHDRAW_FAILED = 'ACCOUNT_VESTING_WITHDRAW_FAILED';
 export const ACCOUNT_VESTING_WITHDRAW_RESOLVED = 'ACCOUNT_VESTING_WITHDRAW_RESOLVED';
+export const ACCOUNT_POWER_UP_COMPLETED = 'ACCOUNT_POWER_UP_COMPLETED';
+export const ACCOUNT_POWER_UP_STARTED = 'ACCOUNT_POWER_UP_STARTED';
+export const ACCOUNT_POWER_UP_FAILED = 'ACCOUNT_POWER_UP_FAILED';
+export const ACCOUNT_POWER_UP_RESOLVED = 'ACCOUNT_POWER_UP_RESOLVED';
 export const ACCOUNT_TRANSFER_STARTED = 'ACCOUNT_TRANSFER_STARTED';
 export const ACCOUNT_TRANSFER_FAILED = 'ACCOUNT_TRANSFER_FAILED';
 export const ACCOUNT_TRANSFER_RESOLVED = 'ACCOUNT_TRANSFER_RESOLVED';
@@ -440,6 +444,36 @@ export function cancelWithdrawVesting(wif, params) {
       }
     });
   };
+}
+
+export function powerUp(wif, params) {
+  return (dispatch: () => void) => {
+    const { from_account, to_account, steemAmount } = params;
+    const steemFormat = [steemAmount, "STEEM"].join(" ");
+    dispatch({
+      type: ACCOUNT_POWER_UP_STARTED
+    });
+    // fix
+    steem.broadcast.transferToVesting(wif, from_account, to_account, steemFormat, (err, result) => {
+      if (err) {
+        dispatch({
+          type: ACCOUNT_POWER_UP_FAILED,
+          payload: err
+        });
+      } else {
+        dispatch(refreshAccountData([from_account]));
+        dispatch({
+          type: ACCOUNT_POWER_UP_RESOLVED
+        });
+      }
+    });
+  };
+}
+
+export function powerUpCompleted() {
+  return {
+    type: ACCOUNT_POWER_UP_COMPLETED,
+  }
 }
 
 export function customJson(wif, params) {
