@@ -124,12 +124,12 @@ class PowerUpPrompt extends Component {
                             />
                           </Form> :
                           <AccountName name={this.state.to_account ? this.state.to_account : this.props.targetAccount} />}
-                          <Button
+                          {!this.state.edit_account && <Button
                             icon="edit"
                             color="orange"
                             style={{fontSize: '15px', padding: '8px 8px 8px 10px', marginLeft: '10px'}}
                             onClick={() => {this.setState({edit_account: true})}}
-                            value={name} />
+                            value={name} />}
                       </Header>
                     </Grid.Column>
                     <Grid.Column>
