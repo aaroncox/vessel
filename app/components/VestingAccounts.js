@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Button, Header, Icon, Segment, Table } from 'semantic-ui-react';
+import { Button, Header, Icon, Segment, Table, Grid } from 'semantic-ui-react';
 import { FormattedDate, FormattedTime } from 'react-intl';
 
 import NumericLabel from '../utils/NumericLabel';
@@ -176,10 +176,11 @@ export default class VestingAccounts extends Component {
       }
       let controls = (
         <Button
-          color="green"
+          color="red"
           size="small"
-          icon="lightning"
-          content="Start"
+          icon="sort amount down"
+          content="Power&nbsp;Down"
+          style={{fontSize: '12px'}}
           value={name}
           onClick={this.handlePowerDownPrompt}
         />
@@ -195,7 +196,8 @@ export default class VestingAccounts extends Component {
             color="orange"
             size="small"
             icon="cancel"
-            content="Stop"
+            content="Stop Power&nbsp;Down"
+            style={{fontSize: '12px'}}
             value={name}
             onClick={this.handlePowerDownCancelPrompt}
           />
@@ -224,10 +226,11 @@ export default class VestingAccounts extends Component {
       if (parseFloat(account.balance.split(' ')[0]) > 0) {
         powerUpControl = (
           <Button
-            color="blue"
+            color="green"
             size="small"
-            icon="superpowers"
-            content="Power Up"
+            icon="lightning"
+            content="Power&nbsp;Up"
+            style={{fontSize: '12px'}}
             value={name}
             onClick={this.handlePowerUpPrompt}
           />
@@ -260,8 +263,16 @@ export default class VestingAccounts extends Component {
             {nextPowerDownDisplay}
           </Table.Cell>
           <Table.Cell textAlign="right">
-            {controls}
-            {powerUpControl}
+            <Grid>
+              <Grid.Row style={{fontSize: '10px'}}>
+                <Grid.Column width={8}>
+                  {powerUpControl}
+                </Grid.Column>
+                <Grid.Column width={8}>
+                  {controls}
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Table.Cell>
         </Table.Row>
       );
