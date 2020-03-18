@@ -22,6 +22,10 @@ export default class Welcome extends Component {
     shell.openExternal('https://hive.blog/@jesta');
   }
 
+  handleMaintainerLink = () => {
+    shell.openExternal('https://hive.blog/@netuoso');
+  }
+
   render() {
     return (
       <Grid divided stretched>
@@ -43,10 +47,15 @@ export default class Welcome extends Component {
                     Desktop wallet for the Hive Blockchain
                   </p>
                   <p>
-                    Created by
-                    {' '}
+                    Created by:<br />
                     <a onClick={this.handleAuthorLink}>
                       jesta
+                    </a>
+                  </p>
+                  <p>
+                    Co-maintained by:<br />
+                    <a onClick={this.handleMaintainerLink}>
+                      netuoso
                     </a>
                   </p>
                 </Header.Subheader>
