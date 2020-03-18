@@ -26,7 +26,7 @@ export default class Settings extends Component {
    e: SyntheticEvent
  ) => {
     const { setPreference } = this.props.actions;
-    setPreference('steemd_node', e.steemd_node);
+    setPreference('hived_node', e.hived_node);
  }
 
   handleContactChange = (e: SyntheticEvent, { value }: { value: string }) => {
@@ -139,18 +139,18 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="SBD Memo (Unencrypted)"
-                name="bittrex_sbd"
-                value={this.props.preferences.bittrex_sbd}
+                label="HIVE Memo (Unencrypted)"
+                name="bittrex_hbd"
+                value={this.props.preferences.bittrex_hbd}
                 onChange={this.handleChange}
-                placeholder="Enter your SBD Unencrypted Memo key for Bittrex"
+                placeholder="Enter your HIVE Unencrypted Memo key for Bittrex"
               />
               <Form.Input
-                label="STEEM Memo (Unencrypted)"
-                name="bittrex_steem"
-                value={this.props.preferences.bittrex_steem}
+                label="HIVE Memo (Unencrypted)"
+                name="bittrex_hive"
+                value={this.props.preferences.bittrex_hive}
                 onChange={this.handleChange}
-                placeholder="Enter your STEEM Unencrypted Memo key for Bittrex"
+                placeholder="Enter your HIVE Unencrypted Memo key for Bittrex"
               />
             </Form.Group>
           </Segment>
@@ -160,18 +160,18 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="SBD Memo (Unencrypted)"
-                name="openledger_sbd"
-                value={this.props.preferences.openledger_sbd}
+                label="HIVE Memo (Unencrypted)"
+                name="openledger_hbd"
+                value={this.props.preferences.openledger_hbd}
                 onChange={this.handleChange}
-                placeholder="Enter your SBD Unencrypted Memo key for OpenLedger"
+                placeholder="Enter your HIVE Unencrypted Memo key for OpenLedger"
               />
               <Form.Input
-                label="STEEM Memo (Unencrypted)"
-                name="openledger_steem"
-                value={this.props.preferences.openledger_steem}
+                label="HIVE Memo (Unencrypted)"
+                name="openledger_hive"
+                value={this.props.preferences.openledger_hive}
                 onChange={this.handleChange}
-                placeholder="Enter your STEEM Unencrypted Memo key for OpenLedger"
+                placeholder="Enter your HIVE Unencrypted Memo key for OpenLedger"
               />
             </Form.Group>
           </Segment>
@@ -181,18 +181,18 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="SBD Memo (Unencrypted)"
-                name="poloniex_sbd"
-                value={this.props.preferences.poloniex_sbd}
+                label="HIVE Memo (Unencrypted)"
+                name="poloniex_hbd"
+                value={this.props.preferences.poloniex_hbd}
                 onChange={this.handleChange}
-                placeholder="Enter your SBD Unencrypted Memo key for Poloniex"
+                placeholder="Enter your HIVE Unencrypted Memo key for Poloniex"
               />
               <Form.Input
-                label="STEEM Memo (Unencrypted)"
-                name="poloniex_steem"
-                value={this.props.preferences.poloniex_steem}
+                label="HIVE Memo (Unencrypted)"
+                name="poloniex_hive"
+                value={this.props.preferences.poloniex_hive}
                 onChange={this.handleChange}
-                placeholder="Enter your STEEM Unencrypted Memo key for Poloniex"
+                placeholder="Enter your HIVE Unencrypted Memo key for Poloniex"
               />
             </Form.Group>
           </Segment>

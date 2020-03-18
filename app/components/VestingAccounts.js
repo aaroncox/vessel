@@ -117,7 +117,7 @@ export default class VestingAccounts extends Component {
       account_set_withdraw_vesting_route_resolved,
       account_power_down_resolved,
     } = this.props.processing;
-    const props = this.props.steem.props;
+    const props = this.props.hive.props;
     const accounts = names.map((name) => {
       const account = this.props.account.accounts[name];
       const withdrawRoutes = (this.props.account.withdrawRoutes) ? this.props.account.withdrawRoutes[name] : false;
@@ -152,7 +152,7 @@ export default class VestingAccounts extends Component {
                       {route.percent / 100}%
                     </Table.Cell>
                     <Table.Cell>
-                      {(route.auto_vest) ? 'VEST' : 'STEEM'}
+                      {(route.auto_vest) ? 'VEST' : 'HIVE'}
                     </Table.Cell>
                     <Table.Cell collapsing>
                       <Button
@@ -188,9 +188,9 @@ export default class VestingAccounts extends Component {
       if (isPoweringDown) {
         const rate = account.vesting_withdraw_rate;
         const vests = parseFloat(rate.split(" ")[0]);
-        const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
+        const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(" ")[0])
         const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-        const steem = totalVestsSteem * vests / totalVests;
+        const hive = totalVestsHive * vests / totalVests;
         controls = (
           <Button
             color="orange"
@@ -204,7 +204,7 @@ export default class VestingAccounts extends Component {
         );
         nextPowerDownDisplay = (
           <Header>
-            +<NumericLabel params={numberFormat}>{steem}</NumericLabel> STEEM
+            +<NumericLabel params={numberFormat}>{hive}</NumericLabel> HIVE
             <Header.Subheader>
               &ndash;<NumericLabel params={numberFormat}>{vests}</NumericLabel> VESTS
               {' @ '}

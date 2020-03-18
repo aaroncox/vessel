@@ -19,7 +19,7 @@ export default class Welcome extends Component {
   }
 
   handleAuthorLink = () => {
-    shell.openExternal('https://steemit.com/@jesta');
+    shell.openExternal('https://hive.blog/@jesta');
   }
 
   render() {
@@ -40,7 +40,7 @@ export default class Welcome extends Component {
                 Vessel
                 <Header.Subheader>
                   <p>
-                    Desktop wallet for the Steem Blockchain
+                    Desktop wallet for the Hive Blockchain
                   </p>
                   <p>
                     Created by

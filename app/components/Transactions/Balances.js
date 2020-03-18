@@ -7,28 +7,28 @@ import AccountName from '../global/AccountName';
 
 export default class PendingReward extends Component {
   getBalances(data) {
-    const props = this.props.steem.props;
-    const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(' ')[0])
+    const props = this.props.hive.props;
+    const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(' ')[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(' ')[0])
     const mapping = {
-      SBD: ['sbd_balance'],
-      SBD_SAVINGS: ['savings_sbd_balance'],
-      STEEM: ['balance'],
-      STEEM_SAVINGS: ['savings_balance'],
+      HIVE: ['hbd_balance'],
+      HIVE_SAVINGS: ['savings_hbd_balance'],
+      HIVE: ['balance'],
+      HIVE_SAVINGS: ['savings_balance'],
       VESTS: ['vesting_shares']
     };
     const balances = {
-      SBD: 0,
-      SBD_SAVINGS: 0,
-      STEEM: 0,
-      STEEM_SAVINGS: 0,
+      HIVE: 0,
+      HIVE_SAVINGS: 0,
+      HIVE: 0,
+      HIVE_SAVINGS: 0,
       VESTS: 0,
       SP: 0
     };
     if (!data) {
       return {
-        SBD: <Icon name="asterisk" loading />,
-        STEEM: <Icon name="asterisk" loading />,
+        HIVE: <Icon name="asterisk" loading />,
+        HIVE: <Icon name="asterisk" loading />,
         VESTS: <Icon name="asterisk" loading />,
         SP: <Icon name="asterisk" loading />
       };
@@ -39,12 +39,12 @@ export default class PendingReward extends Component {
         balances[assignment] += parseFloat(value);
       });
     });
-    balances.SP = totalVestsSteem * balances.VESTS / totalVests;
+    balances.SP = totalVestsHive * balances.VESTS / totalVests;
     return balances;
   }
   render() {
     let display = false;
-    if (this.props.steem.props) {
+    if (this.props.hive.props) {
       const accounts = this.props.account.accounts;
       const names = this.props.keys.names;
       const t = this;
@@ -52,8 +52,8 @@ export default class PendingReward extends Component {
         return (accounts && accounts[account]) ? t.getBalances(accounts[account]) : {};
       });
       const totals = {
-        SBD: balances.reduce((SBD, balance) => SBD + parseFloat(balance.SBD) + parseFloat(balance.SBD_SAVINGS), 0),
-        STEEM: balances.reduce((STEEM, balance) => STEEM + parseFloat(balance.STEEM) + parseFloat(balance.STEEM_SAVINGS), 0),
+        HIVE: balances.reduce((HIVE, balance) => HIVE + parseFloat(balance.HIVE) + parseFloat(balance.HIVE_SAVINGS), 0),
+        HIVE: balances.reduce((HIVE, balance) => HIVE + parseFloat(balance.HIVE) + parseFloat(balance.HIVE_SAVINGS), 0),
         VESTS: balances.reduce((VESTS, balance) => VESTS + parseFloat(balance.VESTS), 0),
         SP: balances.reduce((SP, balance) => SP + parseFloat(balance.SP), 0),
       };
@@ -69,12 +69,12 @@ export default class PendingReward extends Component {
           <Segment>
             <Statistic.Group size="tiny" widths="four">
               <Statistic>
-                <Statistic.Label>SBD</Statistic.Label>
-                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.SBD}</NumericLabel>}</Statistic.Value>
+                <Statistic.Label>HIVE</Statistic.Label>
+                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.HIVE}</NumericLabel>}</Statistic.Value>
               </Statistic>
               <Statistic>
-                <Statistic.Label>STEEM</Statistic.Label>
-                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.STEEM}</NumericLabel>}</Statistic.Value>
+                <Statistic.Label>HIVE</Statistic.Label>
+                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.HIVE}</NumericLabel>}</Statistic.Value>
               </Statistic>
               <Statistic>
                 <Statistic.Label>SP</Statistic.Label>
@@ -111,16 +111,16 @@ export default class PendingReward extends Component {
                   Name
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
-                  SBD
+                  HIVE
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
-                  STEEM
+                  HIVE
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
-                  SBD
+                  HIVE
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
-                  STEEM
+                  HIVE
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
                   SP
@@ -137,16 +137,16 @@ export default class PendingReward extends Component {
                     <AccountName name={account} />
                   </Table.Cell>
                   <Table.Cell textAlign="right">
-                    <NumericLabel params={numberFormat}>{balances[i].SBD}</NumericLabel>
+                    <NumericLabel params={numberFormat}>{balances[i].HIVE}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
-                    <NumericLabel params={numberFormat}>{balances[i].STEEM}</NumericLabel>
+                    <NumericLabel params={numberFormat}>{balances[i].HIVE}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
-                    <NumericLabel params={numberFormat}>{balances[i].SBD_SAVINGS}</NumericLabel>
+                    <NumericLabel params={numberFormat}>{balances[i].HIVE_SAVINGS}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
-                    <NumericLabel params={numberFormat}>{balances[i].STEEM_SAVINGS}</NumericLabel>
+                    <NumericLabel params={numberFormat}>{balances[i].HIVE_SAVINGS}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     <NumericLabel params={numberFormat}>{balances[i].SP}</NumericLabel>

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import steem from 'steem';
+import hive from 'hivejs';
 import { Button, Checkbox, Divider, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import KeysConfirm from './Confirm';
 
@@ -60,7 +60,7 @@ export default class KeysImport extends Component {
       errors.password_error_no_match = (lock1 !== lock2);
     }
     errors.account_name_required = !newState.account || newState.account === '';
-    errors.wif_error_invalid = !steem.auth.isWif(newState.wif);
+    errors.wif_error_invalid = !hive.auth.isWif(newState.wif);
     return errors;
   }
 

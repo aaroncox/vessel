@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Grid, Label, Message, Modal, Radio, Segment, Select, Table } from 'semantic-ui-react';
 import { Form, Input } from 'formsy-semantic-ui-react';
-import steem from 'steem';
+import hive from 'hivejs';
 
 const { shell } = require('electron');
 
@@ -52,7 +52,7 @@ const exchangeNotes = {
   poloniex: (
     <Message>
       <strong>Warning</strong>:
-      Poloniex deposits have not been working for months, it's recommended to avoid this exchange. Please ensure verify whether or not their Steem wallet is active on their website.
+      Poloniex deposits have not been working for months, it's recommended to avoid this exchange. Please ensure verify whether or not their Hive wallet is active on their website.
     </Message>
   )
 }
@@ -63,7 +63,7 @@ const defaultState = {
   from: '',
   to: '',
   amount: '',
-  symbol: 'STEEM',
+  symbol: 'HIVE',
   memo: '',
   memoEncrypted: false,
   encryptMemo: false,
@@ -180,7 +180,7 @@ export default class Send extends Component {
   setAmountMaximum = (e: SyntheticEvent) => {
     const accounts = this.props.account.accounts;
     const { from, symbol } = this.state;
-    const field = (symbol === 'SBD') ? 'sbd_balance' : 'balance';
+    const field = (symbol === 'HIVE') ? 'hbd_balance' : 'balance';
     const amount = accounts[from][field].split(' ')[0];
     this.setState({ amount });
   }
@@ -216,18 +216,18 @@ export default class Send extends Component {
         const to = this.state.to;
         const memoKey = this.props.keys.permissions[from].memo
         // Make sure we have a memoKey set and it's a valid WIF
-        if(memoKey && steem.auth.isWif(memoKey)) {
+        if(memoKey && hive.auth.isWif(memoKey)) {
           // Ensure it's the current memo key on file to prevent a user from using an invalid key
-          const derivedKey = steem.auth.wifToPublic(memoKey);
+          const derivedKey = hive.auth.wifToPublic(memoKey);
           const memoPublic = this.props.account.accounts[from].memo_key;
           if (derivedKey === memoPublic) {
             // Load the account we're sending to
-            steem.api.getAccounts([to], (err, result) => {
+            hive.api.getAccounts([to], (err, result) => {
               if(result.length > 0) {
                 const toAccount = result[0];
                 const toMemoPublic = toAccount.memo_key;
                 // Generate encrypted memo based on their public memo key + our private memo key
-                const memoEncrypted = steem.memo.encode(memoKey, toMemoPublic, `#${cleaned}`);
+                const memoEncrypted = hive.memo.encode(memoKey, toMemoPublic, `#${cleaned}`);
                 // Set the state to reflect
                 this.setState({
                   memo: cleaned,
@@ -305,7 +305,7 @@ export default class Send extends Component {
         text: name + ' (unavailable - active/owner key not loaded)'
       };
     });
-    const field = (this.state.symbol === 'SBD') ? 'sbd_balance' : 'balance';
+    const field = (this.state.symbol === 'HIVE') ? 'hbd_balance' : 'balance';
     const availableAmount = accounts[this.state.from][field];
     const errorLabel = <Label color="red" pointing/>;
     let modal = false;
@@ -383,7 +383,7 @@ export default class Send extends Component {
         </div>
       );
     }
-    if (keys.permissions[this.state.from] && keys.permissions[this.state.from].memo && steem.auth.isWif(keys.permissions[this.state.from].memo)) {
+    if (keys.permissions[this.state.from] && keys.permissions[this.state.from].memo && hive.auth.isWif(keys.permissions[this.state.from].memo)) {
       if ((exchangeSupportingEncryption.indexOf(this.state.to) >= 0) || (this.state.destination === 'account')) {
         encryptedField = (
           <Form.Field>
@@ -587,17 +587,17 @@ export default class Send extends Component {
               <Form.Field
                 control={Radio}
                 name="symbol"
-                label="STEEM"
-                value="STEEM"
-                checked={this.state.symbol === 'STEEM'}
+                label="HIVE"
+                value="HIVE"
+                checked={this.state.symbol === 'HIVE'}
                 onChange={this.handleSymbolChange}
               />
               <Form.Field
                 control={Radio}
                 name="symbol"
-                label="SBD"
-                value="SBD"
-                checked={this.state.symbol === 'SBD'}
+                label="HIVE"
+                value="HIVE"
+                checked={this.state.symbol === 'HIVE'}
                 onChange={this.handleSymbolChange}
               />
             </Grid.Column>

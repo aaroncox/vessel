@@ -21,9 +21,9 @@ class PowerDownPrompt extends Component {
     const name = props.targetAccount;
     const account = props.account.accounts[name];
     const vests = parseFloat(account.vesting_shares.split(" ")[0]);
-    const totalVestsSteem = parseFloat(props.steem.props.total_vesting_fund_steem.split(" ")[0])
-    const totalVests = parseFloat(props.steem.props.total_vesting_shares.split(" ")[0])
-    const sp = totalVestsSteem * vests / totalVests;
+    const totalVestsHive = parseFloat(props.hive.props.total_vesting_fund_hive.split(" ")[0])
+    const totalVests = parseFloat(props.hive.props.total_vesting_shares.split(" ")[0])
+    const sp = totalVestsHive * vests / totalVests;
     const perWeek = Math.round(sp / 13 * 1000) / 1000;
     this.state = {
       maximum: vests,
@@ -49,20 +49,20 @@ class PowerDownPrompt extends Component {
 
   handleOnChange = (value) => {
     const vests = parseFloat(value).toFixed(6);
-    const props = this.props.steem.props;
-    const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
+    const props = this.props.hive.props;
+    const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-    const sp = totalVestsSteem * vests / totalVests;
+    const sp = totalVestsHive * vests / totalVests;
     const perWeek = Math.round(sp / 13 * 1000) / 1000;
     this.setState({ vests, sp, perWeek });
   }
 
   handleOnChangeComplete = (value) => {
     const vests = parseFloat(value).toFixed(6);
-    const props = this.props.steem.props;
-    const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
+    const props = this.props.hive.props;
+    const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-    const sp = totalVestsSteem * vests / totalVests;
+    const sp = totalVestsHive * vests / totalVests;
     const perWeek = Math.round(sp / 13 * 1000) / 1000;
     this.setState({ vests, sp, perWeek });
   }
@@ -118,7 +118,7 @@ class PowerDownPrompt extends Component {
                       <Header textAlign="center" color="green" size="large">
                         <Header.Subheader>Estimated Weekly</Header.Subheader>
                           +{this.state.perWeek}
-                        <Header.Subheader>STEEM</Header.Subheader>
+                        <Header.Subheader>HIVE</Header.Subheader>
                       </Header>
                     </Grid.Column>
                   </Grid.Row>
@@ -134,7 +134,7 @@ class PowerDownPrompt extends Component {
                   />
                 </Segment>
                 <Message
-                  content="Drag the slider to adjust the amount of SP/VESTS to convert to STEEM over the next 13 weeks."
+                  content="Drag the slider to adjust the amount of SP/VESTS to convert to HIVE over the next 13 weeks."
                 />
                 <Message
                   error
@@ -173,7 +173,7 @@ function mapStateToProps(state) {
   return {
     account: state.account,
     keys: state.keys,
-    steem: state.steem
+    hive: state.hive
   };
 }
 

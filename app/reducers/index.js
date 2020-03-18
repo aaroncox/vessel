@@ -8,7 +8,7 @@ import account from './account';
 import keys from './keys';
 import preferences from './preferences';
 import processing from './processing';
-import steem from './steem';
+import hive from './hive';
 
 
 const rootReducer = combineReducers({
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   router: connectRouter(createBrowserHistory()),
   preferences,
   processing,
-  steem,
+  hive,
   intl: intlReducer
 });
 

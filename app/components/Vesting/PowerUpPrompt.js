@@ -12,7 +12,7 @@ import * as AccountActions from '../../actions/account';
 import * as KeysActions from '../../actions/keys';
 
 const defaultState = {
-  steemAmount: 0.001,
+  hiveAmount: 0.001,
   to_account: false,
   edit_account: false,
   showPreview: false,
@@ -54,8 +54,8 @@ class PowerUpPrompt extends Component {
     const from_account = this.props.targetAccount;
     const to_account = this.state.to_account ? this.state.to_account : this.props.targetAccount;
     const permissions = this.props.keys.permissions;
-    const steemAmount = this.state.steemAmount;
-    this.props.actions.useKey('powerUp', { from_account, to_account, steemAmount }, permissions[from_account]);
+    const hiveAmount = this.state.hiveAmount;
+    this.props.actions.useKey('powerUp', { from_account, to_account, hiveAmount }, permissions[from_account]);
     e.preventDefault();
   }
 
@@ -65,15 +65,15 @@ class PowerUpPrompt extends Component {
   }
 
   handleOnChange = (value) => {
-    const steemAmount = parseFloat(value);
-    // const props = this.props.steem.props;
-    this.setState({ steemAmount });
+    const hiveAmount = parseFloat(value);
+    // const props = this.props.hive.props;
+    this.setState({ hiveAmount });
   }
 
   handleOnChangeComplete = (value) => {
-    const steemAmount = parseFloat(value);
-    // const props = this.props.steem.props;
-    this.setState({ steemAmount });
+    const hiveAmount = parseFloat(value);
+    // const props = this.props.hive.props;
+    this.setState({ hiveAmount });
   }
 
   handleAccountChange = (event) => {
@@ -92,7 +92,7 @@ class PowerUpPrompt extends Component {
       account_power_up_resolved
     } = this.props.processing;
     let prompt = false;
-    if (this.state.steemAmount) {
+    if (this.state.hiveAmount) {
       prompt = !this.state.showPreview ? (
         <Modal
           size="small"
@@ -135,8 +135,8 @@ class PowerUpPrompt extends Component {
                     <Grid.Column>
                       <Header textAlign="center" color="green" size="large">
                         <Header.Subheader>Power Up Amount</Header.Subheader>
-                        +<NumericLabel params={numberFormat}>{this.state.steemAmount}</NumericLabel>
-                        {' STEEM'}
+                        +<NumericLabel params={numberFormat}>{this.state.hiveAmount}</NumericLabel>
+                        {' HIVE'}
                       </Header>
                     </Grid.Column>
                   </Grid.Row>
@@ -147,13 +147,13 @@ class PowerUpPrompt extends Component {
                     maxValue={this.state.maximum}
                     step={0.001}
                     minValue={0.001}
-                    value={this.state.steemAmount}
+                    value={this.state.hiveAmount}
                     onChange={this.handleOnChange}
                     onChangeComplete={this.handleOnChangeComplete}
                   />
                 </Segment>
                 <Message
-                  content="Drag the slider to adjust the amount of STEEM to power up as SP."
+                  content="Drag the slider to adjust the amount of HIVE to power up as SP."
                 />
                 <Message
                   error
@@ -209,8 +209,8 @@ class PowerUpPrompt extends Component {
                     <Grid.Column>
                       <Header textAlign="center" color="green" size="large">
                         <Header.Subheader>Power Up Amount</Header.Subheader>
-                        +<NumericLabel params={numberFormat}>{this.state.steemAmount}</NumericLabel>
-                        {' STEEM'}
+                        +<NumericLabel params={numberFormat}>{this.state.hiveAmount}</NumericLabel>
+                        {' HIVE'}
                       </Header>
                     </Grid.Column>
                   </Grid.Row>
@@ -253,7 +253,7 @@ function mapStateToProps(state) {
   return {
     account: state.account,
     keys: state.keys,
-    steem: state.steem
+    hive: state.hive
   };
 }
 

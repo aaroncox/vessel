@@ -1,6 +1,5 @@
 // @flow
-import steem from 'steem';
-import { Asset, Price, Client } from 'dsteem'
+import hive from 'hivejs';
 import type { accountStateType } from '../reducers/account';
 import * as ProcessingActions from './processing';
 
@@ -57,16 +56,16 @@ export const ACCOUNT_CONTACTS_REMOVE = 'ACCOUNT_CONTACTS_REMOVE';
 
 export function claimRewardBalance(wif: string, params: object) {
   return (dispatch: () => void) => {
-    const { account, reward_steem, reward_sbd, reward_vests } = params;
+    const { account, reward_hive, reward_hbd, reward_vests } = params;
     const ops = [
       ['claim_reward_balance', {
         account,
-        reward_steem,
-        reward_sbd,
+        reward_hive,
+        reward_hbd,
         reward_vests
       }]
     ];
-    steem.broadcast.send({
+    hive.broadcast.send({
       operations: ops,
       extensions: []
     }, {
@@ -83,34 +82,34 @@ export function claimRewardBalance(wif: string, params: object) {
 // and delegation amount.
 export function createAccountDelegated(wif: string, params: object, preferences = {}) {
   return (dispatch: () => void) => {
-    const { creator, username, password } = params;
-    let client
-    if(preferences && preferences.steemd_node) {
-      client = new Client(preferences.steemd_node);
-    } else {
-      client = new Client('https://api.steemit.com');
-    }
-    const dsteem = require('dsteem');
-    const creatorKey = dsteem.PrivateKey.fromString(wif);
+    // const { creator, username, password } = params;
+    // let client
+    // if(preferences && preferences.hived_node) {
+    //   client = new Client(preferences.hived_node);
+    // } else {
+    //   client = new Client('https://api.hive.blog');
+    // }
+    // const dsteem = require('dsteem');
+    // const creatorKey = dhive.PrivateKey.fromString(wif);
     dispatch(ProcessingActions.processingAccountCreate());
-    client.broadcast.createAccount({
-      creator, username, password
-    }, creatorKey).then(function(result) {
+    // client.broadcast.createAccount({
+    //   creator, username, password
+    // }, creatorKey).then(function(result) {
       dispatch(ProcessingActions.processingAccountCreateComplete());
-      client.disconnect()
-    }, function(error) {
-      dispatch(ProcessingActions.processingAccountCreateFailed(error));
-    });
+    //   client.disconnect()
+    // }, function(error) {
+    //   dispatch(ProcessingActions.processingAccountCreateFailed(error));
+    // });
   };
 }
 
 export function getMinimumAccountDelegation(preferences = {}) {
   return async dispatch => {
     let client
-    if(preferences && preferences.steemd_node) {
-      client = new Client(preferences.steemd_node);
+    if(preferences && preferences.hived_node) {
+      client = new Client(preferences.hived_node);
     } else {
-      client = new Client('https://api.steemit.com');
+      client = new Client('https://api.hive.blog');
     }
     const constants = await client.database.getConfig();
     const chainProps = await client.database.getChainProperties();
@@ -119,13 +118,13 @@ export function getMinimumAccountDelegation(preferences = {}) {
     const creationFee = Asset.from(chainProps.account_creation_fee);
     const sharePrice = Price.from({
       base: dynamicProps.total_vesting_shares,
-      quote: dynamicProps.total_vesting_fund_steem
+      quote: dynamicProps.total_vesting_fund_hive
     });
 
-    const ratio = constants.STEEMIT_CREATE_ACCOUNT_DELEGATION_RATIO;
-    const modifier = constants.STEEMIT_CREATE_ACCOUNT_WITH_STEEM_MODIFIER;
+    const ratio = constants.HIVE_CREATE_ACCOUNT_DELEGATION_RATIO;
+    const modifier = constants.HIVE_CREATE_ACCOUNT_WITH_HIVE_MODIFIER;
 
-    const fee = Asset.from('0.200 STEEM');
+    const fee = Asset.from('0.200 HIVE');
 
     const targetDelegation = sharePrice.convert(creationFee.multiply(modifier * ratio));
     const delegation = targetDelegation.subtract(sharePrice.convert(fee.multiply(ratio)));
@@ -143,7 +142,7 @@ export function getVestingDelegations(account: string) {
     dispatch({
       type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_PENDING
     });
-    steem.api.getVestingDelegations(account, -1, 100, (err, results) => {
+    hive.api.getVestingDelegations(account, -1, 100, (err, results) => {
       if (err) {
         dispatch({
           type: ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE_FAILED,
@@ -202,7 +201,7 @@ export function getWithdrawRoutes(account: string) {
     dispatch({
       type: ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE_PENDING
     });
-    steem.api.getWithdrawRoutes(account, 'outgoing', (err, results) => {
+    hive.api.getWithdrawRoutes(account, 'outgoing', (err, results) => {
       if (err) {
         dispatch({
           type: ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE_FAILED,
@@ -226,7 +225,7 @@ export function refreshAccountData(accounts: Array) {
     dispatch({
       type: ACCOUNT_DATA_UPDATE_PENDING
     });
-    steem.api.getAccounts(accounts, (err, results) => {
+    hive.api.getAccounts(accounts, (err, results) => {
       if (err) {
         dispatch({
           type: ACCOUNT_DATA_UPDATE_FAILED,
@@ -260,7 +259,7 @@ export function transfer(wif, params) {
     dispatch({
       type: ACCOUNT_TRANSFER_STARTED
     });
-    steem.broadcast.transfer(wif, from, to, amount, memo, (err, result) => {
+    hive.broadcast.transfer(wif, from, to, amount, memo, (err, result) => {
       if (err) {
         dispatch({
           type: ACCOUNT_TRANSFER_FAILED,
@@ -289,7 +288,7 @@ export function setDelegateVestingShares(wif, params) {
       type: ACCOUNT_DELEGATE_VESTING_SHARES_STARTED
     });
     const formattedVestingShares = [parseFloat(vestingShares).toFixed(6), 'VESTS'].join(' ');
-    steem.broadcast.delegateVestingShares(wif, delegator, delegatee, formattedVestingShares, (err, result) => {
+    hive.broadcast.delegateVestingShares(wif, delegator, delegatee, formattedVestingShares, (err, result) => {
       if (err) {
         dispatch({
           type: ACCOUNT_DELEGATE_VESTING_SHARES_FAILED,
@@ -317,7 +316,7 @@ export function setWithdrawVestingRoute(wif, params) {
     dispatch({
       type: ACCOUNT_SET_WITHDRAW_VESTING_ROUTE_STARTED
     });
-    steem.broadcast.setWithdrawVestingRoute(wif, account, target, percent * 100, autoVest, (err, result) => {
+    hive.broadcast.setWithdrawVestingRoute(wif, account, target, percent * 100, autoVest, (err, result) => {
       if (err) {
         dispatch({
           type: ACCOUNT_SET_WITHDRAW_VESTING_ROUTE_FAILED,
@@ -345,7 +344,7 @@ export function setVotingProxy(wif, params) {
     dispatch({
       type: ACCOUNT_SET_VOTING_PROXY_STARTED
     });
-    steem.broadcast.accountWitnessProxy(wif, account, proxy, (err, result) => {
+    hive.broadcast.accountWitnessProxy(wif, account, proxy, (err, result) => {
       if (err) {
         dispatch({
           type: ACCOUNT_SET_VOTING_PROXY_FAILED,
@@ -373,7 +372,7 @@ export function voteWitness(wif, params) {
     dispatch({
       type: ACCOUNT_VOTE_WITNESS_STARTED
     });
-    steem.broadcast.accountWitnessVote(wif, account, witness, approve, (err, result) => {
+    hive.broadcast.accountWitnessVote(wif, account, witness, approve, (err, result) => {
       if (err) {
         dispatch({
           type: ACCOUNT_VOTE_WITNESS_FAILED,
@@ -402,7 +401,7 @@ export function withdrawVesting(wif, params) {
     dispatch({
       type: ACCOUNT_VESTING_WITHDRAW_STARTED
     });
-    steem.broadcast.withdrawVesting(wif, account, vestsFormat, (err, result) => {
+    hive.broadcast.withdrawVesting(wif, account, vestsFormat, (err, result) => {
       if (err) {
         dispatch({
           type: ACCOUNT_VESTING_WITHDRAW_FAILED,
@@ -430,7 +429,7 @@ export function cancelWithdrawVesting(wif, params) {
     dispatch({
       type: ACCOUNT_VESTING_WITHDRAW_STARTED
     });
-    steem.broadcast.withdrawVesting(wif, account, '0.000000 VESTS', (err, result) => {
+    hive.broadcast.withdrawVesting(wif, account, '0.000000 VESTS', (err, result) => {
       if (err) {
         dispatch({
           type: ACCOUNT_VESTING_WITHDRAW_FAILED,
@@ -448,13 +447,13 @@ export function cancelWithdrawVesting(wif, params) {
 
 export function powerUp(wif, params) {
   return (dispatch: () => void) => {
-    const { from_account, to_account, steemAmount } = params;
-    const steemFormat = [steemAmount, "STEEM"].join(" ");
+    const { from_account, to_account, hiveAmount } = params;
+    const hiveFormat = [hiveAmount, "HIVE"].join(" ");
     dispatch({
       type: ACCOUNT_POWER_UP_STARTED
     });
     // fix
-    steem.broadcast.transferToVesting(wif, from_account, to_account, steemFormat, (err, result) => {
+    hive.broadcast.transferToVesting(wif, from_account, to_account, hiveFormat, (err, result) => {
       if (err) {
         dispatch({
           type: ACCOUNT_POWER_UP_FAILED,
@@ -488,7 +487,7 @@ export function customJson(wif, params) {
     dispatch({
       type: ACCOUNT_CUSTOM_JSON_STARTED
     })
-    steem.broadcast.customJson(wif, auths, postingAuths, id, json, function(err, result) {
+    hive.broadcast.customJson(wif, auths, postingAuths, id, json, function(err, result) {
       if(result) {
         dispatch({
           type: ACCOUNT_CUSTOM_JSON_RESOLVED
@@ -518,7 +517,7 @@ export function send(wif, params) {
     dispatch({
       type: ACCOUNT_CUSTOM_OPS_STARTED
     })
-    steem.broadcast.send({ operations, extensions }, { posting: wif }, function(err, result) {
+    hive.broadcast.send({ operations, extensions }, { posting: wif }, function(err, result) {
       if(result) {
         dispatch({
           type: ACCOUNT_CUSTOM_OPS_RESOLVED

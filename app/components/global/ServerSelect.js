@@ -2,14 +2,9 @@
 import React, { Component } from 'react';
 
 import { Button, Header, Modal, Segment, Table } from 'semantic-ui-react';
-import { Client } from 'dsteem'; // TODO : Remove dsteem requirement
 
 const servers = [
-  'https://api.steemit.com',
-  'https://anyx.io',
-  'https://api.steem.house',
-  'https://steemd.minnowsupportproject.org',
-  'https://steemd.privex.io',
+  'https://api.hive.blog',
 ];
 
 export default class ServerSelect extends Component {
@@ -40,19 +35,21 @@ export default class ServerSelect extends Component {
     const { refreshGlobalProps, setPreference } = this.props.actions;
     clearInterval(this.interval);
     this.setState({ loading: true, open: false });
-    setPreference('steemd_node', server);
+    setPreference('hived_node', server);
     refreshGlobalProps();
   }
 
   checkStatus = () => {
     servers.forEach((server) => {
       try {
-        const client = new Client(server);
-        client.database.getDynamicGlobalProperties().then((props) => {
-          let servers = Object.assign({}, this.state.servers);
-          servers[server.replace('wss', 'https')] = props.time;
-          this.setState({servers});
-        });
+        // TODO: Fix
+        // get dynamic global properties 
+        // const client = new Client(server);
+        // client.database.getDynamicGlobalProperties().then((props) => {
+        //   let servers = Object.assign({}, this.state.servers);
+        //   servers[server.replace('wss', 'https')] = props.time;
+        //   this.setState({servers});
+        // });
       } catch(e) {
         console.log(e)
       }
@@ -93,7 +90,7 @@ export default class ServerSelect extends Component {
         }
         >
           <Header attached="top">
-            Select a Steem server to connect to:
+            Select a Hive server to connect to:
           </Header>
           <Segment loading={this.state.loading}>
             <Table attached="bottom">

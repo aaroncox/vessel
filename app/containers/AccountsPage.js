@@ -258,7 +258,7 @@ function mapStateToProps(state) {
     keys: state.keys,
     processing: state.processing,
     preferences: state.preferences,
-    steem: state.steem
+    hive: state.hive
   };
 }
 

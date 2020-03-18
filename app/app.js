@@ -16,7 +16,7 @@ export default class AppProvider extends React.Component {
 
   componentWillMount() {
     const config = {
-      whitelist: ['account', 'keys', 'preferences', 'steem']
+      whitelist: ['account', 'keys', 'preferences', 'hive']
     };
     persistStore(store, config, () => {
       this.setState({ rehydrated: true })

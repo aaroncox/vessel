@@ -1,8 +1,8 @@
 {
   "name": "vessel",
   "productName": "vessel",
-  "version": "0.3.2",
-  "description": "A simple wallet for managing your Steem accounts.",
+  "version": "0.4.0",
+  "description": "A simple wallet for managing your Hive accounts.",
   "scripts": {
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js",
     "test-all": "npm run lint && npm run flow && npm run test && npm run build && npm run test-e2e",
@@ -45,10 +45,10 @@
     ],
     "protocols": [
       {
-        "name": "steem",
+        "name": "hive",
         "role": "Viewer",
         "schemes": [
-          "steem",
+          "hive",
           "vessel"
         ]
       }
@@ -82,14 +82,14 @@
       "desktop": {
         "Name": "vessel",
         "Version": "0.3.2",
-        "GenericName": "Steem Client",
+        "GenericName": "Hive Client",
         "X-GNOME-FullName": "vessel",
-        "Comment": "A simple wallet for managing your Steem accounts.",
+        "Comment": "A simple wallet for managing your Hive accounts.",
         "Type": "Application",
         "Terminal": "false",
         "StartupNotify": "false",
         "Categories": "Network;",
-        "MimeType": "application/x-steem;x-scheme-handler/steem;"
+        "MimeType": "application/x-hive;x-scheme-handler/hive;"
       },
       "icon": "assets/icons/png",
       "target": [
@@ -116,7 +116,7 @@
     "url": "https://github.com/aaroncox/vessel/issues"
   },
   "keywords": [
-    "steem",
+    "hive",
     "blockchain",
     "wallet"
   ],
@@ -213,7 +213,6 @@
     "bufferutil": "^3.0.5",
     "connected-react-router": "^6.6.1",
     "crypto-js": "^3.1.9-1",
-    "dsteem": "^0.6.0",
     "electron-config": "^1.0.0",
     "electron-debug": "^1.5.0",
     "electron-json-storage": "^3.0.5",
@@ -222,6 +221,7 @@
     "formsy-react": "^1.1.5",
     "formsy-semantic-ui-react": "^0.3.5",
     "history": "^4.10.1",
+    "hivejs": "npm:steem@^0.7.7",
     "react": "^16.4.0",
     "react-autocomplete": "^1.8.1",
     "react-collapsible": "^2.6.2",
@@ -239,7 +239,6 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.88.2",
     "source-map-support": "^0.4.18",
-    "steem": "^0.7.7",
     "url-parse": "^1.4.7",
     "utf-8-validate": "^3.0.1"
   },

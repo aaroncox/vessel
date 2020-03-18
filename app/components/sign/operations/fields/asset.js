@@ -6,9 +6,9 @@ export default class OperationsPromptFieldAsset extends Component {
 
   constructor(props) {
     super(props)
-    let defaultAsset = 'STEEM'
-    if(props.meta.type === 'sbd') {
-      defaultAsset = 'SBD'
+    let defaultAsset = 'HIVE'
+    if(props.meta.type === 'hbd') {
+      defaultAsset = 'HIVE'
     }
     this.state = {
       assetType: defaultAsset,
@@ -44,17 +44,17 @@ export default class OperationsPromptFieldAsset extends Component {
     const { field, meta, opData } = this.props
     const defaultValue = (opData[field]) ? parseFloat(opData[field].split(" ")[0]) : 0
     let options = []
-    const option_steem = { key: 'STEEM', text: 'STEEM', value: 'STEEM' }
-    const option_sbd = { key: 'SBD', text: 'SBD', value: 'SBD' }
+    const option_hive = { key: 'HIVE', text: 'HIVE', value: 'HIVE' }
+    const option_hbd = { key: 'HBD', text: 'HBD', value: 'HBD' }
     switch(meta.type) {
       case "asset":
-        options.push(option_steem, option_sbd)
+        options.push(option_hive, option_hbd)
         break;
-      case "sbd":
-        options.push(option_sbd)
+      case "hbd":
+        options.push(option_hbd)
         break;
-      case "steem":
-        options.push(option_steem)
+      case "hive":
+        options.push(option_hive)
         break;
     }
     return (

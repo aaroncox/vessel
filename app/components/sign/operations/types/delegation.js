@@ -16,16 +16,16 @@ export default class OperationsPromptDelegation extends Component {
     const avatar_delegator = <AccountAvatar name={opData.delegator} />
     const avatar_delegatee = <AccountAvatar name={opData.delegatee} />
     const vests = parseFloat(vesting_shares.split(" ")[0])
-    const totalVestsSteem = parseFloat(this.props.steem.props.total_vesting_fund_steem.split(" ")[0])
-    const totalVests = parseFloat(this.props.steem.props.total_vesting_shares.split(" ")[0])
-    const sp = (vests > 0) ? (totalVestsSteem * vests / totalVests).toFixed(3) : 0
+    const totalVestsHive = parseFloat(this.props.hive.props.total_vesting_fund_hive.split(" ")[0])
+    const totalVests = parseFloat(this.props.hive.props.total_vesting_shares.split(" ")[0])
+    const sp = (vests > 0) ? (totalVestsHive * vests / totalVests).toFixed(3) : 0
     let existingDelegation = 0
     let existingDelegationWarning = false
     if (this.props.account.vestingDelegations && this.props.account.vestingDelegations[opData.delegator]) {
       const existingDelegations = this.props.account.vestingDelegations[opData.delegator]
       existingDelegation = existingDelegations.reduce((a, b) => (b.delegator === opData.delegator && b.delegatee === opData.delegatee) ? a + parseFloat(b.vesting_shares.split(" ")[0]) : 0, 0)
       if(existingDelegation > 0) {
-        const existingSp = (totalVestsSteem * existingDelegation / totalVests).toFixed(3)
+        const existingSp = (totalVestsHive * existingDelegation / totalVests).toFixed(3)
         existingDelegationWarning = (
           <Grid.Row columns={1}>
             <Grid.Column>

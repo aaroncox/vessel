@@ -1,13 +1,13 @@
 // @flow
-import steem from 'steem';
+import hive from 'hivejs';
 import * as ProcessingActions from './processing';
 
-export const STEEM_GLOBALPROPS_UPDATE = 'STEEM_GLOBALPROPS_UPDATE';
-export const STEEM_GLOBALPROPS_UPDATE_RESOLVED = 'STEEM_GLOBALPROPS_UPDATE_RESOLVED';
+export const HIVE_GLOBALPROPS_UPDATE = 'HIVE_GLOBALPROPS_UPDATE';
+export const HIVE_GLOBALPROPS_UPDATE_RESOLVED = 'HIVE_GLOBALPROPS_UPDATE_RESOLVED';
 
 export function refreshGlobalProps() {
   return (dispatch: () => void) => {
-    steem.api.getDynamicGlobalProperties((err, results) => {
+    hive.api.getDynamicGlobalProperties((err, results) => {
       if (err) {
         // dispatch({
         //   type: ACCOUNT_DATA_UPDATE_FAILED,
@@ -15,7 +15,7 @@ export function refreshGlobalProps() {
         // });
       } else {
         dispatch({
-          type: STEEM_GLOBALPROPS_UPDATE_RESOLVED,
+          type: HIVE_GLOBALPROPS_UPDATE_RESOLVED,
           payload: results
         });
       }

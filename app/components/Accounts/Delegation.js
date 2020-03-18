@@ -52,10 +52,10 @@ export default class AccountsProxy extends Component {
       return
     }
     const vests = parsed.toFixed(6);
-    const props = this.props.steem.props;
-    const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
+    const props = this.props.hive.props;
+    const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-    const sp = (totalVestsSteem * vests / totalVests).toFixed(3);
+    const sp = (totalVestsHive * vests / totalVests).toFixed(3);
     this.setState({ vests, sp });
   }
 
@@ -65,10 +65,10 @@ export default class AccountsProxy extends Component {
       return
     }
     const vests = parsed.toFixed(6);
-    const props = this.props.steem.props;
-    const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
+    const props = this.props.hive.props;
+    const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-    const sp = (totalVestsSteem * vests / totalVests).toFixed(3);
+    const sp = (totalVestsHive * vests / totalVests).toFixed(3);
     this.setState({ vests, sp });
   }
   handleVestingSharesRemove = (e, props) => {
@@ -103,8 +103,8 @@ export default class AccountsProxy extends Component {
   }
   handleOnChangeInput = (e, props) => {
     const { name, value } = props
-    const globalProps = this.props.steem.props;
-    const totalVestsSteem = parseFloat(globalProps.total_vesting_fund_steem.split(" ")[0])
+    const globalProps = this.props.hive.props;
+    const totalVestsHive = parseFloat(globalProps.total_vesting_fund_hive.split(" ")[0])
     const totalVests = parseFloat(globalProps.total_vesting_shares.split(" ")[0])
     const parsed = parseFloat(value)
     let vests, sp
@@ -114,13 +114,13 @@ export default class AccountsProxy extends Component {
     }
     if (name === 'vests') {
       const fixed = parsed.toFixed(6);
-      sp = (totalVestsSteem * fixed / totalVests).toFixed(3)
+      sp = (totalVestsHive * fixed / totalVests).toFixed(3)
       vests = value
     }
     if (name === 'sp') {
       const fixed = parsed.toFixed(3);
       sp = value
-      vests = (fixed / totalVestsSteem * totalVests).toFixed(6)
+      vests = (fixed / totalVestsHive * totalVests).toFixed(6)
     }
     this.setState({ vests, sp });
   }
@@ -196,7 +196,7 @@ export default class AccountsProxy extends Component {
                     />
                   </Form.Field>
                   <Form.Field>
-                    <label>Steem Power</label>
+                    <label>Hive Power</label>
                     <Input
                       fluid
                       name="sp"
@@ -229,7 +229,7 @@ export default class AccountsProxy extends Component {
                     </Grid.Column>
                     <Grid.Column width={4}>
                       <Header textAlign="center" size="large">
-                        <Header.Subheader>Steem Power</Header.Subheader>
+                        <Header.Subheader>Hive Power</Header.Subheader>
                         <NumericLabel params={numberFormat}>{this.state.sp}</NumericLabel>
                         {' SP'}
                         <Header.Subheader>
@@ -244,7 +244,7 @@ export default class AccountsProxy extends Component {
                   error
                   visible={delegateWarning}
                   header="Warning! Delegating too much SP."
-                  content="Leaving so little SP in this account may cause it to stop functioning, meaning you may have to power up more Steem or Delegate to this account from another in order to even undo what you are about to do."
+                  content="Leaving so little SP in this account may cause it to stop functioning, meaning you may have to power up more Hive or Delegate to this account from another in order to even undo what you are about to do."
                 />
                 <Message
                   header="Caution! Delegation takes 7 days to revoke."

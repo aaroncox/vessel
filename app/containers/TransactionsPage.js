@@ -13,7 +13,7 @@ import ContentBar from '../components/ContentBar';
 import * as AccountActions from '../actions/account';
 import * as ProcessingActions from '../actions/processing';
 import * as KeysActions from '../actions/keys';
-import * as SteemActions from '../actions/steem';
+import * as HiveActions from '../actions/hive';
 
 class TransactionsPage extends Component {
 
@@ -55,7 +55,7 @@ function mapStateToProps(state) {
     account_data: state.account_data,
     keys: state.keys,
     processing: state.processing,
-    steem: state.steem
+    hive: state.hive
   };
 }
 
@@ -65,7 +65,7 @@ function mapDispatchToProps(dispatch) {
       ...AccountActions,
       ...KeysActions,
       ...ProcessingActions,
-      ...SteemActions,
+      ...HiveActions,
     }, dispatch)
   };
 }

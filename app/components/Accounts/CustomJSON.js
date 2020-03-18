@@ -106,7 +106,7 @@ export default class AccountsCustomJSON extends Component {
       <Segment basic padded>
         <Header>
           <Header.Subheader>
-            Broadcast a Custom JSON operation to the Steem blockchain.
+            Broadcast a Custom JSON operation to the Hive blockchain.
           </Header.Subheader>
         </Header>
         {message}
