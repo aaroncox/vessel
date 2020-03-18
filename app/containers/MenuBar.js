@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import * as AccountActions from '../actions/account';
 import * as SteemActions from '../actions/steem';
 
-const src = require('../img/steem.png');
+const src = require('../img/hive.png');
 
 class MenuBar extends Component {
 

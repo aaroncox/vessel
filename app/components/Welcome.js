@@ -9,7 +9,7 @@ import KeysImport from './Keys/Import';
 import KeysLogin from './Keys/Login';
 import PreferredNode from './global/PreferredNode'
 
-const logo = require('../img/steem.png');
+const logo = require('../img/hive.png');
 const { shell } = require('electron');
 
 export default class Welcome extends Component {
