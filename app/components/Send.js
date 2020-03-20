@@ -237,7 +237,9 @@ export default class Send extends Component {
   }
 
   handleConfirm = (e: SyntheticEvent) => {
-    const { from, to, symbol, memo, memoEncrypted } = this.state;
+    var { from, to, symbol, memo, memoEncrypted } = this.state;
+    symbol = symbol.replace("HIVE","STEEM");
+    symbol = symbol.replace("HBD","SBD");
     const usedMemo = memoEncrypted || memo;
     const amount = parseFloat(this.state.amount).toFixed(3);
     const amountFormat = [amount, symbol].join(' ');
