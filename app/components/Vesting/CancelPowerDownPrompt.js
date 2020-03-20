@@ -20,7 +20,7 @@ class CancelPowerDownPrompt extends Component {
   handleOnChange = (value) => {
     const vests = parseFloat(value).toFixed(6);
     const props = this.props.hive.props;
-    const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(" ")[0])
+    const totalVestsHive = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
     const sp = totalVestsHive * vests / totalVests;
     const perWeek = Math.round(sp / 13 * 1000) / 1000;
@@ -30,7 +30,7 @@ class CancelPowerDownPrompt extends Component {
   handleOnChangeComplete = (value) => {
     const vests = parseFloat(value).toFixed(6);
     const props = this.props.hive.props;
-    const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(" ")[0])
+    const totalVestsHive = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
     const sp = totalVestsHive * vests / totalVests;
     const perWeek = Math.round(sp / 13 * 1000) / 1000;

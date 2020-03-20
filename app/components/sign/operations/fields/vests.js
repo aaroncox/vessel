@@ -14,8 +14,8 @@ export default class OperationsPromptFieldVests extends Component {
     const { assetAmount, assetType } = this.state
     let vests = [assetAmount, 'VESTS'].join(" ")
     if(assetType === 'SP') {
-      const { total_vesting_fund_hive, total_vesting_shares } = this.props.hive.props
-      const vesting_hive = parseFloat(total_vesting_fund_hive.split(" ")[0])
+      const { total_vesting_fund_steem, total_vesting_shares } = this.props.hive.props
+      const vesting_hive = parseFloat(total_vesting_fund_steem.split(" ")[0])
       const vesting_shares = parseFloat(total_vesting_shares.split(" ")[0])
       const converted = (assetAmount / vesting_hive * vesting_shares).toFixed(6)
       vests = [converted, 'VESTS'].join(" ")

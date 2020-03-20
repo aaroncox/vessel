@@ -8,11 +8,11 @@ import AccountName from '../global/AccountName';
 export default class PendingReward extends Component {
   getBalances(data) {
     const props = this.props.hive.props;
-    const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(' ')[0])
+    const totalVestsHive = parseFloat(props.total_vesting_fund_steem.split(' ')[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(' ')[0])
     const mapping = {
-      HIVE: ['hbd_balance'],
-      HIVE_SAVINGS: ['savings_hbd_balance'],
+      HIVE: ['sbd_balance'],
+      HIVE_SAVINGS: ['savings_sbd_balance'],
       HIVE: ['balance'],
       HIVE_SAVINGS: ['savings_balance'],
       VESTS: ['vesting_shares']

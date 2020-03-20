@@ -16,7 +16,7 @@ export default class OperationsPromptDelegation extends Component {
     const avatar_delegator = <AccountAvatar name={opData.delegator} />
     const avatar_delegatee = <AccountAvatar name={opData.delegatee} />
     const vests = parseFloat(vesting_shares.split(" ")[0])
-    const totalVestsHive = parseFloat(this.props.hive.props.total_vesting_fund_hive.split(" ")[0])
+    const totalVestsHive = parseFloat(this.props.hive.props.total_vesting_fund_steem.split(" ")[0])
     const totalVests = parseFloat(this.props.hive.props.total_vesting_shares.split(" ")[0])
     const sp = (vests > 0) ? (totalVestsHive * vests / totalVests).toFixed(3) : 0
     let existingDelegation = 0

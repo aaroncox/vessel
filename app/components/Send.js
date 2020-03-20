@@ -180,7 +180,7 @@ export default class Send extends Component {
   setAmountMaximum = (e: SyntheticEvent) => {
     const accounts = this.props.account.accounts;
     const { from, symbol } = this.state;
-    const field = (symbol === 'HIVE') ? 'hbd_balance' : 'balance';
+    const field = (symbol === 'HIVE') ? 'sbd_balance' : 'balance';
     const amount = accounts[from][field].split(' ')[0];
     this.setState({ amount });
   }
@@ -305,7 +305,7 @@ export default class Send extends Component {
         text: name + ' (unavailable - active/owner key not loaded)'
       };
     });
-    const field = (this.state.symbol === 'HIVE') ? 'hbd_balance' : 'balance';
+    const field = (this.state.symbol === 'HIVE') ? 'sbd_balance' : 'balance';
     const availableAmount = accounts[this.state.from][field];
     const errorLabel = <Label color="red" pointing/>;
     let modal = false;

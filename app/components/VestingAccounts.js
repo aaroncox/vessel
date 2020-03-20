@@ -188,7 +188,7 @@ export default class VestingAccounts extends Component {
       if (isPoweringDown) {
         const rate = account.vesting_withdraw_rate;
         const vests = parseFloat(rate.split(" ")[0]);
-        const totalVestsHive = parseFloat(props.total_vesting_fund_hive.split(" ")[0])
+        const totalVestsHive = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
         const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
         const hive = totalVestsHive * vests / totalVests;
         controls = (

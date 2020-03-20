@@ -118,7 +118,7 @@ export function getMinimumAccountDelegation(preferences = {}) {
     const creationFee = Asset.from(chainProps.account_creation_fee);
     const sharePrice = Price.from({
       base: dynamicProps.total_vesting_shares,
-      quote: dynamicProps.total_vesting_fund_hive
+      quote: dynamicProps.total_vesting_fund_steem
     });
 
     const ratio = constants.HIVE_CREATE_ACCOUNT_DELEGATION_RATIO;
