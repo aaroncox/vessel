@@ -11,26 +11,26 @@ export default class PendingReward extends Component {
     const totalVestsHive = parseFloat(props.total_vesting_fund_steem.split(' ')[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(' ')[0])
     const mapping = {
-      HIVE: ['sbd_balance'],
-      HIVE_SAVINGS: ['savings_sbd_balance'],
+      HBD: ['sbd_balance'],
+      HBD_SAVINGS: ['savings_sbd_balance'],
       HIVE: ['balance'],
       HIVE_SAVINGS: ['savings_balance'],
       VESTS: ['vesting_shares']
     };
     const balances = {
-      HIVE: 0,
-      HIVE_SAVINGS: 0,
+      HBD: 0,
+      HBD_SAVINGS: 0,
       HIVE: 0,
       HIVE_SAVINGS: 0,
       VESTS: 0,
-      SP: 0
+      HP: 0
     };
     if (!data) {
       return {
-        HIVE: <Icon name="asterisk" loading />,
+        HBD: <Icon name="asterisk" loading />,
         HIVE: <Icon name="asterisk" loading />,
         VESTS: <Icon name="asterisk" loading />,
-        SP: <Icon name="asterisk" loading />
+        HP: <Icon name="asterisk" loading />
       };
     }
     _.forOwn(mapping, (fields: Array, assignment: string) => {
@@ -39,7 +39,7 @@ export default class PendingReward extends Component {
         balances[assignment] += parseFloat(value);
       });
     });
-    balances.SP = totalVestsHive * balances.VESTS / totalVests;
+    balances.HP = totalVestsHive * balances.VESTS / totalVests;
     return balances;
   }
   render() {
@@ -52,10 +52,10 @@ export default class PendingReward extends Component {
         return (accounts && accounts[account]) ? t.getBalances(accounts[account]) : {};
       });
       const totals = {
-        HIVE: balances.reduce((HIVE, balance) => HIVE + parseFloat(balance.HIVE) + parseFloat(balance.HIVE_SAVINGS), 0),
+        HBD: balances.reduce((HBD, balance) => HBD + parseFloat(balance.HBD) + parseFloat(balance.HBD_SAVINGS), 0),
         HIVE: balances.reduce((HIVE, balance) => HIVE + parseFloat(balance.HIVE) + parseFloat(balance.HIVE_SAVINGS), 0),
         VESTS: balances.reduce((VESTS, balance) => VESTS + parseFloat(balance.VESTS), 0),
-        SP: balances.reduce((SP, balance) => SP + parseFloat(balance.SP), 0),
+        HP: balances.reduce((HP, balance) => HP + parseFloat(balance.HP), 0),
       };
       const numberFormat = {
         shortFormat: true,
@@ -69,16 +69,16 @@ export default class PendingReward extends Component {
           <Segment>
             <Statistic.Group size="tiny" widths="four">
               <Statistic>
-                <Statistic.Label>HIVE</Statistic.Label>
-                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.HIVE}</NumericLabel>}</Statistic.Value>
+                <Statistic.Label>HBD</Statistic.Label>
+                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.HBD}</NumericLabel>}</Statistic.Value>
               </Statistic>
               <Statistic>
                 <Statistic.Label>HIVE</Statistic.Label>
                 <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.HIVE}</NumericLabel>}</Statistic.Value>
               </Statistic>
               <Statistic>
-                <Statistic.Label>SP</Statistic.Label>
-                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.SP}</NumericLabel>}</Statistic.Value>
+                <Statistic.Label>HP</Statistic.Label>
+                <Statistic.Value>{<NumericLabel params={numberFormat}>{totals.HP}</NumericLabel>}</Statistic.Value>
               </Statistic>
               <Statistic>
                 <Statistic.Label>VESTS</Statistic.Label>
@@ -90,7 +90,7 @@ export default class PendingReward extends Component {
           <Header>
             Account Balances
           </Header>
-          <Table celled unstackable attached color="blue">
+          <Table celled unstackable attached color="grey">
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell textAlign="right">
@@ -111,19 +111,19 @@ export default class PendingReward extends Component {
                   Name
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
-                  HIVE
+                  HBD
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
                   HIVE
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
-                  HIVE
+                  HBD
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
                   HIVE
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
-                  SP
+                  HP
                 </Table.HeaderCell>
                 <Table.HeaderCell textAlign="right">
                   VESTS
@@ -137,19 +137,19 @@ export default class PendingReward extends Component {
                     <AccountName name={account} />
                   </Table.Cell>
                   <Table.Cell textAlign="right">
-                    <NumericLabel params={numberFormat}>{balances[i].HIVE}</NumericLabel>
+                    <NumericLabel params={numberFormat}>{balances[i].HBD}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     <NumericLabel params={numberFormat}>{balances[i].HIVE}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
-                    <NumericLabel params={numberFormat}>{balances[i].HIVE_SAVINGS}</NumericLabel>
+                    <NumericLabel params={numberFormat}>{balances[i].HBD_SAVINGS}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     <NumericLabel params={numberFormat}>{balances[i].HIVE_SAVINGS}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
-                    <NumericLabel params={numberFormat}>{balances[i].SP}</NumericLabel>
+                    <NumericLabel params={numberFormat}>{balances[i].HP}</NumericLabel>
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     <NumericLabel params={numberFormat}>{balances[i].VESTS}</NumericLabel>

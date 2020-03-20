@@ -128,7 +128,7 @@ export default class VestingAccounts extends Component {
       let withdrawRoutesControl = (
         <Button
           fluid
-          color="blue"
+          color="black"
           size="mini"
           icon="user"
           content="Add Withdraw Account"

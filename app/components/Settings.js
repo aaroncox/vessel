@@ -139,11 +139,11 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="HIVE Memo (Unencrypted)"
+                label="HBD Memo (Unencrypted)"
                 name="bittrex_hbd"
                 value={this.props.preferences.bittrex_hbd}
                 onChange={this.handleChange}
-                placeholder="Enter your HIVE Unencrypted Memo key for Bittrex"
+                placeholder="Enter your HBD Unencrypted Memo key for Bittrex"
               />
               <Form.Input
                 label="HIVE Memo (Unencrypted)"
@@ -160,11 +160,11 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="HIVE Memo (Unencrypted)"
+                label="HBD Memo (Unencrypted)"
                 name="openledger_hbd"
                 value={this.props.preferences.openledger_hbd}
                 onChange={this.handleChange}
-                placeholder="Enter your HIVE Unencrypted Memo key for OpenLedger"
+                placeholder="Enter your HBD Unencrypted Memo key for OpenLedger"
               />
               <Form.Input
                 label="HIVE Memo (Unencrypted)"
@@ -181,11 +181,11 @@ export default class Settings extends Component {
             </Header>
             <Form.Group widths="equal">
               <Form.Input
-                label="HIVE Memo (Unencrypted)"
+                label="HBD Memo (Unencrypted)"
                 name="poloniex_hbd"
                 value={this.props.preferences.poloniex_hbd}
                 onChange={this.handleChange}
-                placeholder="Enter your HIVE Unencrypted Memo key for Poloniex"
+                placeholder="Enter your HBD Unencrypted Memo key for Poloniex"
               />
               <Form.Input
                 label="HIVE Memo (Unencrypted)"

@@ -8,7 +8,7 @@ export default class OperationsPromptFieldAsset extends Component {
     super(props)
     let defaultAsset = 'HIVE'
     if(props.meta.type === 'hbd') {
-      defaultAsset = 'HIVE'
+      defaultAsset = 'HBD'
     }
     this.state = {
       assetType: defaultAsset,

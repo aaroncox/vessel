@@ -239,7 +239,7 @@ export function refreshAccountData(accounts: Array) {
           if (data.withdraw_routes > 0) {
             dispatch(getWithdrawRoutes(data.name));
           }
-          // If we have delegated SP, update that data
+          // If we have delegated HP, update that data
           if (data.delegated_vesting_shares !== "0.000000 VESTS") {
             dispatch(getVestingDelegations(data.name));
           }

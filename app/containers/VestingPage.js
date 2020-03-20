@@ -22,9 +22,9 @@ class VestingsPage extends Component {
           <Header>
             <Icon size="large" name="lightning" style={{display: 'inline-block'}} /><span>Vesting Schedule</span>
             <Divider />
-            <Header.Subheader>Hive Power (aka SP aka VESTS) can be converted to liquid HIVE using a process called 'Powering Down' which takes 13 weeks to complete. During the 13 weeks, every 7 days, 1/13th of the amount choosen to withdraw will be credited to your account. You can interrupt this process at any time.</Header.Subheader>
+            <Header.Subheader>Hive Power (aka HP aka VESTS) can be converted to liquid HIVE using a process called 'Powering Down' which takes 13 weeks to complete. During the 13 weeks, every 7 days, 1/13th of the amount choosen to withdraw will be credited to your account. You can interrupt this process at any time.</Header.Subheader>
             <br />
-            <Header.Subheader>HIVE can be converted to vested SP using a process called 'Powering Up' which is instant. Powering up adds to user stake for allocating rewards and witness voting.</Header.Subheader>
+            <Header.Subheader>HIVE can be converted to vested HP using a process called 'Powering Up' which is instant. Powering up adds to user stake for allocating rewards and witness voting.</Header.Subheader>
           </Header>
         </Segment>
         <VestingAccounts {...this.props} />

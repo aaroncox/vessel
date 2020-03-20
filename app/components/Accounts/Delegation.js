@@ -231,7 +231,7 @@ export default class AccountsProxy extends Component {
                       <Header textAlign="center" size="large">
                         <Header.Subheader>Hive Power</Header.Subheader>
                         <NumericLabel params={numberFormat}>{this.state.sp}</NumericLabel>
-                        {' SP'}
+                        {' HP'}
                         <Header.Subheader>
                           -<NumericLabel params={numberFormat}>{this.state.vests}</NumericLabel>
                           {' VESTS'}
@@ -243,8 +243,8 @@ export default class AccountsProxy extends Component {
                 <Message
                   error
                   visible={delegateWarning}
-                  header="Warning! Delegating too much SP."
-                  content="Leaving so little SP in this account may cause it to stop functioning, meaning you may have to power up more Hive or Delegate to this account from another in order to even undo what you are about to do."
+                  header="Warning! Delegating too much HP."
+                  content="Leaving so little HP in this account may cause it to stop functioning, meaning you may have to power up more Hive or Delegate to this account from another in order to even undo what you are about to do."
                 />
                 <Message
                   header="Caution! Delegation takes 7 days to revoke."
@@ -356,7 +356,7 @@ export default class AccountsProxy extends Component {
                         <Table.Cell>
                           <Button.Group>
                             <Button
-                              color="blue"
+                              color="black"
                               size="small"
                               icon="pencil"
                               value={{ delegatee }}

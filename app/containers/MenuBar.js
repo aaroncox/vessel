@@ -41,7 +41,7 @@ class MenuBar extends Component {
       height = this.props.hive.props.head_block_number;
     }
     return (
-      <Menu vertical fixed="left" color="blue" inverted icon="labeled">
+      <Menu vertical fixed="left" color="black" inverted icon="labeled">
         <Menu.Item header>
           <img
             alt="Vessel"

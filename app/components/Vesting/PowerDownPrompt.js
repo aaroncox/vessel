@@ -107,7 +107,7 @@ class PowerDownPrompt extends Component {
                       <Header textAlign="center" color="red" size="large">
                         <Header.Subheader>Power Down Amount</Header.Subheader>
                         -<NumericLabel params={numberFormat}>{this.state.sp}</NumericLabel>
-                        {' SP'}
+                        {' HP'}
                         <Header.Subheader>
                           -<NumericLabel params={numberFormat}>{this.state.vests}</NumericLabel>
                           {' VESTS'}
@@ -134,7 +134,7 @@ class PowerDownPrompt extends Component {
                   />
                 </Segment>
                 <Message
-                  content="Drag the slider to adjust the amount of SP/VESTS to convert to HIVE over the next 13 weeks."
+                  content="Drag the slider to adjust the amount of HP/VESTS to convert to HIVE over the next 13 weeks."
                 />
                 <Message
                   error

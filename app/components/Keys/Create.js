@@ -147,7 +147,7 @@ export default class KeysCreate extends Component {
         value:name
       } : {
         key:name,
-        text:name + ' (SP)',
+        text:name + ' (HP)',
         value:name
       };
     });
@@ -358,7 +358,7 @@ export default class KeysCreate extends Component {
                   </p>
                   <List bulleted>
                     <List.Item>HIVE: {delegation.fee.amount}</List.Item>
-                    <List.Item>VESTS: {delegation.delegation.amount.toFixed(6)} (~{delegation.sp.amount.toFixed(3)} SP)</List.Item>
+                    <List.Item>VESTS: {delegation.delegation.amount.toFixed(6)} (~{delegation.sp.amount.toFixed(3)} HP)</List.Item>
                   </List>
                 </Message.Content>
               </Message>
@@ -407,7 +407,7 @@ export default class KeysCreate extends Component {
               <Segment basic>
                 <Button
                   size="large"
-                  color="blue"
+                  color="black"
                   content="Create Account"
                   onClick={this.createAccount}
                   disabled={!(this.state.usernameAvailable && this.state.ownerAvailable)}

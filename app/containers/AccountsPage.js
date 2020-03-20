@@ -226,7 +226,7 @@ class AccountsPage extends Component {
           <Menu.Item
             name="delegation"
             icon="tasks"
-            content="SP Delegation"
+            content="HP Delegation"
             active={activeItem === 'delegation'}
             onClick={this.handleItemClick}
           />

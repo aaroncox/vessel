@@ -690,10 +690,10 @@
 
 /* Black */
 .ui.black.segment:not(.inverted) {
-  border-top: 2px solid #1B1C1D !important;
+  border-top: 2px solid #212529 !important;
 }
 .ui.inverted.black.segment {
-  background-color: #1B1C1D !important;
+  background-color: #212529 !important;
   color: #FFFFFF !important;
 }
 
@@ -736,7 +736,7 @@
 }
 .ui.inverted.segment,
 .ui.primary.inverted.segment {
-  background: #1B1C1D;
+  background: #212529;
   color: rgba(255, 255, 255, 0.9);
 }
 

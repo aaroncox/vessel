@@ -153,7 +153,7 @@ class PowerUpPrompt extends Component {
                   />
                 </Segment>
                 <Message
-                  content="Drag the slider to adjust the amount of HIVE to power up as SP."
+                  content="Drag the slider to adjust the amount of HIVE to power up as HP."
                 />
                 <Message
                   error

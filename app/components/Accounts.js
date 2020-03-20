@@ -46,7 +46,7 @@ export default class Accounts extends Component {
                   <Button
                     basic
                     icon="circle plus"
-                    color="blue"
+                    color="black"
                     onClick={t.handleAddMemoKey}
                     value={name}
                   />

@@ -1002,8 +1002,8 @@ a.ui.basic.grey.label:hover {
 
 .ui.black.labels .label,
 .ui.black.label {
-  background-color: #1B1C1D !important;
-  border-color: #1B1C1D !important;
+  background-color: #212529 !important;
+  border-color: #212529 !important;
   color: #FFFFFF !important;
 }
 
@@ -1029,8 +1029,8 @@ a.ui.black.label:hover {
 /* Basic */
 .ui.basic.black.label {
   background: none #FFFFFF !important;
-  color: #1B1C1D !important;
-  border-color: #1B1C1D !important;
+  color: #212529 !important;
+  border-color: #212529 !important;
 }
 .ui.basic.black.labels a.label:hover,
 a.ui.basic.black.label:hover {

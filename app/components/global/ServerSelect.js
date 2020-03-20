@@ -79,7 +79,7 @@ export default class ServerSelect extends Component {
     return (
       <Modal
         closeIcon={true}
-        color="blue"
+        color="black"
         size="large"
         loading={this.state.loading}
         onOpen={this.startStatus}
