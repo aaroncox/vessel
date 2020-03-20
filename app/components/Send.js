@@ -8,35 +8,10 @@ const { shell } = require('electron');
 
 const exchangeOptions = [
   {
-    key: 'bittrex',
-    text: 'Bittrex (@bittrex)',
-    value: 'bittrex'
-  },
-  {
     key: 'blocktrades',
     text: 'BlockTrades (@blocktrades)',
     value: 'blocktrades',
-  },
-  {
-    key: 'changelly',
-    text: 'Changelly (@changelly)',
-    value: 'changelly',
-  },
-  {
-    key: 'openledger-dex',
-    text: 'OpenLedger (@openledger-dex)',
-    value: 'openledger-dex'
-  },
-  {
-    key: 'poloniex',
-    text: '(!) Poloniex (@poloniex)',
-    value: 'poloniex'
-  },
-  {
-    key: 'shapeshiftio',
-    text: 'Shapeshift (@shapeshiftio)',
-    value: 'shapeshiftio',
-  },
+  }
 ];
 
 const exchangeLinks = {
@@ -642,7 +617,6 @@ export default class Send extends Component {
                 placeholder="Enter a memo to include with the transaction"
                 value={this.state.memo}
                 onChange={this.handleMemoChange}
-                disabled={this.state.memoDetected}
               />
               {encryptedField}
             </Grid.Column>

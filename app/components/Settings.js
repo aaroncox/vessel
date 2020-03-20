@@ -135,64 +135,22 @@ export default class Settings extends Component {
 
           <Segment attached>
             <Header size="small">
-              Bittrex
+              Blocktrades
             </Header>
             <Form.Group widths="equal">
               <Form.Input
                 label="HBD Memo (Unencrypted)"
-                name="bittrex_hbd"
-                value={this.props.preferences.bittrex_hbd}
+                name="blocktrades_hbd"
+                value={this.props.preferences.blocktrades_hbd}
                 onChange={this.handleChange}
-                placeholder="Enter your HBD Unencrypted Memo key for Bittrex"
+                placeholder="Enter your HBD Unencrypted Memo key for Blocktrades"
               />
               <Form.Input
                 label="HIVE Memo (Unencrypted)"
-                name="bittrex_hive"
-                value={this.props.preferences.bittrex_hive}
+                name="blocktrades_hive"
+                value={this.props.preferences.blocktrades_hive}
                 onChange={this.handleChange}
-                placeholder="Enter your HIVE Unencrypted Memo key for Bittrex"
-              />
-            </Form.Group>
-          </Segment>
-          <Segment attached>
-            <Header size="small">
-              OpenLedger
-            </Header>
-            <Form.Group widths="equal">
-              <Form.Input
-                label="HBD Memo (Unencrypted)"
-                name="openledger_hbd"
-                value={this.props.preferences.openledger_hbd}
-                onChange={this.handleChange}
-                placeholder="Enter your HBD Unencrypted Memo key for OpenLedger"
-              />
-              <Form.Input
-                label="HIVE Memo (Unencrypted)"
-                name="openledger_hive"
-                value={this.props.preferences.openledger_hive}
-                onChange={this.handleChange}
-                placeholder="Enter your HIVE Unencrypted Memo key for OpenLedger"
-              />
-            </Form.Group>
-          </Segment>
-          <Segment attached>
-            <Header size="small">
-              Poloniex
-            </Header>
-            <Form.Group widths="equal">
-              <Form.Input
-                label="HBD Memo (Unencrypted)"
-                name="poloniex_hbd"
-                value={this.props.preferences.poloniex_hbd}
-                onChange={this.handleChange}
-                placeholder="Enter your HBD Unencrypted Memo key for Poloniex"
-              />
-              <Form.Input
-                label="HIVE Memo (Unencrypted)"
-                name="poloniex_hive"
-                value={this.props.preferences.poloniex_hive}
-                onChange={this.handleChange}
-                placeholder="Enter your HIVE Unencrypted Memo key for Poloniex"
+                placeholder="Enter your HIVE Unencrypted Memo key for Blocktrades"
               />
             </Form.Group>
           </Segment>
