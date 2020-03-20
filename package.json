@@ -81,7 +81,7 @@
       "category": "Network",
       "desktop": {
         "Name": "vessel",
-        "Version": "0.3.2",
+        "Version": "0.4.0",
         "GenericName": "Hive Client",
         "X-GNOME-FullName": "vessel",
         "Comment": "A simple wallet for managing your Hive accounts.",
@@ -93,8 +93,7 @@
       },
       "icon": "assets/icons/png",
       "target": [
-        "deb",
-        "snap"
+        "deb"
       ]
     },
     "directories": {
