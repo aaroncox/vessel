@@ -44,8 +44,8 @@ export default class OperationsPromptFieldAsset extends Component {
     const { field, meta, opData } = this.props
     const defaultValue = (opData[field]) ? parseFloat(opData[field].split(" ")[0]) : 0
     let options = []
-    const option_hive = { key: 'HIVE', text: 'HIVE', value: 'HIVE' }
-    const option_hbd = { key: 'HBD', text: 'HBD', value: 'HBD' }
+    const option_hive = { key: 'HIVE', text: 'HIVE', value: 'STEEM' }
+    const option_hbd = { key: 'HBD', text: 'HBD', value: 'SBD' }
     switch(meta.type) {
       case "asset":
         options.push(option_hive, option_hbd)
