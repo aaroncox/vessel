@@ -21,19 +21,19 @@ export default class Welcome extends Component {
       <Segment.Group>
         <Segment padded>
           <Header>
-            Import a steemit.com account
+            Import a Hive account (w/ password)
             <Header.Subheader>
-              By using your steemit.com username and password, your private
-              keys can be derived and imported into your wallet.
+              If your keys were generated with a password, you can use your username
+              and password to have your private keys derived and imported into the wallet.
             </Header.Subheader>
           </Header>
           <Button
             color="green"
             size="large"
             onClick={this.handleMethodChange}
-            value="login-steemit"
+            value="login-hive"
           >
-            Import a steemit.com account
+            Import a Hive account (w/ password)
           </Button>
         </Segment>
         <Segment padded>
@@ -58,7 +58,7 @@ export default class Welcome extends Component {
             Experimental - Generate New Private Keys
             <Header.Subheader>
               For advanced users.
-              Create a new set of public and private keys for a new Steem
+              Create a new set of public and private keys for a new Hive
               account. These <strong>public</strong> keys can then be given
               to another user or service allowing the creation of an account.
             </Header.Subheader>
@@ -83,7 +83,7 @@ export default class Welcome extends Component {
           />
         );
         break;
-      case 'login-steemit':
+      case 'login-hive':
         display = (
           <KeysLogin
             handleMethodReset={this.handleMethodReset}

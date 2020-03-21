@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
-import steem from 'steem';
+import hive from 'hivejs';
 
 import App from './containers/App';
 import AdvancedPage from './containers/AdvancedPage';
@@ -18,7 +18,7 @@ import VestingPage from './containers/VestingPage';
 import DecryptPrompt from './containers/DecryptPrompt';
 import ServerStatus from './containers/ServerStatus';
 
-import * as SteemActions from './actions/steem';
+import * as HiveActions from './actions/hive';
 
 class Routes extends Component {
 
@@ -35,23 +35,23 @@ class Routes extends Component {
   changeNode(url) {
     if (url && this.isURL(url)) {
       // If it's a valid URL, set
-      steem.api.setOptions({ url });
+      hive.api.setOptions({ url });
     } else {
-      // Otherwise set to the api.steemit.com node
-      steem.api.setOptions({ url: 'https://api.steemit.com' });
+      // Otherwise set to the api.hive.blog node
+      hive.api.setOptions({ url: 'https://api.hive.blog' });
     }
     // Force a refresh immediately after change
     this.props.actions.refreshGlobalProps();
   }
 
   componentWillMount() {
-    if (this.props.preferences && this.props.preferences.steemd_node) {
-      this.changeNode(this.props.preferences.steemd_node)
+    if (this.props.preferences && this.props.preferences.hived_node) {
+      this.changeNode(this.props.preferences.hived_node)
     }
   }
   componentWillReceiveProps(nextProps) {
-    const nextNode = nextProps.preferences.steemd_node
-    const thisNode = this.props.preferences.steemd_node
+    const nextNode = nextProps.preferences.hived_node
+    const thisNode = this.props.preferences.hived_node
     if (nextNode !== thisNode) {
       this.changeNode(nextNode)
     }
@@ -69,7 +69,7 @@ class Routes extends Component {
     }
     return (
       <App>
-        <ServerStatus {...this.props} />
+        {false && <ServerStatus {...this.props} />}
         <DecryptPrompt />
         <Switch>
           <Route
@@ -105,14 +105,14 @@ function mapStateToProps(state) {
     location: state.location,
     preferences: state.preferences,
     router: state.router,
-    steem: state.steem,
+    hive: state.hive,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      ...SteemActions
+      ...HiveActions
     }, dispatch)
   };
 }

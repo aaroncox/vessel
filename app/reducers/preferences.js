@@ -4,7 +4,7 @@ import {
 } from '../actions/preferences';
 
 const defaultState = {
-  steemd_node: 'https://api.steemit.com'
+  hived_node: 'https://api.hive.blog'
 };
 
 export type preferencesStateType = {};

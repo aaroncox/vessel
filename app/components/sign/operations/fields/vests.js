@@ -13,11 +13,11 @@ export default class OperationsPromptFieldVests extends Component {
     const { field } = this.props
     const { assetAmount, assetType } = this.state
     let vests = [assetAmount, 'VESTS'].join(" ")
-    if(assetType === 'SP') {
-      const { total_vesting_fund_steem, total_vesting_shares } = this.props.steem.props
-      const vesting_steem = parseFloat(total_vesting_fund_steem.split(" ")[0])
+    if(assetType === 'HP') {
+      const { total_vesting_fund_steem, total_vesting_shares } = this.props.hive.props
+      const vesting_hive = parseFloat(total_vesting_fund_steem.split(" ")[0])
       const vesting_shares = parseFloat(total_vesting_shares.split(" ")[0])
-      const converted = (assetAmount / vesting_steem * vesting_shares).toFixed(6)
+      const converted = (assetAmount / vesting_hive * vesting_shares).toFixed(6)
       vests = [converted, 'VESTS'].join(" ")
     }
     this.props.modifyOpsPrompt(null, {
@@ -29,7 +29,7 @@ export default class OperationsPromptFieldVests extends Component {
 
   modifyAssetAmount = (e, { value, name }) => {
     let amount = parseFloat(value).toFixed(6)
-    if(this.state.assetType === 'SP') {
+    if(this.state.assetType === 'HP') {
       amount = parseFloat(value).toFixed(3)
     }
     this.setState({
@@ -59,7 +59,7 @@ export default class OperationsPromptFieldVests extends Component {
           name={field}
           defaultValue={defaultValue}
           onChange={this.modifyAssetAmount}
-          label={<Dropdown name={field} onChange={this.modifyAssetType} defaultValue='VESTS' options={[{ key: 'VESTS', text: 'VESTS', value: 'VESTS' },{ key: 'SP', text: 'SP', value: 'SP' }]} />}
+          label={<Dropdown name={field} onChange={this.modifyAssetType} defaultValue='VESTS' options={[{ key: 'VESTS', text: 'VESTS', value: 'VESTS' },{ key: 'HP', text: 'HP', value: 'HP' }]} />}
           labelPosition='left'
         />
       </Form.Field>

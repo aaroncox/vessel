@@ -985,14 +985,14 @@ Floated Menu / Item
   background-color: transparent;
   -webkit-box-shadow: none;
           box-shadow: none;
-  border-color: #1B1C1D;
+  border-color: #212529;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.95);
 }
 
 /* Active Hover */
 .ui.secondary.pointing.menu .active.item:hover {
-  border-color: #1B1C1D;
+  border-color: #212529;
   color: rgba(0, 0, 0, 0.95);
 }
 
@@ -1019,7 +1019,7 @@ Floated Menu / Item
 
 /* Vertical Active */
 .ui.secondary.vertical.pointing.menu .active.item {
-  border-color: #1B1C1D;
+  border-color: #212529;
 }
 
 /* Inverted */
@@ -1198,7 +1198,7 @@ Floated Menu / Item
 .ui.icon.menu .item {
   height: auto;
   text-align: center;
-  color: #1B1C1D;
+  color: #212529;
 }
 
 /* Icon */
@@ -1384,7 +1384,7 @@ Floated Menu / Item
 
 .ui.inverted.menu {
   border: 0px solid transparent;
-  background: #1B1C1D;
+  background: #212529;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
@@ -2049,4 +2049,3 @@ Floated Menu / Item
 /*******************************
          Site Overrides
 *******************************/
-

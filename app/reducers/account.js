@@ -4,7 +4,9 @@ import {
   ACCOUNT_DATA_UPDATE,
   ACCOUNT_DATA_WITHDRAW_ROUTES_UPDATE,
   ACCOUNT_DATA_VESTING_DELEGATIONS_UPDATE,
-  ACCOUNT_GET_TRANSACTIONS_RESOLVED
+  ACCOUNT_GET_TRANSACTIONS_RESOLVED,
+  ACCOUNT_CONTACTS_ADD,
+  ACCOUNT_CONTACTS_REMOVE
 } from '../actions/account';
 
 const defaultState = {
@@ -55,6 +57,17 @@ export default function account(state = defaultState, action: actionType) {
       return Object.assign({}, state, {
         vestingDelegations: amended
       });
+    }
+    case ACCOUNT_CONTACTS_ADD: {
+      let contacts = (state.contacts) ? state.contacts : [];
+      if(contacts.indexOf(action.payload) < 0) contacts.push(action.payload);
+      return Object.assign({}, state, { contacts });
+    }
+    case ACCOUNT_CONTACTS_REMOVE: {
+      console.log(action.payload)
+      let contacts = (state.contacts) ? state.contacts : [];
+      contacts = contacts.filter((itm) => {return itm !== action.payload})
+      return Object.assign({}, state, { contacts });
     }
     default: {
       return state;

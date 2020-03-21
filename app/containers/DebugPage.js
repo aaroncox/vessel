@@ -22,10 +22,10 @@ class DebugPage extends Component {
     this.props.actions.useKey('transfer', {
       from: 'webdev',
       to: 'webdev',
-      amount: '0.001 STEEM',
+      amount: '0.001 HIVE',
       memo: ''
     }, permissions[account])
-    // this.props.actions.transfer(wif, "webdev", "webdev", "0.001 STEEM", "")
+    // this.props.actions.transfer(wif, "webdev", "webdev", "0.001 HIVE", "")
   }
   render() {
     console.log("props", this.props.keys.permissions['webdev']);

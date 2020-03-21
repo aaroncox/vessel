@@ -9,10 +9,10 @@ export default class PendingReward extends Component {
     const accounts = this.props.account.accounts;
     const account = props.value;
     const permissions = this.props.keys.permissions;
-    const reward_sbd = accounts[account].reward_sbd_balance;
-    const reward_steem = accounts[account].reward_steem_balance;
+    const reward_hbd = accounts[account].reward_sbd_balance;
+    const reward_hive = accounts[account].reward_steem_balance;
     const reward_vests = accounts[account].reward_vesting_balance;
-    this.props.actions.useKey('claimRewardBalance', { account, reward_sbd, reward_steem, reward_vests }, permissions[account])
+    this.props.actions.useKey('claimRewardBalance', { account, reward_hbd, reward_hive, reward_vests }, permissions[account])
   }
   render() {
     let display = false;
@@ -40,10 +40,10 @@ export default class PendingReward extends Component {
                   Account
                 </Table.HeaderCell>
                 <Table.HeaderCell>
-                  SBD
+                  HIVE
                 </Table.HeaderCell>
                 <Table.HeaderCell>
-                  STEEM
+                  HIVE
                 </Table.HeaderCell>
                 <Table.HeaderCell>
                   VESTS

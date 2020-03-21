@@ -751,10 +751,10 @@
 
 /* Black */
 .ui.black.table {
-  border-top: 0.2em solid #1B1C1D;
+  border-top: 0.2em solid #212529;
 }
 .ui.inverted.black.table {
-  background-color: #1B1C1D !important;
+  background-color: #212529 !important;
   color: #FFFFFF !important;
 }
 

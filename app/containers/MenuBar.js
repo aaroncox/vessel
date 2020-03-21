@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { Icon, Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import * as AccountActions from '../actions/account';
-import * as SteemActions from '../actions/steem';
+import * as HiveActions from '../actions/hive';
 
-const src = require('../img/steem.png');
+const src = require('../img/hive.png');
 
 class MenuBar extends Component {
 
@@ -37,11 +37,11 @@ class MenuBar extends Component {
 
   render() {
     let height = 'Loading'
-    if (this.props.steem.props) {
-      height = this.props.steem.props.head_block_number;
+    if (this.props.hive.props) {
+      height = this.props.hive.props.head_block_number;
     }
     return (
-      <Menu vertical fixed="left" color="blue" inverted icon="labeled">
+      <Menu vertical fixed="left" color="black" inverted icon="labeled">
         <Menu.Item header>
           <img
             alt="Vessel"
@@ -99,7 +99,7 @@ class MenuBar extends Component {
 function mapStateToProps(state) {
   return {
     keys: state.keys,
-    steem: state.steem
+    hive: state.hive
   };
 }
 
@@ -107,7 +107,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...AccountActions,
-      ...SteemActions
+      ...HiveActions
     }, dispatch)
   };
 }

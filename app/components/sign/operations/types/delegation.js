@@ -16,21 +16,21 @@ export default class OperationsPromptDelegation extends Component {
     const avatar_delegator = <AccountAvatar name={opData.delegator} />
     const avatar_delegatee = <AccountAvatar name={opData.delegatee} />
     const vests = parseFloat(vesting_shares.split(" ")[0])
-    const totalVestsSteem = parseFloat(this.props.steem.props.total_vesting_fund_steem.split(" ")[0])
-    const totalVests = parseFloat(this.props.steem.props.total_vesting_shares.split(" ")[0])
-    const sp = (vests > 0) ? (totalVestsSteem * vests / totalVests).toFixed(3) : 0
+    const totalVestsHive = parseFloat(this.props.hive.props.total_vesting_fund_steem.split(" ")[0])
+    const totalVests = parseFloat(this.props.hive.props.total_vesting_shares.split(" ")[0])
+    const hp = (vests > 0) ? (totalVestsHive * vests / totalVests).toFixed(3) : 0
     let existingDelegation = 0
     let existingDelegationWarning = false
     if (this.props.account.vestingDelegations && this.props.account.vestingDelegations[opData.delegator]) {
       const existingDelegations = this.props.account.vestingDelegations[opData.delegator]
       existingDelegation = existingDelegations.reduce((a, b) => (b.delegator === opData.delegator && b.delegatee === opData.delegatee) ? a + parseFloat(b.vesting_shares.split(" ")[0]) : 0, 0)
       if(existingDelegation > 0) {
-        const existingSp = (totalVestsSteem * existingDelegation / totalVests).toFixed(3)
+        const existingSp = (totalVestsHive * existingDelegation / totalVests).toFixed(3)
         existingDelegationWarning = (
           <Grid.Row columns={1}>
             <Grid.Column>
               <Message info>
-                A delegation of <strong>{existingSp} SP</strong> ({existingDelegation} VESTS) is already active from <AccountName name={opData.delegator}/> to <AccountName name={opData.delegatee}/>. This new delegation will <strong>overwrite</strong> the existing delegation (not add to it).
+                A delegation of <strong>{existingSp} HP</strong> ({existingDelegation} VESTS) is already active from <AccountName name={opData.delegator}/> to <AccountName name={opData.delegatee}/>. This new delegation will <strong>overwrite</strong> the existing delegation (not add to it).
               </Message>
             </Grid.Column>
           </Grid.Row>
@@ -63,7 +63,7 @@ export default class OperationsPromptDelegation extends Component {
             <Grid.Column>
               <Header icon color='green' >
                 <Icon name='arrow circle right' size='huge' style={{margin: '0.25em 0'}} />
-                {sp} SP
+                {hp} HP
                 <Header.Subheader>
                   <NumericLabel params={numberFormat}>{vests}</NumericLabel>  VESTS
                 </Header.Subheader>

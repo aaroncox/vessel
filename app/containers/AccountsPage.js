@@ -226,7 +226,7 @@ class AccountsPage extends Component {
           <Menu.Item
             name="delegation"
             icon="tasks"
-            content="SP Delegation"
+            content="HP Delegation"
             active={activeItem === 'delegation'}
             onClick={this.handleItemClick}
           />
@@ -258,7 +258,7 @@ function mapStateToProps(state) {
     keys: state.keys,
     processing: state.processing,
     preferences: state.preferences,
-    steem: state.steem
+    hive: state.hive
   };
 }
 

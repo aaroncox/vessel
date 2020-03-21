@@ -7,7 +7,7 @@ import { Button, Header, Icon, Message } from 'semantic-ui-react';
 import ServerSelect from '../components/global/ServerSelect'
 import ServerReconnect from '../components/global/ServerReconnect'
 import * as PreferencesActions from '../actions/preferences';
-import * as SteemActions from '../actions/steem';
+import * as HiveActions from '../actions/hive';
 
 class ServerStatus extends Component {
 
@@ -29,7 +29,7 @@ class ServerStatus extends Component {
 
   render() {
     let message = false
-    const lastUpdated = new Date(this.props.steem.props.time + 'Z').getTime();
+    const lastUpdated = new Date(this.props.hive.props.time + 'Z').getTime();
     const now = this.state.now;
     if(((Date.now() - lastUpdated) / 1000) > 30) {
       message = (
@@ -59,7 +59,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       ...PreferencesActions,
-      ...SteemActions
+      ...HiveActions
     }, dispatch)
   };
 }

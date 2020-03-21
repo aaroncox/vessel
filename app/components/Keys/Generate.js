@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import steem from 'steem';
+import hive from 'hivejs';
 import _ from 'lodash';
 import { Button, Checkbox, Divider, Form, Grid, Header, Icon, Input, Label, Message, Segment } from 'semantic-ui-react';
 import KeysConfirm from './Confirm';
@@ -30,7 +30,7 @@ export default class KeysGenerate extends Component {
     this.setState({
       checkingUsername: true
     });
-    steem.api.getAccounts([name], (err, results) => {
+    hive.api.getAccounts([name], (err, results) => {
       this.setState({
         checkingUsername: false,
         requestedName: (!err && !results.length) ? name : false,
@@ -45,8 +45,8 @@ export default class KeysGenerate extends Component {
     const name = this.state.requestedName;
     const password = bip39.mnemonicToSeedHex(mnemonic);
     const types = ['owner', 'active', 'posting', 'memo'];
-    let pub = steem.auth.generateKeys(name, password, types);
-    let prv = steem.auth.getPrivateKeys(name, password, types);
+    let pub = hive.auth.generateKeys(name, password, types);
+    let prv = hive.auth.getPrivateKeys(name, password, types);
     this.setState({mnemonic, pub, prv});
   }
   render() {
@@ -119,10 +119,10 @@ export default class KeysGenerate extends Component {
         <Header size="huge">
           Experimental - Generating Keys
           <Header.Subheader>
-            This feature is for advanced users with a deep understanding of Steem.
+            This feature is for advanced users with a deep understanding of Hive.
           </Header.Subheader>
         </Header>
-        <p>Create a new set of public and private keys for a new Steem account.</p>
+        <p>Create a new set of public and private keys for a new Hive account.</p>
         <p>This is a multi-step process and requires either using a service or knowing another user to complete.</p>
         <ul>
           <li>Using Vessel, generate mnemonic phrase along with a set of keys.</li>

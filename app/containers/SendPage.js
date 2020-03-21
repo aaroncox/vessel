@@ -38,7 +38,7 @@ class SendPage extends Component {
           <Header
             icon="send"
             content="Send Funds"
-            subheader="Transfer STEEM or SBD from one of your accounts to another user or exchange."
+            subheader="Transfer HIVE or HIVE from one of your accounts to another user or exchange."
           />
         </Segment>
         <Segment basic>

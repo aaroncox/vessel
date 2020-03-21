@@ -18,9 +18,9 @@ export default class RecentTransactions extends Component {
       items.push(
         <Table.Row>
           <Table.Cell>{tx.type}</Table.Cell>
-          <Table.Cell>{tx.amount.sbd}</Table.Cell>
+          <Table.Cell>{tx.amount.hbd}</Table.Cell>
           <Table.Cell>{tx.amount.vest}</Table.Cell>
-          <Table.Cell>{tx.amount.steem}</Table.Cell>
+          <Table.Cell>{tx.amount.hive}</Table.Cell>
         </Table.Row>
       );
       console.log(tx);

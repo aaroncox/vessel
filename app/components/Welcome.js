@@ -9,7 +9,7 @@ import KeysImport from './Keys/Import';
 import KeysLogin from './Keys/Login';
 import PreferredNode from './global/PreferredNode'
 
-const logo = require('../img/steem.png');
+const logo = require('../img/hive.png');
 const { shell } = require('electron');
 
 export default class Welcome extends Component {
@@ -19,7 +19,11 @@ export default class Welcome extends Component {
   }
 
   handleAuthorLink = () => {
-    shell.openExternal('https://steemit.com/@jesta');
+    shell.openExternal('https://hive.blog/@jesta');
+  }
+
+  handleMaintainerLink = () => {
+    shell.openExternal('https://hive.blog/@netuoso');
   }
 
   render() {
@@ -40,13 +44,18 @@ export default class Welcome extends Component {
                 Vessel
                 <Header.Subheader>
                   <p>
-                    Desktop wallet for the Steem Blockchain
+                    Desktop wallet for the Hive Blockchain
                   </p>
                   <p>
-                    Created by
-                    {' '}
+                    Created by:<br />
                     <a onClick={this.handleAuthorLink}>
                       jesta
+                    </a>
+                  </p>
+                  <p>
+                    Co-maintained by:<br />
+                    <a onClick={this.handleMaintainerLink}>
+                      netuoso
                     </a>
                   </p>
                 </Header.Subheader>

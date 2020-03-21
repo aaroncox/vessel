@@ -2,41 +2,16 @@
 import React, { Component } from 'react';
 import { Button, Checkbox, Grid, Label, Message, Modal, Radio, Segment, Select, Table } from 'semantic-ui-react';
 import { Form, Input } from 'formsy-semantic-ui-react';
-import steem from 'steem';
+import hive from 'hivejs';
 
 const { shell } = require('electron');
 
 const exchangeOptions = [
   {
-    key: 'bittrex',
-    text: 'Bittrex (@bittrex)',
-    value: 'bittrex'
-  },
-  {
     key: 'blocktrades',
     text: 'BlockTrades (@blocktrades)',
     value: 'blocktrades',
-  },
-  {
-    key: 'changelly',
-    text: 'Changelly (@changelly)',
-    value: 'changelly',
-  },
-  {
-    key: 'openledger-dex',
-    text: 'OpenLedger (@openledger-dex)',
-    value: 'openledger-dex'
-  },
-  {
-    key: 'poloniex',
-    text: '(!) Poloniex (@poloniex)',
-    value: 'poloniex'
-  },
-  {
-    key: 'shapeshiftio',
-    text: 'Shapeshift (@shapeshiftio)',
-    value: 'shapeshiftio',
-  },
+  }
 ];
 
 const exchangeLinks = {
@@ -52,7 +27,7 @@ const exchangeNotes = {
   poloniex: (
     <Message>
       <strong>Warning</strong>:
-      Poloniex deposits have not been working for months, it's recommended to avoid this exchange. Please ensure verify whether or not their Steem wallet is active on their website.
+      Poloniex deposits have not been working for months, it's recommended to avoid this exchange. Please ensure verify whether or not their Hive wallet is active on their website.
     </Message>
   )
 }
@@ -63,13 +38,15 @@ const defaultState = {
   from: '',
   to: '',
   amount: '',
-  symbol: 'STEEM',
+  symbol: 'HIVE',
   memo: '',
   memoEncrypted: false,
   encryptMemo: false,
   destination: 'account',
   // destination: 'exchange',
   modalPreview: false,
+  addContactModal: false,
+  newContact: '',
 };
 
 export default class Send extends Component {
@@ -145,6 +122,11 @@ export default class Send extends Component {
 
   handleToChange = (e: SyntheticEvent, { value }: { value: string }) => {
     const cleaned = value.replace('@', '').trim();
+    if(cleaned === "add-contact") {
+      e.preventDefault();
+      this.setState({addContactModal: true})
+      return;
+    }
     const newState = {
       encryptMemo: false,
       to: cleaned,
@@ -173,7 +155,7 @@ export default class Send extends Component {
   setAmountMaximum = (e: SyntheticEvent) => {
     const accounts = this.props.account.accounts;
     const { from, symbol } = this.state;
-    const field = (symbol === 'SBD') ? 'sbd_balance' : 'balance';
+    const field = (symbol === 'HBD') ? 'sbd_balance' : 'balance';
     const amount = accounts[from][field].split(' ')[0];
     this.setState({ amount });
   }
@@ -190,6 +172,13 @@ export default class Send extends Component {
     })
   }
 
+  handleContactChange = (e: SyntheticEvent, { value }: { value: string }) => {
+    const cleaned = value.replace(/(@|\s)+/gim, ' ');
+    this.setState({
+      newContact: cleaned
+    });
+  }
+
   isFormValid = () => {
     return true;
   }
@@ -202,18 +191,18 @@ export default class Send extends Component {
         const to = this.state.to;
         const memoKey = this.props.keys.permissions[from].memo
         // Make sure we have a memoKey set and it's a valid WIF
-        if(memoKey && steem.auth.isWif(memoKey)) {
+        if(memoKey && hive.auth.isWif(memoKey)) {
           // Ensure it's the current memo key on file to prevent a user from using an invalid key
-          const derivedKey = steem.auth.wifToPublic(memoKey);
+          const derivedKey = hive.auth.wifToPublic(memoKey);
           const memoPublic = this.props.account.accounts[from].memo_key;
           if (derivedKey === memoPublic) {
             // Load the account we're sending to
-            steem.api.getAccounts([to], (err, result) => {
+            hive.api.getAccounts([to], (err, result) => {
               if(result.length > 0) {
                 const toAccount = result[0];
                 const toMemoPublic = toAccount.memo_key;
                 // Generate encrypted memo based on their public memo key + our private memo key
-                const memoEncrypted = steem.memo.encode(memoKey, toMemoPublic, `#${cleaned}`);
+                const memoEncrypted = hive.memo.encode(memoKey, toMemoPublic, `#${cleaned}`);
                 // Set the state to reflect
                 this.setState({
                   memo: cleaned,
@@ -259,6 +248,23 @@ export default class Send extends Component {
     e.preventDefault();
   }
 
+  handleCancelContact = (e: SyntheticEvent) => {
+    this.setState({
+      addContactModal: false
+    });
+    e.preventDefault();
+  }
+
+  handleConfirmContact = (e: SyntheticEvent) => {
+    const { newContact } = this.state;
+    if (newContact !== '') this.props.actions.addContact(newContact);
+    this.setState({
+      addContactModal: false,
+      newContact: ''
+    });
+    e.preventDefault();
+  }
+
   render() {
     const accounts = this.props.account.accounts;
     const keys = this.props.keys;
@@ -274,7 +280,7 @@ export default class Send extends Component {
         text: name + ' (unavailable - active/owner key not loaded)'
       };
     });
-    const field = (this.state.symbol === 'SBD') ? 'sbd_balance' : 'balance';
+    const field = (this.state.symbol === 'HBD') ? 'sbd_balance' : 'balance';
     const availableAmount = accounts[this.state.from][field];
     const errorLabel = <Label color="red" pointing/>;
     let modal = false;
@@ -324,7 +330,35 @@ export default class Send extends Component {
         </div>
       );
     }
-    if (keys.permissions[this.state.from] && keys.permissions[this.state.from].memo && steem.auth.isWif(keys.permissions[this.state.from].memo)) {
+    if (this.state.destination === 'contact') {
+      let contactList = this.props.account.contacts ? this.props.account.contacts.slice() : [];
+      contactList = contactList.map((contact) => {
+        return {
+          key: contact,
+          text: `@${contact}`,
+          value: contact,
+        }
+      })
+      contactList.push({
+        key: 'add-contact',
+        text: 'Add a New Contact',
+        value: 'add-contact'
+      })
+      toField = (
+        <div>
+          <Form.Field
+            control={Select}
+            search
+            value={this.state.to}
+            label="Select a contact:"
+            options={contactList}
+            onChange={this.handleToChange}
+            placeholder="Saved contact..."
+          />
+        </div>
+      );
+    }
+    if (keys.permissions[this.state.from] && keys.permissions[this.state.from].memo && hive.auth.isWif(keys.permissions[this.state.from].memo)) {
       if ((exchangeSupportingEncryption.indexOf(this.state.to) >= 0) || (this.state.destination === 'account')) {
         encryptedField = (
           <Form.Field>
@@ -342,6 +376,7 @@ export default class Send extends Component {
         <Modal
           open
           header="Please confirm the details of this transaction"
+          autoFocus={true}
           content={
             <Segment basic padded>
               <p>
@@ -421,6 +456,45 @@ export default class Send extends Component {
         />
       );
     }
+    if (this.state.addContactModal) {
+      modal = (
+        <Modal
+          open
+          header="Add a New Contact"
+          content={
+            <Segment basic padded>
+              <Form>
+                <Form.Field
+                  control={Input}
+                  name="contact"
+                  label='Username to add to contact list'
+                  placeholder="username (without @)"
+                  value={this.state.newContact}
+                  onChange={this.handleContactChange}
+                />
+              </Form>
+            </Segment>
+          }
+          actions={[
+            {
+              key: 'no',
+              icon: 'cancel',
+              content: 'Cancel',
+              color: 'red',
+              floated: 'left',
+              onClick: this.handleCancelContact,
+            },
+            {
+              key: 'yes',
+              icon: 'checkmark',
+              content: 'Confirmed - add contact',
+              color: 'green',
+              onClick: this.handleConfirmContact,
+            }
+          ]}
+        />
+      );
+    }
     return (
       <Form
         error={!!this.props.processing.account_transfer_error}
@@ -467,6 +541,14 @@ export default class Send extends Component {
                 checked={this.state.destination === 'exchange'}
                 onChange={this.handleDestinationChange}
               />
+              <Form.Field
+                control={Radio}
+                name="destination"
+                label="saved contact"
+                value="contact"
+                checked={this.state.destination === 'contact'}
+                onChange={this.handleDestinationChange}
+              />
             </Grid.Column>
             <Grid.Column width={12}>
               {toField}
@@ -480,17 +562,17 @@ export default class Send extends Component {
               <Form.Field
                 control={Radio}
                 name="symbol"
-                label="STEEM"
-                value="STEEM"
-                checked={this.state.symbol === 'STEEM'}
+                label="HIVE"
+                value="HIVE"
+                checked={this.state.symbol === 'HIVE'}
                 onChange={this.handleSymbolChange}
               />
               <Form.Field
                 control={Radio}
                 name="symbol"
-                label="SBD"
-                value="SBD"
-                checked={this.state.symbol === 'SBD'}
+                label="HBD"
+                value="HBD"
+                checked={this.state.symbol === 'HBD'}
                 onChange={this.handleSymbolChange}
               />
             </Grid.Column>
@@ -535,7 +617,6 @@ export default class Send extends Component {
                 placeholder="Enter a memo to include with the transaction"
                 value={this.state.memo}
                 onChange={this.handleMemoChange}
-                disabled={this.state.memoDetected}
               />
               {encryptedField}
             </Grid.Column>

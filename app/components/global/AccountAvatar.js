@@ -7,7 +7,7 @@ export default class AccountAvatar extends Component {
 
   handleLink = () => {
     const { name } = this.props;
-    shell.openExternal(`https://steemit.com/@${name}`);
+    shell.openExternal(`https://hive.blog/@${name}`);
   }
 
   render() {

@@ -1,11 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import { Button, Header, Icon, Segment, Table } from 'semantic-ui-react';
+import { Button, Header, Icon, Segment, Table, Grid } from 'semantic-ui-react';
 import { FormattedDate, FormattedTime } from 'react-intl';
 
 import NumericLabel from '../utils/NumericLabel';
 import CancelPowerDownPrompt from './Vesting/CancelPowerDownPrompt';
 import PowerDownPrompt from './Vesting/PowerDownPrompt';
+import PowerUpPrompt from './Vesting/PowerUpPrompt';
 import PowerDownDestinationPrompt from './Vesting/PowerDownDestinationPrompt';
 import AccountName from './global/AccountName';
 
@@ -30,6 +31,7 @@ export default class VestingAccounts extends Component {
       powerDown: false,
       powerDownDestination: false,
       cancelPowerDown: false,
+      powerUp: false,
     });
   }
   handleRemoveKey = (e, data) => {
@@ -60,8 +62,14 @@ export default class VestingAccounts extends Component {
       cancelPowerDown: props.value
     })
   }
+  handlePowerUpPrompt = (e, props) => {
+    this.setState({
+      powerUp: props.value
+    })
+  }
   render() {
     let powerDownPrompt = false;
+    let powerUpPrompt = false;
     const names = this.props.keys.names;
     if (this.state && this.state.powerDownDestination) {
       powerDownPrompt = (
@@ -90,6 +98,15 @@ export default class VestingAccounts extends Component {
         />
       );
     }
+    if (this.state && this.state.powerUp) {
+      powerUpPrompt = (
+        <PowerUpPrompt
+          handleCancel={this.props.actions.resetState}
+          targetAccount={this.state.powerUp}
+          {...this.props}
+        />
+      );
+    }
     const numberFormat = {
       shortFormat: true,
       shortFormatMinValue: 1000
@@ -97,9 +114,10 @@ export default class VestingAccounts extends Component {
     const {
       account_set_withdraw_vesting_route_error,
       account_set_withdraw_vesting_route_pending,
-      account_set_withdraw_vesting_route_resolved
+      account_set_withdraw_vesting_route_resolved,
+      account_power_down_resolved,
     } = this.props.processing;
-    const props = this.props.steem.props;
+    const props = this.props.hive.props;
     const accounts = names.map((name) => {
       const account = this.props.account.accounts[name];
       const withdrawRoutes = (this.props.account.withdrawRoutes) ? this.props.account.withdrawRoutes[name] : false;
@@ -110,7 +128,7 @@ export default class VestingAccounts extends Component {
       let withdrawRoutesControl = (
         <Button
           fluid
-          color="blue"
+          color="black"
           size="mini"
           icon="user"
           content="Add Withdraw Account"
@@ -134,7 +152,7 @@ export default class VestingAccounts extends Component {
                       {route.percent / 100}%
                     </Table.Cell>
                     <Table.Cell>
-                      {(route.auto_vest) ? 'VEST' : 'STEEM'}
+                      {(route.auto_vest) ? 'VEST' : 'HIVE'}
                     </Table.Cell>
                     <Table.Cell collapsing>
                       <Button
@@ -158,10 +176,11 @@ export default class VestingAccounts extends Component {
       }
       let controls = (
         <Button
-          color="green"
+          color="red"
           size="small"
-          icon="lightning"
-          content="Start"
+          icon="sort amount down"
+          content="Power&nbsp;Down"
+          style={{fontSize: '12px'}}
           value={name}
           onClick={this.handlePowerDownPrompt}
         />
@@ -169,22 +188,23 @@ export default class VestingAccounts extends Component {
       if (isPoweringDown) {
         const rate = account.vesting_withdraw_rate;
         const vests = parseFloat(rate.split(" ")[0]);
-        const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
+        const totalVestsHive = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
         const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-        const steem = totalVestsSteem * vests / totalVests;
+        const hive = totalVestsHive * vests / totalVests;
         controls = (
           <Button
             color="orange"
             size="small"
             icon="cancel"
-            content="Stop"
+            content="Stop Power&nbsp;Down"
+            style={{fontSize: '12px'}}
             value={name}
             onClick={this.handlePowerDownCancelPrompt}
           />
         );
         nextPowerDownDisplay = (
           <Header>
-            +<NumericLabel params={numberFormat}>{steem}</NumericLabel> STEEM
+            +<NumericLabel params={numberFormat}>{hive}</NumericLabel> HIVE
             <Header.Subheader>
               &ndash;<NumericLabel params={numberFormat}>{vests}</NumericLabel> VESTS
               {' @ '}
@@ -201,6 +221,21 @@ export default class VestingAccounts extends Component {
             </Header.Subheader>
           </Header>
         );
+      }
+      let powerUpControl = false;
+      if (parseFloat(account.balance.split(' ')[0]) > 0) {
+        powerUpControl = (
+          <Button
+            color="green"
+            size="small"
+            icon="lightning"
+            content="Power&nbsp;Up"
+            style={{fontSize: '12px'}}
+            value={name}
+            onClick={this.handlePowerUpPrompt}
+          />
+        )
+        console.log("we have a balance for user: " + account.name)
       }
       return (
         <Table.Row key={name}>
@@ -228,7 +263,16 @@ export default class VestingAccounts extends Component {
             {nextPowerDownDisplay}
           </Table.Cell>
           <Table.Cell textAlign="right">
-            {controls}
+            <Grid>
+              <Grid.Row style={{fontSize: '10px'}}>
+                <Grid.Column width={8}>
+                  {powerUpControl}
+                </Grid.Column>
+                <Grid.Column width={8}>
+                  {controls}
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Table.Cell>
         </Table.Row>
       );
@@ -241,6 +285,7 @@ export default class VestingAccounts extends Component {
         disabled={account_set_withdraw_vesting_route_pending}
         >
         {powerDownPrompt}
+        {powerUpPrompt}
         <Table celled striped>
           <Table.Header>
             <Table.Row>

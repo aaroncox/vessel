@@ -1,5 +1,5 @@
 // @flow
-import steem from 'steem';
+import hive from 'hivejs';
 
 import React, { Component } from 'react';
 import { Button, Divider, Form, Grid, Header, Input, Message, Modal, Segment, Table } from 'semantic-ui-react';
@@ -70,7 +70,7 @@ export default class AccountsVoting extends Component {
   }
   getWitnessesByVote = (e, props) => {
     let witnesses = [];
-    steem.api.getWitnessesByVote("", 100, function(err,response){
+    hive.api.getWitnessesByVote("", 100, function(err,response){
       for (var i=0;i<response.length;i++) {
         witnesses.push({id: response[i]['owner'], label: response[i]['owner']});
       }
@@ -107,7 +107,7 @@ export default class AccountsVoting extends Component {
         <Modal
           size="small"
           open
-          header="Vote for a STEEM Witness"
+          header="Vote for a Hive Witness"
           content={
             <Form
               loading={account_vote_witness_pending}
@@ -159,7 +159,7 @@ export default class AccountsVoting extends Component {
         <Modal
           size="small"
           open
-          header="Remove vote for a STEEM Witness"
+          header="Remove vote for a Hive Witness"
           content={
             <Form
               loading={account_vote_witness_pending}

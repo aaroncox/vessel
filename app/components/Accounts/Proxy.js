@@ -144,7 +144,7 @@ export default class AccountsProxy extends Component {
           <Table.Cell>
             <Button
               icon="edit"
-              color="blue"
+              color="black"
               onClick={this.handleEditProxy}
               value={name}
             />

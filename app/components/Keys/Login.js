@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import steem from 'steem';
+import hive from 'hivejs';
 import { Button, Checkbox, Divider, Form, Grid, Header, Message, Segment, Select } from 'semantic-ui-react';
 import KeysConfirm from './Confirm';
 
@@ -50,7 +50,7 @@ export default class KeysLogin extends Component {
     if (confirmed) {
       const { account, password, permission, encryptWallet, lock1, lock2 } = this.state;
       const { addKeyConfirmed } = this.props.actions;
-      const keys = steem.auth.getPrivateKeys(account, password, [permission]);
+      const keys = hive.auth.getPrivateKeys(account, password, [permission]);
       const wif = keys[permission];
       addKeyConfirmed(account, wif, permission, encryptWallet, lock1);
     } else {
@@ -110,7 +110,7 @@ export default class KeysLogin extends Component {
     e.preventDefault();
     const { addKey } = this.props.actions;
     const { account, password, permission } = this.state;
-    const keys = steem.auth.getPrivateKeys(account, password, [permission]);
+    const keys = hive.auth.getPrivateKeys(account, password, [permission]);
     const wif = keys[permission];
     addKey(account, wif);
   }
@@ -196,13 +196,13 @@ export default class KeysLogin extends Component {
           <Grid.Row>
             <Grid.Column width={8}>
               <Form.Input
-                label="Steemit.com Account Name"
+                label="Hive Account Name"
                 name="account"
                 value={account}
                 onChange={this.handleChange}
               />
               <Form.Input
-                label="Steemit.com Password"
+                label="Hive Password"
                 type="password"
                 name="password"
                 value={password}

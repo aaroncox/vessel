@@ -66,7 +66,7 @@ function mapStateToProps(state) {
     account: state.account,
     keys: state.keys,
     processing: state.processing,
-    steem: state.steem
+    hive: state.hive
   };
 }
 

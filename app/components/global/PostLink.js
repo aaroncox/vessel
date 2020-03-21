@@ -7,7 +7,7 @@ export default class PostLink extends Component {
 
   handleLink = () => {
     const { author, permlink } = this.props;
-    shell.openExternal(`https://steemit.com/category/@${author}/${permlink}`);
+    shell.openExternal(`https://hive.blog/category/@${author}/${permlink}`);
   }
 
   render() {

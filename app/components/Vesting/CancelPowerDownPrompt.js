@@ -19,20 +19,20 @@ class CancelPowerDownPrompt extends Component {
 
   handleOnChange = (value) => {
     const vests = parseFloat(value).toFixed(6);
-    const props = this.props.steem.props;
-    const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
+    const props = this.props.hive.props;
+    const totalVestsHive = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-    const sp = totalVestsSteem * vests / totalVests;
+    const sp = totalVestsHive * vests / totalVests;
     const perWeek = Math.round(sp / 13 * 1000) / 1000;
     this.setState({ vests, sp, perWeek });
   }
 
   handleOnChangeComplete = (value) => {
     const vests = parseFloat(value).toFixed(6);
-    const props = this.props.steem.props;
-    const totalVestsSteem = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
+    const props = this.props.hive.props;
+    const totalVestsHive = parseFloat(props.total_vesting_fund_steem.split(" ")[0])
     const totalVests = parseFloat(props.total_vesting_shares.split(" ")[0])
-    const sp = totalVestsSteem * vests / totalVests;
+    const sp = totalVestsHive * vests / totalVests;
     const perWeek = Math.round(sp / 13 * 1000) / 1000;
     this.setState({ vests, sp, perWeek });
   }
@@ -98,7 +98,7 @@ function mapStateToProps(state) {
   return {
     account: state.account,
     keys: state.keys,
-    steem: state.steem
+    hive: state.hive
   };
 }
 

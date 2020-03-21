@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Settings from '../components/Settings';
 import MenuBar from './MenuBar';
 import ContentBar from '../components/ContentBar';
+import * as AccountActions from '../actions/account';
 import * as PreferencesActions from '../actions/preferences';
 import { Header, Segment } from 'semantic-ui-react';
 
@@ -41,6 +42,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
+      ...AccountActions,
       ...PreferencesActions
     }, dispatch)
   };

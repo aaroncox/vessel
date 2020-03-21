@@ -1,8 +1,8 @@
 {
   "name": "vessel",
   "productName": "vessel",
-  "version": "0.3.0",
-  "description": "A simple wallet for managing your Steem accounts.",
+  "version": "0.4.0",
+  "description": "A simple wallet for managing your Hive accounts.",
   "main": "./main.prod.js",
   "author": {
     "name": "Aaron Cox",

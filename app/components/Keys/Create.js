@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import steem from 'steem';
+import hive from 'hivejs';
 import _ from 'lodash';
 import { Button, Checkbox, Divider, Grid, Header, Icon, Label, List, Message, Segment, Input, Select, Table, Modal } from 'semantic-ui-react';
 import KeysConfirm from './Confirm';
@@ -29,7 +29,7 @@ export default class KeysCreate extends Component {
     this.setState({
       checkingUsername: true
     });
-    steem.api.getAccounts([name], (err, results) => {
+    hive.api.getAccounts([name], (err, results) => {
       this.setState({
         checkingUsername: false,
         requestedName: (!err && !results.length) ? name : false,
@@ -68,11 +68,11 @@ export default class KeysCreate extends Component {
     let mnemonic = bip39.generateMnemonic();
     const name = this.state.requestedName;
     const seed = bip39.mnemonicToSeedHex(mnemonic);
-    let masterKey = steem.auth.getPrivateKeys(name, seed, ['master']);
+    let masterKey = hive.auth.getPrivateKeys(name, seed, ['master']);
     let password = 'P' + masterKey.master;
     const types = ['owner', 'active', 'posting', 'memo'];
-    let pub = steem.auth.generateKeys(name, password, types);
-    let prv = steem.auth.getPrivateKeys(name, password, types);
+    let pub = hive.auth.generateKeys(name, password, types);
+    let prv = hive.auth.getPrivateKeys(name, password, types);
     this.setState({mnemonic, pub, prv, password});
   }
 
@@ -140,14 +140,14 @@ export default class KeysCreate extends Component {
         text: name + ' (unavailable - active/owner key not loaded)'
       };
     });
-    const availableFundingMethods = ['STEEM','VESTS'].map((name) => {
-      return name === 'STEEM' ? {
+    const availableFundingMethods = ['HIVE','VESTS'].map((name) => {
+      return name === 'HIVE' ? {
         key:name,
         text:name,
         value:name
       } : {
         key:name,
-        text:name + ' (SP)',
+        text:name + ' (HP)',
         value:name
       };
     });
@@ -274,7 +274,7 @@ export default class KeysCreate extends Component {
                         />
                         New Account Password
                         <Header.Subheader>
-                          WRITE THIS DOWN (or save in a password manager). This password will allow you to log into any Steem related service with full permissions. Use the posting private key if you only wish to grant posting permissions.
+                          WRITE THIS DOWN (or save in a password manager). This password will allow you to log into any Hive related service with full permissions. Use the posting private key if you only wish to grant posting permissions.
                         </Header.Subheader>
                       </Header>
                       <Segment>
@@ -357,8 +357,8 @@ export default class KeysCreate extends Component {
                    New accounts require funding in order to be created, which is transfered from the originating account. Currently to create an account, you must fund it initially with a minimum of:
                   </p>
                   <List bulleted>
-                    <List.Item>STEEM: {delegation.fee.amount}</List.Item>
-                    <List.Item>VESTS: {delegation.delegation.amount.toFixed(6)} (~{delegation.sp.amount.toFixed(3)} SP)</List.Item>
+                    <List.Item>HIVE: {delegation.fee.amount}</List.Item>
+                    <List.Item>VESTS: {delegation.delegation.amount.toFixed(6)} (~{delegation.sp.amount.toFixed(3)} HP)</List.Item>
                   </List>
                 </Message.Content>
               </Message>
@@ -369,7 +369,7 @@ export default class KeysCreate extends Component {
                 <List.Item>Enter an account name to see if it is available.</List.Item>
                 <List.Item>Click <strong>Generate Account</strong> to create the password and keys, while reviewing it's information.</List.Item>
                 <List.Item>If everything looks good, click <strong>Create</strong> to submit the details to the blockchain, as well as funding it's initial balance.</List.Item>
-                <List.Item>Once the account has been created, it will be automatically imported into Vessel, and you can use either the <strong>Master Password</strong> or the <strong>Posting Private Key</strong> to log into Steemit or any Steem powered website.</List.Item>
+                <List.Item>Once the account has been created, it will be automatically imported into Vessel, and you can use either the <strong>Master Password</strong> or the <strong>Posting Private Key</strong> to log into any Hive Powered website.</List.Item>
               </List>
             </Grid.Column>
             <Grid.Column width={9}>
@@ -407,7 +407,7 @@ export default class KeysCreate extends Component {
               <Segment basic>
                 <Button
                   size="large"
-                  color="blue"
+                  color="black"
                   content="Create Account"
                   onClick={this.createAccount}
                   disabled={!(this.state.usernameAvailable && this.state.ownerAvailable)}

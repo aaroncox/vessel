@@ -42,7 +42,11 @@ import {
   ACCOUNT_VESTING_WITHDRAW_COMPLETED,
   ACCOUNT_VESTING_WITHDRAW_FAILED,
   ACCOUNT_VESTING_WITHDRAW_STARTED,
-  ACCOUNT_VESTING_WITHDRAW_RESOLVED
+  ACCOUNT_VESTING_WITHDRAW_RESOLVED,
+  ACCOUNT_POWER_UP_COMPLETED,
+  ACCOUNT_POWER_UP_FAILED,
+  ACCOUNT_POWER_UP_STARTED,
+  ACCOUNT_POWER_UP_RESOLVED
 } from '../actions/account';
 
 const defaultState = {
@@ -273,6 +277,30 @@ export default function processing(state: any = defaultState, action: actionType
         account_vesting_withdraw_resolved: false,
         account_vesting_withdraw_error: false,
         account_vesting_withdraw_pending: false,
+      });
+    case ACCOUNT_POWER_UP_STARTED:
+      return Object.assign({}, state, {
+        account_power_up_resolved: false,
+        account_power_up_error: false,
+        account_power_up_pending: true,
+      });
+    case ACCOUNT_POWER_UP_FAILED:
+      return Object.assign({}, state, {
+        account_power_up_resolved: false,
+        account_power_up_error: true,
+        account_power_up_pending: false,
+      });
+    case ACCOUNT_POWER_UP_RESOLVED:
+      return Object.assign({}, state, {
+        account_power_up_resolved: true,
+        account_power_up_error: false,
+        account_power_up_pending: false,
+      });
+    case ACCOUNT_POWER_UP_COMPLETED:
+      return Object.assign({}, state, {
+        account_power_up_resolved: false,
+        account_power_up_error: false,
+        account_power_up_pending: false,
       });
     case PROCESSING_ACCOUNT_LOADING:
       return Object.assign({}, state, {

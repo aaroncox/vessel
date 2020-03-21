@@ -132,3 +132,7 @@ a {
   right: 0;
   margin: auto auto !important;
 }
+
+.hblack {
+  color: #212529 !important;
+}

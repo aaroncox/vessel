@@ -132,7 +132,7 @@ async function createPrompt(event, url) {
   }
 }
 
-app.setAsDefaultProtocolClient('steem')
+app.setAsDefaultProtocolClient('hive')
 app.on('ready', createWindow)
 app.on('open-url', createPrompt)
 app.on('activate', function () {

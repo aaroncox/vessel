@@ -10,7 +10,7 @@ export default class Transactions extends Component {
     const pendingRewards = <PendingRewards {...this.props} />;
     return (
       <div>
-        <Segment color="blue" inverted attached data-tid="container">
+        <Segment color="black" inverted attached data-tid="container">
           <Header textAlign="center">
             Account History
           </Header>
