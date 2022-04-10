@@ -188,7 +188,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^19.0.2",
     "jsdom": "^10.1.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.6",
     "node-sass": "^4.13.1",
     "react-addons-test-utils": "^16.0.0-alpha.3",
     "react-test-renderer": "^16.4.0",
